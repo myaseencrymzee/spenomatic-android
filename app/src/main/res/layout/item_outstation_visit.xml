@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_6sdp"
+        android:background="@drawable/bg_rounded_12"
+        android:padding="@dimen/_8sdp">
+
+        <ImageView
+            android:id="@+id/container_profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_outside_hil"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:letterSpacing="-0.02"
+            android:text="Outstation Visit"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toTopOf="@id/tv_price"
+            app:layout_constraintStart_toEndOf="@id/container_profile_image"
+            app:layout_constraintTop_toTopOf="@id/container_profile_image" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:fontFamily="@font/mulish_regular"
+            android:letterSpacing="-0.02"
+            android:text="$20"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="@id/container_profile_image"
+            app:layout_constraintStart_toEndOf="@id/container_profile_image"
+            app:layout_constraintTop_toBottomOf="@id/label_hello" />
+
+
+        <ImageView
+            android:id="@+id/iv_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_approved"
+            app:layout_constraintBottom_toBottomOf="@id/container_profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/container_profile_image" />
+
+
+        <TextView
+            android:id="@+id/label_last_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:text="Clients to visit"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_profile_image" />
+
+        <TextView
+            android:id="@+id/tv_last_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_regular"
+            android:text="John doe, Mike Doe"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_last_visit"
+            app:layout_constraintStart_toStartOf="@id/label_last_visit"
+            app:layout_constraintTop_toBottomOf="@id/label_last_visit" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_total_visit"
+            app:layout_constraintEnd_toStartOf="@id/label_frequency"
+            app:layout_constraintStart_toEndOf="@id/label_last_visit"
+            app:layout_constraintTop_toTopOf="@id/label_last_visit" />
+
+        <TextView
+            android:id="@+id/label_frequency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:text="Transport"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider2"
+            app:layout_constraintStart_toEndOf="@id/divider1"
+            app:layout_constraintTop_toTopOf="@id/label_last_visit" />
+
+        <TextView
+            android:id="@+id/tv_frequency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_regular"
+            android:text="Sonta to California"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="@id/label_frequency"
+            app:layout_constraintStart_toStartOf="@id/label_frequency"
+            app:layout_constraintTop_toBottomOf="@id/label_frequency" />
+
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_total_visit"
+            app:layout_constraintEnd_toStartOf="@id/label_total_visit"
+            app:layout_constraintStart_toEndOf="@id/label_frequency"
+            app:layout_constraintTop_toTopOf="@id/label_frequency" />
+
+        <TextView
+            android:id="@+id/label_total_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_3sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:text="Miscellaneous"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/divider2"
+            app:layout_constraintTop_toTopOf="@id/label_frequency" />
+
+        <TextView
+            android:id="@+id/tv_total_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_regular"
+            android:text="Lunch"
+            android:ellipsize="end"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:maxLines="2"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_total_visit"
+            app:layout_constraintStart_toStartOf="@id/label_total_visit"
+            app:layout_constraintTop_toBottomOf="@id/label_total_visit" />
+
+
+        <TextView
+            android:id="@+id/label_meter_reading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:text="Lodging &amp; Boarding"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_last_visit" />
+
+        <TextView
+            android:id="@+id/tv_meter_reading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_regular"
+            android:text="Jul 13 - Jul 16"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="@id/label_meter_reading"
+            app:layout_constraintStart_toStartOf="@id/label_meter_reading"
+            app:layout_constraintTop_toBottomOf="@id/label_meter_reading" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_vichel_no"
+            app:layout_constraintEnd_toStartOf="@id/label_vichel_no"
+            app:layout_constraintStart_toEndOf="@id/label_meter_reading"
+            app:layout_constraintTop_toTopOf="@id/label_meter_reading" />
+
+        <TextView
+            android:id="@+id/label_vichel_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:text="Bus/Train Timing"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/divider4"
+            app:layout_constraintTop_toTopOf="@id/label_meter_reading" />
+
+        <TextView
+            android:id="@+id/tv_vichel_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_regular"
+            android:text="Jul 11, 11:03 PM"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="@id/label_vichel_no"
+            app:layout_constraintStart_toStartOf="@id/label_vichel_no"
+            app:layout_constraintTop_toBottomOf="@id/label_vichel_no" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

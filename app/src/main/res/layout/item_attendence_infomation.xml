@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Present -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_present"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/bg_rounded_12"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/container_half_day">
+
+            <ImageView
+                android:id="@+id/iv_present"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_approveded"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/label_present"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:text="Present"
+                android:fontFamily="@font/mulish_semi_bold"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/grey_3434"
+                app:layout_constraintStart_toEndOf="@id/iv_present"
+                app:layout_constraintTop_toTopOf="@id/iv_present" />
+
+            <TextView
+                android:id="@+id/tv_present"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:textSize="@dimen/_9ssp"
+                android:textColor="@color/hint_text"
+                app:layout_constraintStart_toStartOf="@id/label_present"
+                app:layout_constraintTop_toBottomOf="@id/label_present" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Half Day -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_half_day"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:background="@drawable/bg_rounded_12"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintStart_toEndOf="@id/container_present"
+            app:layout_constraintTop_toTopOf="@id/container_present"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_half_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_half_day"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/label_half_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:text="Half Day"
+                android:fontFamily="@font/mulish_semi_bold"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/grey_3434"
+                app:layout_constraintStart_toEndOf="@id/iv_half_day"
+                app:layout_constraintTop_toTopOf="@id/iv_half_day" />
+
+            <TextView
+                android:id="@+id/tv_half_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:textSize="@dimen/_9ssp"
+                android:textColor="@color/hint_text"
+                app:layout_constraintStart_toStartOf="@id/label_half_day"
+                app:layout_constraintTop_toBottomOf="@id/label_half_day" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Absent -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_absent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/bg_rounded_12"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_present"
+            app:layout_constraintEnd_toStartOf="@id/container_on_leave">
+
+            <ImageView
+                android:id="@+id/iv_absent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_absent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/label_absent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:text="Absent"
+                android:fontFamily="@font/mulish_semi_bold"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/grey_3434"
+                app:layout_constraintStart_toEndOf="@id/iv_absent"
+                app:layout_constraintTop_toTopOf="@id/iv_absent" />
+
+            <TextView
+                android:id="@+id/tv_absent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:textSize="@dimen/_9ssp"
+                android:textColor="@color/hint_text"
+                app:layout_constraintStart_toStartOf="@id/label_absent"
+                app:layout_constraintTop_toBottomOf="@id/label_absent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- On Leave -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_on_leave"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:background="@drawable/bg_rounded_12"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintStart_toEndOf="@id/container_absent"
+            app:layout_constraintTop_toTopOf="@id/container_absent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_on_leave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_on_leave"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/label_on_leave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:text="On Leave"
+                android:fontFamily="@font/mulish_semi_bold"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/grey_3434"
+                app:layout_constraintStart_toEndOf="@id/iv_on_leave"
+                app:layout_constraintTop_toTopOf="@id/iv_on_leave" />
+
+            <TextView
+                android:id="@+id/tv_on_leave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:textSize="@dimen/_9ssp"
+                android:textColor="@color/hint_text"
+                app:layout_constraintStart_toStartOf="@id/label_on_leave"
+                app:layout_constraintTop_toBottomOf="@id/label_on_leave" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Available Leaves -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_available_leaves"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/bg_rounded_12"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_absent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_available_leaves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_available_leaves"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/label_available_leaves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:text="Available Leaves"
+                android:fontFamily="@font/mulish_semi_bold"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/grey_3434"
+                app:layout_constraintStart_toEndOf="@id/iv_available_leaves"
+                app:layout_constraintTop_toTopOf="@id/iv_available_leaves" />
+
+            <TextView
+                android:id="@+id/tv_available_leaves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="28"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:textSize="@dimen/_9ssp"
+                android:textColor="@color/hint_text"
+                app:layout_constraintStart_toStartOf="@id/label_available_leaves"
+                app:layout_constraintTop_toBottomOf="@id/label_available_leaves" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

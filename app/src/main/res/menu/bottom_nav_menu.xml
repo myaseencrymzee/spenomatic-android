@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home" />
+
+    <item
+        android:id="@+id/nav_customer"
+        android:title="Customer"
+        android:icon="@drawable/curtomer_nav" />
+    <item
+        android:id="@+id/nav_visit"
+        android:title="Visit"
+        android:icon="@drawable/ic_visit_nav" />
+
+    <item
+        android:id="@+id/nav_expenses"
+        android:title="Expenses"
+        android:icon="@drawable/expenses_nav" />
+    <item
+        android:id="@+id/nav_leaves"
+        android:title="leave"
+        android:icon="@drawable/leaves_nav" />
+
+</menu>

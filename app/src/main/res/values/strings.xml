@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">SpenoMatic</string>
+    <string name="resend_text">Didn\'t receive the code? </string>
+    <string name="google_maps_key">AIzaSyDUMMY-KEY-FOR-TESTING-1234567890</string>
+    <string name="empty_string" />
+    <string name="error_enter_email">Email field cannot be empty.</string>
+    <string name="error_enter_password">Password field cannot be empty.</string>
+    <string name="error_invalid_email">Please enter a valid email address.</string>
+    <string name="error_enter_otp">Please enter OTP code sent to your Email.</string>
+    <string name="error_enter_valid_otp">Please enter valid 4 digits OTP code sent to your Email.</string>
+    <string name="error_enter_old_password">Please enter old password.</string>
+    <string name="error_enter_new_password">Please enter new password.</string>
+    <string name="error_enter_confirm_password">Confirm Password field cannot be empty.</string>
+    <string name="error_enter_valid_password">Password must have at least one special and one capital character.</string>
+    <string name="error_password_mismatch">Password and Confirm Password do not match.</string>
+    <string name="error_password_length">Password must be at least 8 characters long.</string>
+    <string name="error_password_uppercase">Password must contain a lowercase letter.</string>
+    <string name="error_password_lowercase">Password must contain an uppercase letter.</string>
+    <string name="error_password_digit">Password must contain a numeral.</string>
+    <string name="error_password_special">Password must contain at least one special character.</string>
+    <string name="error_password_whitespace">Password must not contain spaces.</string>
+
+
+    <string name="error_enter_name">Name field cannot be empty.</string>
+    <string name="error_enter_designation">Designation field cannot be empty.</string>
+    <string name="error_enter_phone">Please enter your phone number.</string>
+    <string name="error_invalid_phone_number">Please enter a valid Contact with a country code.</string>
+
+    <string name="error_enter_customer_name">Customer name field cannot be empty.</string>
+    <string name="error_enter_address">Customer address field cannot be empty.</string>
+    <string name="error_enter_pinpoints">Map Pin location field cannot be empty.</string>
+    <string name="error_select_industry_type">Industry type field cannot be empty.</string>
+    <string name="error_select_visit_type">Please select visit frequency.</string>
+    <string name="error_number_of_visit_empty">Please enter number of visits.</string>
+    <string name="error_number_of_visit_invalid">The number of visits must be at least 1.</string>
+    <string name="error_atleast_one_contact">At least one contact must be added.</string>
+
+
+
+
+    <string name="error_select_customer">Please select your client.</string>
+    <string name="error_enter_schedule_date">Please select a schedule date.</string>
+    <string name="error_enter_visit_type">Please select visit type.</string>
+    <string name="error_enter_remarks">Add remarks field cannot be empty.</string>
+
+
+
+
+    <string name="error_select_leave_type">Please select leave type.</string>
+    <string name="error_select_start_date">Please select start date.</string>
+    <string name="error_select_end_date">Please select end date.</string>
+    <string name="error_enter_reason">Reason field cannot be empty.</string>
+
+
+
+    <string name="error_enter_driver_name">Driver name field cannot be empty.</string>
+    <string name="error_enter_vehicle_no">Vehicle number Field cannot be empty.</string>
+    <string name="error_select_fuel_type">Please select fuel type.</string>
+    <string name="error_enter_fuel_pump_name">Fuel pump name field cannot be empty.</string>
+    <string name="error_select_fuel_pump_location">Please enter fuel pump location.</string>
+    <string name="error_enter_fuel_filled">Please enter fuel filled in liters.</string>
+    <string name="error_enter_amount">Please enter amount.</string>
+    <string name="error_enter_mpesa_till_no">Please enter Mpesa till number.</string>
+    <string name="error_enter_start_meter">Please enter start meter reading.</string>
+    <string name="error_enter_end_meter">Please enter end meter reading.</string>
+    <string name="error_enter_places_visited">Places visited field cannot be empty.</string>
+    <string name="error_enter_kilometers">Please enter kilometers travelled.</string>
+
+
+    <string name="error_enter_from">Please enter start destination</string>
+    <string name="error_enter_to">Please enter end destination</string>
+    <string name="error_invalid_amount">Amount must be at least 1</string>
+
+    <string name="error_enter_objective">Objective field cannot be empty.</string>
+    <string name="error_enter_description">Description field cannot be empty</string>
+</resources>

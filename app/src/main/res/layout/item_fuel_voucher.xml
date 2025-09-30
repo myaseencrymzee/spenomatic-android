@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_6sdp"
+        android:background="@drawable/bg_rounded_12"
+        android:padding="@dimen/_8sdp">
+
+        <ImageView
+            android:id="@+id/container_profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fuel"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:letterSpacing="-0.02"
+            android:text="Fuel Voucher"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@id/container_profile_image"
+            app:layout_constraintStart_toEndOf="@id/container_profile_image"
+            app:layout_constraintTop_toTopOf="@id/container_profile_image" />
+
+
+        <ImageView
+            android:id="@+id/iv_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_approved"
+            app:layout_constraintBottom_toBottomOf="@id/container_profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/container_profile_image" />
+
+
+        <TextView
+            android:id="@+id/label_last_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:text="Amount"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_profile_image" />
+
+        <TextView
+            android:id="@+id/tv_last_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_regular"
+            android:text="$100"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_last_visit"
+            app:layout_constraintStart_toStartOf="@id/label_last_visit"
+            app:layout_constraintTop_toBottomOf="@id/label_last_visit" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_last_visit"
+            app:layout_constraintEnd_toStartOf="@id/label_frequency"
+            app:layout_constraintStart_toEndOf="@id/label_last_visit"
+            app:layout_constraintTop_toTopOf="@id/label_last_visit" />
+
+        <TextView
+            android:id="@+id/label_frequency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:text="Fuel Type"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider2"
+            app:layout_constraintStart_toEndOf="@id/divider1"
+            app:layout_constraintTop_toTopOf="@id/label_last_visit" />
+
+        <TextView
+            android:id="@+id/tv_frequency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/mulish_regular"
+            android:maxLines="1"
+            android:text="Petrol"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_frequency"
+            app:layout_constraintStart_toStartOf="@id/label_frequency"
+            app:layout_constraintTop_toBottomOf="@id/label_frequency" />
+
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_frequency"
+            app:layout_constraintEnd_toStartOf="@id/label_total_visit"
+            app:layout_constraintStart_toEndOf="@id/label_frequency"
+            app:layout_constraintTop_toTopOf="@id/label_frequency" />
+
+        <TextView
+            android:id="@+id/label_total_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_3sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:text="Mpesa Till No."
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider3"
+            app:layout_constraintStart_toEndOf="@id/divider2"
+            app:layout_constraintTop_toTopOf="@id/label_frequency" />
+
+        <TextView
+            android:id="@+id/tv_total_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/mulish_regular"
+            android:maxLines="1"
+            android:text="123456"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_total_visit"
+            app:layout_constraintStart_toStartOf="@id/label_total_visit"
+            app:layout_constraintTop_toBottomOf="@id/label_total_visit" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_total_visit"
+            app:layout_constraintEnd_toStartOf="@id/label_avg_visit"
+            app:layout_constraintStart_toEndOf="@id/label_total_visit"
+            app:layout_constraintTop_toTopOf="@id/label_total_visit" />
+
+        <TextView
+            android:id="@+id/label_avg_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:text="KM travelled"
+
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/divider3"
+            app:layout_constraintTop_toTopOf="@id/label_frequency" />
+
+        <TextView
+            android:id="@+id/tv_avg_visit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/mulish_regular"
+            android:maxLines="1"
+            android:text="12 KM"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_avg_visit"
+            app:layout_constraintStart_toStartOf="@id/label_avg_visit"
+            app:layout_constraintTop_toBottomOf="@id/label_avg_visit" />
+
+
+        <TextView
+            android:id="@+id/label_meter_reading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:text="Meter Reading"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_last_visit" />
+
+        <TextView
+            android:id="@+id/tv_meter_reading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_regular"
+            android:text="1-12"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_meter_reading"
+            app:layout_constraintStart_toStartOf="@id/label_meter_reading"
+            app:layout_constraintTop_toBottomOf="@id/label_meter_reading" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_vichel_no"
+            app:layout_constraintEnd_toStartOf="@id/label_vichel_no"
+            app:layout_constraintStart_toEndOf="@id/label_meter_reading"
+            app:layout_constraintTop_toTopOf="@id/label_meter_reading" />
+
+        <TextView
+            android:id="@+id/label_vichel_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:text="Vehicle No."
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/divider5"
+            app:layout_constraintStart_toEndOf="@id/divider4"
+            app:layout_constraintTop_toTopOf="@id/label_meter_reading" />
+
+        <TextView
+            android:id="@+id/tv_vichel_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/mulish_regular"
+            android:maxLines="1"
+            android:text="LE 3888"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_vichel_no"
+            app:layout_constraintStart_toStartOf="@id/label_vichel_no"
+            app:layout_constraintTop_toBottomOf="@id/label_vichel_no" />
+
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:background="@color/grey_CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/tv_vichel_no"
+            app:layout_constraintEnd_toStartOf="@id/label_fuel_kts"
+            app:layout_constraintStart_toEndOf="@id/label_vichel_no"
+            app:layout_constraintTop_toTopOf="@id/label_vichel_no" />
+
+        <TextView
+            android:id="@+id/label_fuel_kts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_3sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:gravity="start"
+            android:text="Fuel ktrs"
+            android:textColor="@color/grey_3434"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/divider5"
+            app:layout_constraintTop_toTopOf="@id/label_vichel_no" />
+
+        <TextView
+            android:id="@+id/tv_fuel_kts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/mulish_regular"
+            android:maxLines="1"
+            android:text="5 ltrs"
+            android:textColor="@color/hint_text"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="@id/label_fuel_kts"
+            app:layout_constraintStart_toStartOf="@id/label_fuel_kts"
+            app:layout_constraintTop_toBottomOf="@id/label_fuel_kts" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

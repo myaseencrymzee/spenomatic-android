@@ -1,0 +1,44 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/main_container"
+        android:layout_width="46dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:layout_marginVertical="@dimen/_2sdp"
+        app:cardBackgroundColor="@color/hint_text"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/ivStatus"
+                android:src="@drawable/ic_off" />
+
+            <TextView
+                android:id="@+id/tvDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mulish_semi_bold"
+                android:textColor="@color/grey_3434"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mulish_regular"
+                android:textColor="@color/hint_text"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

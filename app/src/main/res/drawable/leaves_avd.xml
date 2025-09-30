@@ -1,0 +1,81 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="18dp"
+            android:height="17dp"
+            android:viewportWidth="18"
+            android:viewportHeight="17">
+
+            <!-- Outer gear shape -->
+            <path
+                android:name="gear_outer"
+                android:pathData="M15.643,6.052L15.351,5.89C15.306,5.865 15.284,5.852 15.262,5.839C15.045,5.709 14.862,5.529 14.728,5.314C14.715,5.293 14.702,5.27 14.676,5.225C14.65,5.18 14.637,5.157 14.625,5.135C14.505,4.911 14.44,4.662 14.436,4.408C14.436,4.382 14.436,4.356 14.437,4.304L14.443,3.966C14.452,3.425 14.456,3.153 14.38,2.91C14.313,2.693 14.2,2.494 14.049,2.325C13.878,2.133 13.642,1.997 13.169,1.724L12.776,1.498C12.304,1.226 12.068,1.09 11.818,1.038C11.597,0.993 11.368,0.995 11.147,1.044C10.898,1.1 10.665,1.24 10.2,1.518L10.197,1.52L9.915,1.688C9.871,1.715 9.848,1.728 9.826,1.741C9.605,1.864 9.358,1.932 9.104,1.94C9.079,1.941 9.053,1.941 9.001,1.941C8.949,1.941 8.922,1.941 8.897,1.94C8.643,1.932 8.396,1.863 8.174,1.74C8.151,1.727 8.129,1.714 8.085,1.687L7.801,1.517C7.333,1.236 7.098,1.095 6.847,1.038C6.626,0.989 6.396,0.987 6.174,1.034C5.923,1.086 5.687,1.223 5.215,1.497L5.213,1.498L4.825,1.723L4.821,1.726C4.353,1.997 4.119,2.133 3.95,2.324C3.8,2.493 3.687,2.692 3.62,2.908C3.544,3.152 3.548,3.424 3.557,3.968L3.563,4.306C3.564,4.357 3.565,4.382 3.565,4.407C3.561,4.662 3.496,4.912 3.375,5.136C3.363,5.158 3.351,5.18 3.325,5.224C3.299,5.269 3.287,5.291 3.274,5.312C3.14,5.528 2.956,5.709 2.737,5.84C2.715,5.852 2.693,5.865 2.648,5.89L2.36,6.049C1.882,6.314 1.642,6.447 1.468,6.636C1.314,6.803 1.198,7.001 1.127,7.217C1.047,7.461 1.047,7.735 1.048,8.282L1.049,8.729C1.05,9.272 1.052,9.544 1.132,9.786C1.204,10.001 1.319,10.198 1.472,10.364C1.645,10.552 1.882,10.683 2.357,10.948L2.642,11.106C2.691,11.133 2.715,11.146 2.738,11.161C2.955,11.291 3.138,11.471 3.271,11.686C3.285,11.71 3.299,11.734 3.326,11.782C3.354,11.83 3.368,11.854 3.38,11.877C3.497,12.098 3.559,12.344 3.564,12.594C3.564,12.62 3.564,12.648 3.563,12.703L3.557,13.027C3.548,13.573 3.544,13.846 3.621,14.09C3.688,14.307 3.801,14.506 3.952,14.675C4.123,14.867 4.359,15.003 4.832,15.276L5.225,15.502C5.697,15.774 5.932,15.91 6.183,15.961C6.404,16.007 6.633,16.006 6.854,15.956C7.103,15.9 7.337,15.76 7.804,15.48L8.085,15.312C8.13,15.285 8.152,15.272 8.175,15.259C8.396,15.136 8.643,15.068 8.896,15.06C8.922,15.059 8.948,15.059 8.999,15.059C9.052,15.059 9.077,15.059 9.103,15.06C9.357,15.068 9.605,15.137 9.827,15.26C9.846,15.271 9.866,15.283 9.9,15.303L10.2,15.483C10.668,15.764 10.903,15.905 11.153,15.961C11.375,16.011 11.604,16.013 11.826,15.967C12.078,15.914 12.314,15.777 12.786,15.503L13.179,15.275C13.647,15.003 13.882,14.867 14.051,14.676C14.201,14.507 14.314,14.308 14.381,14.092C14.456,13.85 14.452,13.58 14.443,13.044L14.437,12.694C14.436,12.643 14.436,12.618 14.436,12.593C14.44,12.338 14.505,12.088 14.625,11.864C14.637,11.842 14.65,11.82 14.675,11.775C14.701,11.731 14.714,11.709 14.727,11.688C14.861,11.471 15.046,11.29 15.264,11.16C15.286,11.147 15.308,11.135 15.351,11.111L15.353,11.11L15.641,10.951C16.119,10.686 16.359,10.553 16.533,10.364C16.687,10.197 16.803,9.999 16.874,9.783C16.954,9.54 16.953,9.268 16.952,8.728L16.951,8.271C16.95,7.727 16.949,7.456 16.869,7.214C16.797,6.999 16.681,6.802 16.528,6.636C16.355,6.448 16.118,6.317 15.644,6.053L15.643,6.052Z"
+                android:strokeLineJoin="round"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeColor="#9DB2CE"
+                android:strokeLineCap="round"/>
+
+            <!-- Gear center -->
+            <path
+                android:name="gear_center"
+                android:pathData="M5.818,8.5C5.818,10.257 7.243,11.682 9,11.682C10.758,11.682 12.182,10.257 12.182,8.5C12.182,6.743 10.758,5.318 9,5.318C7.243,5.318 5.818,6.743 5.818,8.5Z"
+                android:strokeLineJoin="round"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeColor="#9DB2CE"
+                android:strokeLineCap="round"/>
+        </vector>
+    </aapt:attr>
+
+    <!-- Animate gear outer stroke -->
+    <target android:name="gear_outer">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="trimPathStart"
+                    android:duration="1400"
+                    android:valueFrom="1"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/linear_interpolator"/>
+
+                <objectAnimator
+                    android:propertyName="trimPathEnd"
+                    android:duration="1400"
+                    android:valueFrom="0"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/linear_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- Animate gear center stroke -->
+    <target android:name="gear_center">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="trimPathStart"
+                    android:duration="1000"
+                    android:startOffset="200"
+                    android:valueFrom="1"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/linear_interpolator"/>
+
+                <objectAnimator
+                    android:propertyName="trimPathEnd"
+                    android:duration="1000"
+                    android:startOffset="200"
+                    android:valueFrom="0"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/linear_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+
+</animated-vector>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/main_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.home.HomeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.notifications.NotificationFragment"
+        android:label="notificationFragment">
+
+        <action
+            android:id="@+id/action_notificationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/customerFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.customer.CustomerFragment"
+        android:label="customerFragment">
+        <action
+            android:id="@+id/action_customerFragment_to_addCustomerFragment"
+            app:destination="@id/addCustomerFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addCustomerFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.customer.AddCustomerFragment"
+        android:label="addCustomerFragment">
+        <action
+            android:id="@+id/action_addCustomerFragment_to_customerFragment"
+            app:destination="@id/customerFragment" />
+        <action
+            android:id="@+id/action_addCustomerFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.customer.MapFragment"
+        android:label="mapFragment">
+        <action
+            android:id="@+id/action_mapFragment_to_addCustomerFragment"
+            app:destination="@id/addCustomerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/visitFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.visits.VisitFragment"
+        android:label="Visit">
+        <action
+            android:id="@+id/action_visitFragment_to_addScheduleFragment"
+            app:destination="@id/addScheduleFragment" />
+        <action
+            android:id="@+id/action_visitFragment_to_customer_detail"
+            app:destination="@id/customer_detail" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addScheduleFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.visits.AddScheduleFragment"
+        android:label="addScheduleFragment">
+        <action
+            android:id="@+id/action_addScheduleFragment_to_visitFragment"
+            app:destination="@id/visitFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/expensesFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.expenses.ExpensesFragment"
+        android:label="Expenses" >
+        <action
+            android:id="@+id/action_expensesFragment_to_addFuelExpensesFragment"
+            app:destination="@id/addFuelExpensesFragment" />
+        <action
+            android:id="@+id/action_expensesFragment_to_addOthersFragment"
+            app:destination="@id/addOthersFragment" />
+        <action
+            android:id="@+id/action_expensesFragment_to_addLocalVisitFragment"
+            app:destination="@id/addLocalVisitFragment" />
+        <action
+            android:id="@+id/action_expensesFragment_to_addOutCityVisitFragment"
+            app:destination="@id/addOutCityVisitFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addLocalVisitFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.expenses.addLocalVisit.AddLocalVisitFragment"
+        android:label="addLocalVisitFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/addOutCityVisitFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.expenses.addOutCityExpense.AddOutCityVisitFragment"
+        android:label="addOutCityVisitFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/addFuelExpensesFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.expenses.addExpenses.AddFuelFragment"
+        android:label="addFuelExpensesFragment" >
+        <action
+            android:id="@+id/action_addFuelExpensesFragment_to_expensesFragment"
+            app:destination="@id/expensesFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addOthersFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.expenses.addOthers.AddOthersFragment"
+        android:label="addOthersFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/customer_detail"
+        android:name="com.crymzee.spenomatic.ui.fragments.visits.CustomerDetailFragment"
+        android:label="customer_detail">
+        <action
+            android:id="@+id/action_customer_detail_to_visitFragment"
+            app:destination="@id/visitFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/leaveFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.leaves.LeaveFragment"
+        android:label="Leave">
+
+        <action
+            android:id="@+id/action_leaveFragment_to_addLeaveFragment"
+            app:destination="@id/addLeaveFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addLeaveFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.leaves.AddLeaveFragment"
+        android:label="Leave">
+
+        <action
+            android:id="@+id/action_addLeaveFragment_to_leaveFragment"
+            app:destination="@id/leaveFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.profile.ProfileFragment"
+        android:label="profile_fragment" >
+        <action
+            android:id="@+id/action_profile_fragment_to_update_password_fragment"
+            app:destination="@id/update_password_fragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_update_profile_fragment"
+            app:destination="@id/update_profile_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/update_profile_fragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.profile.UpdateProfileFragment"
+        android:label="update_profile_fragment" >
+        <action
+            android:id="@+id/action_update_profile_fragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/update_password_fragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.profile.ChangePasswordFragment"
+        android:label="update_password_fragment" >
+        <action
+            android:id="@+id/action_update_password_fragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
+
+</navigation>

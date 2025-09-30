@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" />
+            <corners
+                android:topLeftRadius="20dp"
+                android:topRightRadius="20dp" />
+        </shape>
+    </item>
+
+    <!-- Curve cutout at position 1 -->
+    <item
+        android:left="15dp"
+        android:right="290dp"
+        android:top="-15dp">
+
+        <layer-list>
+            <!-- Circle background -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="#F3F3F3" />
+                    <size
+                        android:width="50dp"
+                        android:height="50dp" />
+                </shape>
+            </item>
+
+            <!-- Your vector icon centered in the circle -->
+            <item
+                android:drawable="@drawable/ic_home_selected"
+                android:width="54dp"
+                android:height="54dp"
+                android:gravity="center" />
+        </layer-list>
+
+    </item>
+
+</layer-list>

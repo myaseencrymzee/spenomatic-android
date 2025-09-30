@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/bg_rounded_12"
+        android:padding="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/ic_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_leave_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:maxLines="1"
+            android:text="Sonta Monica"
+            android:textColor="@color/black_1717"
+            android:textSize="@dimen/_11ssp"
+
+            app:layout_constraintBottom_toBottomOf="@id/ic_map"
+            app:layout_constraintBottom_toTopOf="@id/iv_divder"
+            app:layout_constraintStart_toEndOf="@id/ic_map"
+            app:layout_constraintTop_toTopOf="@id/ic_map" />
+
+        <ImageView
+            android:id="@+id/iv_divder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:src="@drawable/ic_divider_line"
+            app:layout_constraintBottom_toBottomOf="@id/label_leave_type"
+            app:layout_constraintEnd_toEndOf="@id/ic_map"
+            app:layout_constraintStart_toStartOf="@id/ic_map"
+            app:layout_constraintTop_toBottomOf="@id/label_leave_type" />
+
+
+        <ImageView
+            android:id="@+id/ic_map1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_divder" />
+
+        <TextView
+            android:id="@+id/label_leave_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:maxLines="1"
+            android:text="New York"
+            android:textColor="@color/black_1717"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@id/ic_map1"
+            app:layout_constraintStart_toEndOf="@id/ic_map1"
+            app:layout_constraintTop_toTopOf="@id/ic_map1" />
+
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cross"
+            app:layout_constraintBottom_toBottomOf="@id/label_leave_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/label_leave_type" />
+
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_bold"
+            android:text="$100"
+            android:textColor="@color/black_1717"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintBottom_toBottomOf="@id/label_leave_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/label_leave_date" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

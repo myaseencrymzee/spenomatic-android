@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="PinEntryView">
+        <attr name="pinTextColor" format="color" />
+    </declare-styleable>
+</resources>

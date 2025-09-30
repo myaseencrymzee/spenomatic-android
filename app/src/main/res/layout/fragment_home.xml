@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:scrollbars="none">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/_28sdp"
+                android:background="@color/background">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/container_profile_image"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    tools:src="@drawable/dummy_image"
+                    app:cardElevation="0dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/label_hello"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/mulish_bold"
+                    tools:text="Welcome Thomas"
+                    app:layout_constraintEnd_toStartOf="@id/iv_notifications"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_16ssp"
+                    app:layout_constraintBottom_toTopOf="@id/label_explore"
+                    app:layout_constraintStart_toEndOf="@id/container_profile_image"
+                    app:layout_constraintTop_toTopOf="@id/container_profile_image" />
+
+                <TextView
+                    android:id="@+id/label_explore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mulish_regular"
+                    tools:text="Attendance at 09:00 AM today"
+                    android:textColor="@color/hint_text"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/container_profile_image"
+                    app:layout_constraintStart_toStartOf="@id/label_hello"
+                    app:layout_constraintTop_toBottomOf="@id/label_hello" />
+
+                <ImageView
+                    android:id="@+id/iv_notifications"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/ic_notification"
+                    app:layout_constraintBottom_toBottomOf="@id/container_profile_image"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toTopOf="@id/container_profile_image" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_daily"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/bg_rounded_12_blue"
+                    android:padding="@dimen/_9sdp"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_profile_image">
+
+                    <!-- Header Section -->
+                    <LinearLayout
+                        android:id="@+id/headerLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_tiiming" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/mulish_semi_bold"
+                                android:text="Office Timing"
+                                android:textColor="@color/grey_3434"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <TextView
+                                android:id="@+id/tvTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/mulish_regular"
+                                android:text="09:00 AM to 06:00 PM"
+                                android:textColor="@color/hint_text"
+                                android:textSize="@dimen/_9sdp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Days Row -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvDays"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/item_day_card"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_earning_week"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_8sdp"
+                    app:layout_constraintEnd_toStartOf="@id/container_completed_week"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_daily">
+
+
+                    <ImageView
+                        android:id="@+id/iv_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/iv_km"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/label_earning_this_week"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:text="KM Traveled"
+                        android:textColor="@color/grey_3434"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_earnings"
+                        app:layout_constraintEnd_toEndOf="parent"
+
+                        app:layout_constraintStart_toEndOf="@id/iv_image"
+                        app:layout_constraintTop_toTopOf="@id/iv_image" />
+
+                    <TextView
+                        android:id="@+id/tv_earnings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/mulish_regular"
+                        android:includeFontPadding="false"
+                        android:text="20.5 KM"
+                        android:textColor="@color/hint_text"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/label_earning_this_week"
+                        app:layout_constraintStart_toStartOf="@id/label_earning_this_week"
+                        app:layout_constraintTop_toBottomOf="@id/label_earning_this_week" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_completed_week"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_8sdp"
+                    app:layout_constraintBottom_toBottomOf="@id/container_earning_week"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@id/container_earning_week"
+                    app:layout_constraintTop_toTopOf="@id/container_earning_week">
+
+
+                    <ImageView
+                        android:id="@+id/iv_completed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_active_since"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/label_completed_this_week"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:text="Active Since"
+                        android:textColor="@color/grey_3434"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_reviews"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_completed"
+                        app:layout_constraintTop_toTopOf="@id/iv_completed" />
+
+                    <TextView
+                        android:id="@+id/tv_reviews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/mulish_regular"
+                        android:includeFontPadding="false"
+                        android:text="1 hour"
+                        android:textColor="@color/hint_text"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/label_completed_this_week"
+                        app:layout_constraintTop_toBottomOf="@id/label_completed_this_week" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_average_week"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="@id/container_earning_week"
+
+                    app:layout_constraintEnd_toStartOf="@id/container_idle_time"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_earning_week">
+
+
+                    <ImageView
+                        android:id="@+id/iv_average"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_check_in"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/label_average_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:text="Today’s Check-in"
+                        android:textColor="@color/grey_3434"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_average_rating"
+                        app:layout_constraintStart_toEndOf="@id/iv_average"
+                        app:layout_constraintTop_toTopOf="@id/iv_average" />
+
+                    <TextView
+                        android:id="@+id/tv_average_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/mulish_regular"
+                        android:includeFontPadding="false"
+                        android:text="9:30 AM"
+                        android:textColor="@color/hint_text"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/label_average_rating"
+                        app:layout_constraintStart_toStartOf="@id/label_average_rating"
+                        app:layout_constraintTop_toBottomOf="@id/label_average_rating" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_idle_time"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_8sdp"
+                    app:layout_constraintBottom_toBottomOf="@id/container_average_week"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@id/container_average_week"
+                    app:layout_constraintTop_toTopOf="@id/container_average_week">
+
+
+                    <ImageView
+                        android:id="@+id/iv_idle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_idle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/label_idle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:text="Idle Time"
+                        android:textColor="@color/grey_3434"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_idle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_idle"
+                        app:layout_constraintTop_toTopOf="@id/iv_idle" />
+
+                    <TextView
+                        android:id="@+id/tv_idle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/mulish_regular"
+                        android:includeFontPadding="false"
+                        android:text="07%"
+                        android:textColor="@color/hint_text"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/label_idle"
+                        app:layout_constraintTop_toBottomOf="@id/label_idle" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/label_expense_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Expense Status"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_average_week" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_approved"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_5sdp"
+                    app:layout_constraintEnd_toStartOf="@id/container_pending"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_expense_status">
+
+
+                    <ImageView
+                        android:id="@+id/iv_approved"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_approveded"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/label_approved"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:text="Approved"
+                        android:textColor="@color/grey_3434"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_approved"
+                        app:layout_constraintEnd_toEndOf="parent"
+
+                        app:layout_constraintStart_toEndOf="@id/iv_approved"
+                        app:layout_constraintTop_toTopOf="@id/iv_approved" />
+
+                    <TextView
+                        android:id="@+id/tv_approved"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/mulish_regular"
+                        android:includeFontPadding="false"
+                        android:text="1500"
+                        android:textColor="@color/hint_text"
+                        android:textSize="@dimen/_8ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/label_approved"
+                        app:layout_constraintStart_toStartOf="@id/label_approved"
+                        app:layout_constraintTop_toBottomOf="@id/label_approved" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_pending"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="@id/container_approved"
+                    app:layout_constraintEnd_toStartOf="@id/container_rejected"
+                    app:layout_constraintStart_toEndOf="@id/container_approved"
+                    app:layout_constraintTop_toTopOf="@id/container_approved">
+
+
+                    <ImageView
+                        android:id="@+id/iv_pending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_pendings"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/label_pending"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="1"
+                        android:text="Pending"
+                        android:textColor="@color/grey_3434"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_pending"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_pending"
+                        app:layout_constraintTop_toTopOf="@id/iv_pending" />
+
+                    <TextView
+                        android:id="@+id/tv_pending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish_regular"
+                        android:includeFontPadding="false"
+                        android:text="1000"
+                        android:textColor="@color/hint_text"
+                        android:textSize="@dimen/_8ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_pending"
+                        app:layout_constraintStart_toStartOf="@id/label_pending"
+                        app:layout_constraintTop_toBottomOf="@id/label_pending" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_rejected"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="@id/container_pending"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@id/container_pending"
+                    app:layout_constraintTop_toTopOf="@id/container_pending">
+
+
+                    <ImageView
+                        android:id="@+id/iv_rejected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_rejected"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/label_rejected"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:text="Rejected"
+                        android:textColor="@color/grey_3434"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_rejected"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_rejected"
+                        app:layout_constraintTop_toTopOf="@id/iv_rejected" />
+
+                    <TextView
+                        android:id="@+id/tv_rejected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish_regular"
+                        android:includeFontPadding="false"
+                        android:text="0"
+                        android:textColor="@color/hint_text"
+                        android:textSize="@dimen/_8ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_rejected"
+                        app:layout_constraintStart_toStartOf="@id/label_rejected"
+                        app:layout_constraintTop_toBottomOf="@id/label_rejected" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/label_attendenance_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Attendance Information"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_approved" />
+
+                <include
+                    android:id="@+id/container_info"
+                    layout="@layout/item_attendence_infomation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_attendenance_info" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save"
+                    style="@style/CustomMaterialButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginVertical="@dimen/_20sdp"
+                    android:letterSpacing="-0.02"
+                    android:text="Check Out"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_info" />
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/_15sdp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/_15sdp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+</layout>

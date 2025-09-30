@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
+        <!-- Set the background color to yellow -->
+        <item name="android:backgroundTint">@color/theme_blue</item>
+        <item name="fontFamily">@font/mulish_bold</item>
+        <item name="android:textSize">@dimen/_13sdp</item>
+
+        <!-- Optionally, set the text color -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="background">@drawable/rounded_12_border_black</item>
+        <!-- Optionally, set other properties such as elevation, corner radius, etc. -->
+        <item name="cornerRadius">@dimen/_8sdp</item>
+
+        <!-- Optionally, customize the ripple effect -->
+        <item name="android:stateListAnimator">@null</item>
+
+        <!-- You can add other custom properties like padding, text size, etc. -->
+
+    </style>
+    <style name="CustomMaterialButtonRed" parent="Widget.MaterialComponents.Button">
+        <!-- Set the background color to yellow -->
+        <item name="android:backgroundTint">@color/red</item>
+        <item name="fontFamily">@font/mulish_bold</item>
+        <item name="android:textSize">@dimen/_13sdp</item>
+
+        <!-- Optionally, set the text color -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="background">@drawable/rounded_12_border_red</item>
+        <!-- Optionally, set other properties such as elevation, corner radius, etc. -->
+        <item name="cornerRadius">@dimen/_8sdp</item>
+
+        <!-- Optionally, customize the ripple effect -->
+        <item name="android:stateListAnimator">@null</item>
+
+        <!-- You can add other custom properties like padding, text size, etc. -->
+
+    </style>
+
+
+
+    <style name="CustomDatePickerDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Header background (calendar top bar) -->
+        <item name="colorPrimary">@color/theme_blue</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Buttons -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/BlueDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/BlueDialogButton</item>
+    </style>
+
+    <style name="BlueDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/theme_blue</item>
+    </style>
+
+
+
+    <style name="BottomNavItem">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="BottomNavIcon">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:tint">@color/grey_3434</item>
+    </style>
+
+    <style name="BottomNavText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey_3434</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>
