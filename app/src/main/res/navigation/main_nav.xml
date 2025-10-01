@@ -103,6 +103,9 @@
         android:id="@+id/addLocalVisitFragment"
         android:name="com.crymzee.spenomatic.ui.fragments.expenses.addLocalVisit.AddLocalVisitFragment"
         android:label="addLocalVisitFragment" >
+        <action
+            android:id="@+id/action_addLocalVisitFragment_to_expensesFragment"
+            app:destination="@id/expensesFragment" />
     </fragment>
 
     <fragment
@@ -125,6 +128,9 @@
         android:id="@+id/addOthersFragment"
         android:name="com.crymzee.spenomatic.ui.fragments.expenses.addOthers.AddOthersFragment"
         android:label="addOthersFragment" >
+        <action
+            android:id="@+id/action_addOthersFragment_to_expensesFragment"
+            app:destination="@id/expensesFragment" />
     </fragment>
 
     <fragment

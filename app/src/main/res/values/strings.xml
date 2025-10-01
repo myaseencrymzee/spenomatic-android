@@ -60,6 +60,7 @@
     <string name="error_select_fuel_pump_location">Please enter fuel pump location.</string>
     <string name="error_enter_fuel_filled">Please enter fuel filled in liters.</string>
     <string name="error_enter_amount">Please enter amount.</string>
+    <string name="error_enter_total">Please enter total.</string>
     <string name="error_enter_mpesa_till_no">Please enter Mpesa till number.</string>
     <string name="error_enter_start_meter">Please enter start meter reading.</string>
     <string name="error_enter_end_meter">Please enter end meter reading.</string>
@@ -70,7 +71,12 @@
     <string name="error_enter_from">Please enter start destination</string>
     <string name="error_enter_to">Please enter end destination</string>
     <string name="error_invalid_amount">Amount must be at least 1</string>
-
+    <string name="error_select_date">Please select a date</string>
+    <string name="error_select_time">Please select a time</string>
     <string name="error_enter_objective">Objective field cannot be empty.</string>
+    <string name="error_enter_allowance">Allowance field cannot be empty.</string>
     <string name="error_enter_description">Description field cannot be empty</string>
+
+    <string name="error_enter_nights">Please enter number of nights stayed</string>
+    <string name="error_invalid_date_range">To date cannot be from date</string>
 </resources>

@@ -8,7 +8,6 @@ import com.crymzee.spenomatic.model.request.createLocalExpense.Customer
 
 class OutCityCustomerVisitListAdapter(
     private val list: MutableList<Customer>,
-    private val onViewDetailClick: (String) -> Unit // callback for click
 ) : RecyclerView.Adapter<OutCityCustomerVisitListAdapter.FriendViewHolder>() {
 
     inner class FriendViewHolder(val binding: ItemOutCityCustomerVisitListBinding) :
@@ -23,7 +22,33 @@ class OutCityCustomerVisitListAdapter(
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         val item = list[position]
+        holder.binding.apply {
+            labelLeaveType.text = item.name
+            labelLeaveDate.text = item.email
+            etEmail.text = item.objective
+            ivDelete.setOnClickListener {
+                item.name?.let { name -> visitId?.invoke(name) }
+            }
 
+        }
+
+    }
+
+    private var visitId: ((String) -> Unit)? = null
+
+    fun getVisitId(listener: (String) -> Unit) {
+        visitId = listener
+    }
+
+
+    fun deleteAction(actionId: String) {
+        val index = list.indexOfFirst { item ->
+            item.name == actionId
+        }
+        if (index != -1) {
+            list.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 
     override fun getItemCount(): Int = list.size

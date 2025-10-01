@@ -82,7 +82,7 @@
 
                     <TextView
                         android:id="@+id/et_customer_name"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:fontFamily="@font/mulish_regular"
@@ -94,7 +94,6 @@
                         android:textColorHint="@color/hint_text"
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,7 +129,7 @@
 
                     <TextView
                         android:id="@+id/et_contact"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:fontFamily="@font/mulish_regular"
@@ -142,7 +141,6 @@
                         android:textColorHint="@color/hint_text"
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -174,7 +172,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/label_email">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/et_email"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

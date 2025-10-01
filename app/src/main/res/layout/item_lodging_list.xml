@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
     </data>
@@ -48,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/mulish_semi_bold"
-            android:text="Nights: 2"
+            tools:text="Nights: 2"
             android:textColor="@color/grey_3434"
             android:textSize="@dimen/_11sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/mulish_semi_bold"
-            android:text="Amount/day: $50"
+            tools:text="Amount/day: $50"
             android:textColor="@color/grey_3434"
             android:textSize="@dimen/_11sdp"
             app:layout_constraintTop_toTopOf="@id/tv_nights"
@@ -74,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/mulish_semi_bold"
-            android:text="Total: $100"
+            tools:text="Total: $100"
             android:textColor="@color/grey_3434"
             android:textSize="@dimen/_11sdp"
             app:layout_constraintTop_toTopOf="@id/tv_nights"

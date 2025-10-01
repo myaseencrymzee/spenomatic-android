@@ -7,288 +7,401 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent"
+        android:background="@color/background">
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_save"
+            android:layout_height="0dp">
 
-            <TextView
-                android:id="@+id/label_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/mulish_bold"
-                android:text="Add Outstation Sales"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background">
 
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_16ssp"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/label_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_bold"
+                    android:text="Add Outstation Sales"
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/iv_back"
-                app:layout_constraintBottom_toBottomOf="@id/label_heading"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toTopOf="@id/label_heading" />
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_16ssp"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-            <TextView
-                android:id="@+id/label_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/mulish_semi_bold"
-                android:text="Clients to visit"
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/iv_back" />
-
-            <ImageView
-                android:id="@+id/iv_add_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@id/label_description"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toTopOf="@id/label_description" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_customers"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_2sdp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/iv_add_transport"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/label_description"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_contact_list" />
-
-            <TextView
-                android:id="@+id/label_transport"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/mulish_semi_bold"
-                android:text="Transport"
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/rv_customers" />
-
-            <ImageView
-                android:id="@+id/iv_add_transport"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@id/label_transport"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toTopOf="@id/label_transport" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_transport"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/iv_add_lodging"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/iv_add_transport"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_contact_list" />
-
-            <ImageView
-                android:id="@+id/iv_add_lodging"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@id/label_lodging"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toTopOf="@id/label_lodging" />
-
-            <TextView
-                android:id="@+id/label_lodging"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/mulish_semi_bold"
-                android:text="Lodging &amp; Boarding"
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/rv_transport" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_loging"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/iv_add_bus_train"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/iv_add_lodging"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_contact_list" />
-
-            <ImageView
-                android:id="@+id/iv_add_bus_train"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@id/label_bus_train"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toTopOf="@id/label_bus_train" />
-
-            <TextView
-                android:id="@+id/label_bus_train"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/mulish_semi_bold"
-                android:text="Bus/Train Timing"
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/rv_loging" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_bus_train"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/iv_add_allowance"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/iv_add_bus_train"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_contact_list" />
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_back"
+                    app:layout_constraintBottom_toBottomOf="@id/label_heading"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toTopOf="@id/label_heading" />
 
 
-            <ImageView
-                android:id="@+id/iv_add_allowance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@id/label_allowance"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toTopOf="@id/label_allowance" />
+                <TextView
+                    android:id="@+id/label_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Clients to visit"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
-            <TextView
-                android:id="@+id/label_allowance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/mulish_semi_bold"
-                android:text="Allowances"
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/rv_bus_train" />
+                <ImageView
+                    android:id="@+id/iv_add_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="@id/label_description"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toTopOf="@id/label_description" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_allowance"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/iv_add_miscellaneous"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/iv_add_allowance"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_contact_list" />
+                <TextView
+                    android:id="@+id/label_no_user_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5ssp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:text="No transport client has been added yet"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/label_transport"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_user" />
 
-            <ImageView
-                android:id="@+id/iv_add_miscellaneous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@id/label_miscellaneous"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toTopOf="@id/label_miscellaneous" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_customers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/iv_add_transport"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_description"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_contact_list" />
 
-            <TextView
-                android:id="@+id/label_miscellaneous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/mulish_semi_bold"
-                android:text="Miscellaneous"
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/rv_allowance" />
+                <TextView
+                    android:id="@+id/label_transport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Transport"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_no_user_data" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_miscellaneous"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/btn_save"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/label_miscellaneous"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_contact_list" />
+                <ImageView
+                    android:id="@+id/iv_add_transport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="@id/label_transport"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toTopOf="@id/label_transport" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_save"
-                style="@style/CustomMaterialButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:letterSpacing="-0.02"
-                android:text="Submit"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/rv_miscellaneous" />
+                <TextView
+                    android:id="@+id/label_no_transport_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:text="No transport expenses added yet"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/label_lodging"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_transport" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_transport"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/iv_add_lodging"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_transport"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_contact_list" />
+
+                <ImageView
+                    android:id="@+id/iv_add_lodging"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="@id/label_lodging"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toTopOf="@id/label_lodging" />
+
+                <TextView
+                    android:id="@+id/label_lodging"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Lodging &amp; Boarding"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_no_transport_data" />
+
+                <TextView
+                    android:id="@+id/label_no_lodging_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:text="No lodging expenses added yet"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/label_bus_train"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_lodging" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_loging"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:orientation="vertical"
+
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/iv_add_bus_train"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_lodging"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_contact_list" />
+
+                <ImageView
+                    android:id="@+id/iv_add_bus_train"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="@id/label_bus_train"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toTopOf="@id/label_bus_train" />
+
+                <TextView
+                    android:id="@+id/label_bus_train"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Bus/Train Timing"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_no_lodging_data" />
 
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/_15sdp" />
+                <TextView
+                    android:id="@+id/label_no_bus_train_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:text="No Bus/train expenses added yet"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="@dimen/_12ssp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/label_allowance"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_bus_train" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/_15sdp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_bus_train"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/iv_add_allowance"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_bus_train"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_contact_list" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+                <ImageView
+                    android:id="@+id/iv_add_allowance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="@id/label_allowance"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toTopOf="@id/label_allowance" />
+
+                <TextView
+                    android:id="@+id/label_allowance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Allowances"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_no_bus_train_data" />
+
+                <TextView
+                    android:id="@+id/label_no_allowance_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_8sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:text="No allowance expenses added yet"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/label_miscellaneous"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_allowance" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_allowance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_8sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/iv_add_miscellaneous"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_allowance"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_contact_list" />
+
+                <ImageView
+                    android:id="@+id/iv_add_miscellaneous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="@id/label_miscellaneous"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toTopOf="@id/label_miscellaneous" />
+
+                <TextView
+                    android:id="@+id/label_miscellaneous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Miscellaneous"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_no_allowance_data" />
+
+                <TextView
+                    android:id="@+id/label_no_miscellaneous_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:visibility="gone"
+                    android:text="No allowance expenses added yet"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="@dimen/_12ssp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/iv_add_miscellaneous" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_miscellaneous"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_miscellaneous"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_contact_list" />
+
+
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/_15sdp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/_15sdp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
+            style="@style/CustomMaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:letterSpacing="-0.02"
+            android:text="Submit"
+            android:layout_marginHorizontal="@dimen/_12ssp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </layout>

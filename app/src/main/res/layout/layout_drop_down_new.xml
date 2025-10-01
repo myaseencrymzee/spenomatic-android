@@ -7,8 +7,6 @@
     android:background="@android:color/transparent"
     android:layoutDirection="ltr"
     android:orientation="horizontal"
-    android:paddingStart="18dp"
-    android:paddingEnd="20dp"
     tools:ignore="RtlSymmetry">
 
 

@@ -10,7 +10,6 @@ import com.crymzee.spenomatic.model.request.createLocalExpense.MiscellaneousExpe
 
 class AllMiscellaneousExpenseListAdapter(
     private val list: MutableList<MiscellaneousExpense>,
-    private val onViewDetailClick: (String) -> Unit // callback for click
 ) : RecyclerView.Adapter<AllMiscellaneousExpenseListAdapter.FriendViewHolder>() {
 
     inner class FriendViewHolder(val binding: ItemMiscellaneousListBinding) :

@@ -48,7 +48,7 @@
                 android:textColor="@color/black_1717"
 
                 android:textSize="@dimen/_11ssp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_delete"
                 app:layout_constraintStart_toEndOf="@id/ic_type"
                 app:layout_constraintTop_toTopOf="@id/ic_type" />
 
@@ -68,7 +68,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/label_leave_type"
                 app:layout_constraintTop_toBottomOf="@id/label_leave_type" />
-
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cross"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/label_leave_type"
+                app:layout_constraintTop_toTopOf="@id/label_leave_type"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -95,7 +102,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_description">
 
-            <EditText
+            <TextView
                 android:id="@+id/et_email"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

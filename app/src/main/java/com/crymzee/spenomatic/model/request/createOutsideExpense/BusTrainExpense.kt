@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 
 @Keep
 data class BusTrainExpense(
-    val amount: Int,
+    val amount: String,
     val date: String,
     val time: String
 )

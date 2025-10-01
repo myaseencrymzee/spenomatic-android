@@ -21,9 +21,6 @@ import com.crymzee.spenomatic.adapter.PlaceAutoSuggestAdapter
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.FragmentAddFuelBinding
 import com.crymzee.spenomatic.model.DropDownClientType
-import com.crymzee.spenomatic.model.request.CreateCustomerRequestBody
-import com.crymzee.spenomatic.model.request.Location
-import com.crymzee.spenomatic.model.request.OtherExpensesRequest
 import com.crymzee.spenomatic.model.request.createFuelExpense.CreateFuelExpenseRequest
 import com.crymzee.spenomatic.model.request.createFuelExpense.FuelPumpLocation
 import com.crymzee.spenomatic.model.request.createFuelExpense.FuelVoucherDetails
@@ -33,7 +30,6 @@ import com.crymzee.spenomatic.utils.extractFirstErrorMessage
 import com.crymzee.spenomatic.utils.goBack
 import com.crymzee.spenomatic.utils.showErrorPopup
 import com.crymzee.spenomatic.utils.showSuccessPopup
-import com.crymzee.spenomatic.utils.toCamelCase
 import com.crymzee.spenomatic.viewModel.ExpensesViewModel
 import java.io.IOException
 import java.util.Locale
@@ -134,11 +130,22 @@ class AddFuelFragment : BaseFragment() {
         val kmMeter = binding.etKiloMeter.text.toString()
         val description = binding.etDescription.text.toString()
         val validationResult = expensesViewModel.validateFuelVoucherInput(
-            driverName,vehicleNo,petrolType,pumpName,pumpLocation,petrolFilled,amount,mpesaNo,startMeter,endMeter,description,kmMeter
+            driverName,
+            vehicleNo,
+            petrolType,
+            pumpName,
+            pumpLocation,
+            petrolFilled,
+            amount,
+            mpesaNo,
+            startMeter,
+            endMeter,
+            description,
+            kmMeter
         )
         if (validationResult.first) {
             val requestBody = CreateFuelExpenseRequest(
-              type = "fuel_voucher",
+                type = "fuel_voucher",
                 fuel_voucher_details = FuelVoucherDetails(
                     amount.toString(), driverName, petrolFilled,
                     fuel_pump_location = FuelPumpLocation(
@@ -187,7 +194,7 @@ class AddFuelFragment : BaseFragment() {
                             requireContext(),
                             "Success!", "Expense has been created successfully",
                             onConfirm = {
-                                goBack()
+                                navigateClear(R.id.action_addFuelExpensesFragment_to_expensesFragment)
                             })
                     }
 

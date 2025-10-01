@@ -14,6 +14,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
+            android:paddingBottom="@dimen/_5ssp"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -667,7 +668,7 @@
                     style="@style/CustomMaterialButton"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_marginVertical="@dimen/_16sdp"
+                    android:layout_marginVertical="@dimen/_18sdp"
                     android:letterSpacing="-0.02"
                     android:text="Submit"
                     android:textAllCaps="false"

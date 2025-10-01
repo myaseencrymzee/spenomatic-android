@@ -158,64 +158,72 @@ class AddScheduleFragment : BaseFragment() {
         try {
             // Function to load more data
             fun loadMoreData() {
-                if (dropDownAdapterClient.itemCount >= 10) { // ✅ Only call API when more than 10 items
+                if (dropDownAdapterClient.itemCount >= 10) {
                     fetchPaginatedData(currentPage, perPage)
                 }
             }
 
             binding.ivDropDownGender.rotation = 180f
 
-            val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
-            val popUp = PopupWindow(
-                dialogView,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                false
-            ).apply {
-                isTouchable = true
-                isFocusable = true
-                isOutsideTouchable = true
-                showAsDropDown(binding.layoutSelectLocation, 0, 0)
-                setOnDismissListener {
-                    binding.ivDropDownGender.rotation = 0f
-                }
-            }
+            // Ensure the anchor view (layoutSelectLocation) has been measured
+            binding.layoutSelectLocation.post {
+                val anchorView = binding.layoutSelectLocation
+                val width = anchorView.width  // ✅ exact width of anchor
 
-            val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
-            rvItems.layoutManager = LinearLayoutManager(requireContext())
-            rvItems.adapter = dropDownAdapterClient // ✅ Use pre-initialized adapter
+                // Inflate popup layout
+                val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
 
-            loadMoreData() // ✅ Load first batch
-
-            rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                    val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-                    val totalItems = layoutManager.itemCount
-
-                    // ✅ Check if total items > 10 before calling API
-                    if (totalItems > 10 && lastVisibleItem >= totalItems - 1) {
-                        loadMoreData()
+                val popUp = PopupWindow(
+                    dialogView,
+                    width,  // ✅ Same width as layoutSelectLocation
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    true
+                ).apply {
+                    isTouchable = true
+                    isFocusable = true
+                    isOutsideTouchable = true
+                    showAsDropDown(anchorView, 0, 0)
+                    setOnDismissListener {
+                        binding.ivDropDownGender.rotation = 0f
                     }
                 }
-            })
 
-            dropDownAdapterClient.getClientType {
-                binding.tvLocation.text = it.fullname
-                popUp.dismiss()
+                val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                rvItems.layoutManager = LinearLayoutManager(requireContext())
+                rvItems.adapter = dropDownAdapterClient
+
+                loadMoreData() // ✅ Load first batch
+
+                rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+
+                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                        val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+                        val totalItems = layoutManager.itemCount
+
+                        if (totalItems > 10 && lastVisibleItem >= totalItems - 1) {
+                            loadMoreData()
+                        }
+                    }
+                })
+
+                // ✅ Item click handlers
+                dropDownAdapterClient.getClientType {
+                    binding.tvLocation.text = it.fullname
+                    popUp.dismiss()
+                }
+
+                dropDownAdapterClient.getCategoryId {
+                    clientId = it.id
+                    popUp.dismiss()
+                }
             }
-
-            dropDownAdapterClient.getCategoryId {
-                clientId = it.id
-                popUp.dismiss()
-            }
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
 
     private fun fetchPaginatedData(page: Int, size: Int) {
         customersViewModel.page = page

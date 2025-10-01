@@ -175,7 +175,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_transport"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginVertical="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_6sdp"
                     android:orientation="vertical"
@@ -205,7 +205,7 @@
                     android:textColor="@color/black_1717"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/rv_transport" />
+                    app:layout_constraintTop_toBottomOf="@id/label_no_transport_data" />
 
                 <TextView
                     android:id="@+id/label_no_miscellaneous_data"
@@ -226,7 +226,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_miscellaneous"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginVertical="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -57,7 +57,7 @@ class AddOthersFragment : BaseFragment() {
                     showErrorPopup(requireContext(), "", "Amount must be at least 1")
                 } else {
                     val body = OtherExpensesRequest(
-                        price.toInt(), description
+                        price, description
                     )
                     addOtherExpense(body)
                 }
@@ -89,7 +89,7 @@ class AddOthersFragment : BaseFragment() {
                             requireContext(),
                             "Success!", "Expense has been created successfully",
                             onConfirm = {
-                                goBack()
+                                navigateClear(R.id.action_addOthersFragment_to_expensesFragment)
                             })
                     }
 

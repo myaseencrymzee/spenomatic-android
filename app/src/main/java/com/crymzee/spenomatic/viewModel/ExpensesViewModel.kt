@@ -20,6 +20,8 @@ import com.crymzee.spenomatic.repository.LeavesRepository
 import com.crymzee.spenomatic.state.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -93,6 +95,59 @@ class ExpensesViewModel @Inject constructor(private val expensesRepository: Expe
     }
 
 
+    fun validateLodgingInput(
+        fromDate: String,
+        toDate: String,
+        nights: String,
+        nightAmount: String,
+        amount: String
+    ): Pair<Boolean, Int> {
+        return when {
+            fromDate.isEmpty() -> Pair(false, R.string.error_select_date)
+            toDate.isEmpty() -> Pair(false, R.string.error_select_date)
+            nights.isEmpty() -> Pair(false, R.string.error_enter_nights)
+            nightAmount.isEmpty() -> Pair(false, R.string.error_enter_amount)
+            amount.isEmpty() -> Pair(false, R.string.error_enter_total)
+
+            else -> {
+                val sdf = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                try {
+                    val from = sdf.parse(fromDate)
+                    val to = sdf.parse(toDate)
+
+                    if (from != null && to != null && !from.before(to)) {
+                        // ❌ Invalid if from == to OR from > to
+                        Pair(false, R.string.error_invalid_date_range)
+                    } else {
+                        Pair(true, R.string.empty_string)
+                    }
+                } catch (e: Exception) {
+                    Pair(true, R.string.empty_string)
+                }
+            }
+        }
+    }
+
+
+
+
+    fun validateBusTrainExpenseInput(
+        date: String,
+        time: String,
+        amount: String
+    ): Pair<Boolean, Int> {
+        return when {
+            date.isEmpty() -> Pair(false, R.string.error_select_date)        // Date required
+            time.isEmpty() -> Pair(false, R.string.error_select_time)        // Time required
+            amount.isEmpty() -> Pair(false, R.string.error_enter_amount)     // Amount required
+            amount.toDoubleOrNull()?.let { it <= 0 } == true ->
+                Pair(false, R.string.error_invalid_amount)                   // Amount > 0
+            else -> Pair(true, R.string.empty_string)
+        }
+    }
+
+
+
     fun validateMiscellaneousInput(
         fromM: String,
         toM: String,
@@ -109,6 +164,21 @@ class ExpensesViewModel @Inject constructor(private val expensesRepository: Expe
             else -> Pair(true, R.string.empty_string)
         }
     }
+
+    fun validateAllowanceInput(
+        allowanceType: String,
+        amount: String,
+        description: String
+    ): Pair<Boolean, Int> {
+        return when {
+            allowanceType.isEmpty() -> Pair(false, R.string.error_enter_allowance) // Type required
+            amount.isEmpty() -> Pair(false, R.string.error_enter_amount) // Amount required
+            amount.toDoubleOrNull()?.let { it <= 0 } == true -> Pair(false, R.string.error_invalid_amount) // Must be > 0
+            description.isEmpty() -> Pair(false, R.string.error_enter_description) // Description required
+            else -> Pair(true, R.string.empty_string)
+        }
+    }
+
 
     fun validateFuelVoucherInput(
         driverName: String?,

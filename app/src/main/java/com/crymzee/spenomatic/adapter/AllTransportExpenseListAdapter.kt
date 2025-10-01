@@ -11,7 +11,6 @@ import com.crymzee.spenomatic.model.request.createLocalExpense.TransportExpense
 
 class AllTransportExpenseListAdapter(
     private val list: MutableList<TransportExpense>,
-    private val onViewDetailClick: (String) -> Unit
 ) : RecyclerView.Adapter<AllTransportExpenseListAdapter.FriendViewHolder>() {
 
     inner class FriendViewHolder(val binding: ItemTransaportExpenseListBinding) :

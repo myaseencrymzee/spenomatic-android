@@ -26,9 +26,6 @@ import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.DialogAddMiscellaneousExpenseBinding
 import com.crymzee.spenomatic.databinding.DialogAddTransportExpenseBinding
 import com.crymzee.spenomatic.databinding.FragmentAddLocalVisitBinding
-import com.crymzee.spenomatic.model.request.createFuelExpense.CreateFuelExpenseRequest
-import com.crymzee.spenomatic.model.request.createFuelExpense.FuelPumpLocation
-import com.crymzee.spenomatic.model.request.createFuelExpense.FuelVoucherDetails
 import com.crymzee.spenomatic.model.request.createLocalExpense.CreateLocalExpenseRequest
 import com.crymzee.spenomatic.model.request.createLocalExpense.Customer
 import com.crymzee.spenomatic.model.request.createLocalExpense.MiscellaneousExpense
@@ -88,13 +85,13 @@ class AddLocalVisitFragment : BaseFragment() {
                 selectCategory()
             }
             btnSave.setOnClickListener {
-                if(userList.isEmpty()){
-                    showErrorPopup(requireContext(),"","Please select a client to visit")
-                }else if(transportExpenseList.isEmpty()){
-                    showErrorPopup(requireContext(),"","Please add transport expense")
-                }else if(miscellaneousListExpense.isEmpty()){
-                    showErrorPopup(requireContext(),"","Please add miscellaneous expense")
-                }else{
+                if (userList.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Please select a client to visit")
+                } else if (transportExpenseList.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Please add transport expense")
+                } else if (miscellaneousListExpense.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Please add miscellaneous expense")
+                } else {
                     val requestBody = CreateLocalExpenseRequest(
                         type = "local_visit",
                         description = "local sales trip",
@@ -156,7 +153,7 @@ class AddLocalVisitFragment : BaseFragment() {
                             requireContext(),
                             "Success!", "Expense has been created successfully",
                             onConfirm = {
-                                goBack()
+                                navigateClear(R.id.action_addLocalVisitFragment_to_expensesFragment)
                             })
                     }
 
@@ -187,9 +184,7 @@ class AddLocalVisitFragment : BaseFragment() {
         }
         binding.rvCustomers.adapter = customerListAdapter
         allMiscellaneousExpenseListAdapter =
-            AllMiscellaneousExpenseListAdapter(miscellaneousListExpense) {
-
-            }
+            AllMiscellaneousExpenseListAdapter(miscellaneousListExpense)
 
         allMiscellaneousExpenseListAdapter.getVisitId { visitId ->
             confirmationPopUp(
@@ -208,9 +203,7 @@ class AddLocalVisitFragment : BaseFragment() {
             )
         }
         binding.rvMiscellaneous.adapter = allMiscellaneousExpenseListAdapter
-        allTransportExpenseListAdapter = AllTransportExpenseListAdapter(transportExpenseList) {
-
-        }
+        allTransportExpenseListAdapter = AllTransportExpenseListAdapter(transportExpenseList)
         allTransportExpenseListAdapter.getVisitId { visitId ->
             confirmationPopUp(
                 requireContext(),
@@ -243,57 +236,67 @@ class AddLocalVisitFragment : BaseFragment() {
 
             binding.ivDropDownGender.rotation = 180f
 
-            val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
-            val popUp = PopupWindow(
-                dialogView,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                false
-            ).apply {
-                isTouchable = true
-                isFocusable = true
-                isOutsideTouchable = true
-                showAsDropDown(binding.layoutSelectLocation, 0, 0)
-                setOnDismissListener {
-                    binding.ivDropDownGender.rotation = 0f
-                }
-            }
+            // Ensure anchor view is measured before using its width
+            binding.layoutSelectLocation.post {
+                val anchorView = binding.layoutSelectLocation
+                val width = anchorView.width // get exact width of selectLocation
 
-            val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
-            rvItems.layoutManager = LinearLayoutManager(requireContext())
-            rvItems.adapter = dropDownAdapterClient
+                // Inflate popup layout
+                val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
 
-            loadMoreData() // load first batch
-
-            rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                    val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-                    val totalItems = layoutManager.itemCount
-
-                    if (totalItems > 10 && lastVisibleItem >= totalItems - 1) {
-                        loadMoreData()
+                val popUp = PopupWindow(
+                    dialogView,
+                    width,  // same width as layoutSelectLocation
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    true
+                ).apply {
+                    isTouchable = true
+                    isFocusable = true
+                    isOutsideTouchable = true
+                    showAsDropDown(anchorView, 0, 0) // show dropdown below
+                    setOnDismissListener {
+                        binding.ivDropDownGender.rotation = 0f
                     }
                 }
-            })
 
-            dropDownAdapterClient.getClientType {
-                val newCustomer = Customer(
-                    customer = it.id,
-                    objective = "",
-                    name = it.fullname,
-                    email = it.address
-                )
-                userList.add(newCustomer)
+                // RecyclerView setup
+                val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                rvItems.layoutManager = LinearLayoutManager(requireContext())
+                rvItems.adapter = dropDownAdapterClient
 
-                customerListAdapter.notifyItemInserted(userList.size - 1)
-                binding.rvCustomers.scrollToPosition(userList.size - 1)
+                loadMoreData() // load first batch
 
-                popUp.dismiss()
+                // Pagination on scroll
+                rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+
+                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                        val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+                        val totalItems = layoutManager.itemCount
+
+                        if (totalItems > 10 && lastVisibleItem >= totalItems - 1) {
+                            loadMoreData()
+                        }
+                    }
+                })
+
+                // Handle item selection
+                dropDownAdapterClient.getClientType {
+                    val newCustomer = Customer(
+                        customer = it.id,
+                        objective = "",
+                        name = it.fullname,
+                        email = it.address
+                    )
+
+                    userList.add(newCustomer)
+                    customerListAdapter.notifyItemInserted(userList.size - 1)
+                    binding.rvCustomers.scrollToPosition(userList.size - 1)
+
+                    popUp.dismiss()
+                }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -359,8 +362,8 @@ class AddLocalVisitFragment : BaseFragment() {
                     val validationResult = expensesViewModel.validateUserInput(from, to, amount)
 
                     if (validationResult.first) {
-                        val amountValue = amount.toIntOrNull()
-                        if (amountValue == null || amountValue <= 0) {
+                        val amountValue = amount
+                        if (amountValue == null || amountValue <= "0.0") {
                             showErrorPopup(requireContext(), "", "Please enter a valid amount")
                             return@postDelayed
                         }
@@ -425,8 +428,8 @@ class AddLocalVisitFragment : BaseFragment() {
                         expensesViewModel.validateMiscellaneousInput(from, to, amount)
 
                     if (validationResult.first) {
-                        val amountValue = amount.toIntOrNull()
-                        if (amountValue == null || amountValue <= 0) {
+                        val amountValue = amount
+                        if (amountValue == null || amountValue <= "0.0") {
                             showErrorPopup(requireContext(), "", "Please enter a valid amount")
                             return@postDelayed
                         }
