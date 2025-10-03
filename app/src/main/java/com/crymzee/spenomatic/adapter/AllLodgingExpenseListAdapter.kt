@@ -40,8 +40,10 @@ class AllLodgingExpenseListAdapter(
     @SuppressLint("SimpleDateFormat")
     fun formatRangeDate(fromDate: String, toDate: String): String {
         return try {
-            val inputFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()) // Incoming: Oct 1, 2025
-            val outputFormat = SimpleDateFormat("MMM d", Locale.getDefault())      // Desired: Oct 1
+            // Incoming format: 2025-10-03
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            // Desired format: Oct 3
+            val outputFormat = SimpleDateFormat("MMM d", Locale.getDefault())
 
             val from = inputFormat.parse(fromDate)
             val to = inputFormat.parse(toDate)
@@ -55,6 +57,7 @@ class AllLodgingExpenseListAdapter(
             "$fromDate - $toDate"
         }
     }
+
 
 
     private var visitId: ((String) -> Unit)? = null

@@ -14,17 +14,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.crymzee.spenomatic.R
+import com.crymzee.spenomatic.adapter.AddServiceDropDownAdapter
 import com.crymzee.spenomatic.adapter.AllAllowanceExpenseListAdapter
 import com.crymzee.spenomatic.adapter.AllBusesTrainExpenseListAdapter
 import com.crymzee.spenomatic.adapter.AllLodgingExpenseListAdapter
 import com.crymzee.spenomatic.adapter.AllMiscellaneousExpenseListAdapter
 import com.crymzee.spenomatic.adapter.AllTransportExpenseListAdapter
-import com.crymzee.spenomatic.adapter.DropDownAdapterClient
+import com.crymzee.spenomatic.adapter.DropDownVisitAdapterClient
 import com.crymzee.spenomatic.adapter.OutCityCustomerVisitListAdapter
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.DialogAddAllowanceExpenseBinding
@@ -34,13 +37,16 @@ import com.crymzee.spenomatic.databinding.DialogAddMiscellaneousExpenseBinding
 import com.crymzee.spenomatic.databinding.DialogAddTransportExpenseBinding
 import com.crymzee.spenomatic.databinding.DialogAddUserBinding
 import com.crymzee.spenomatic.databinding.FragmentAddOutCityVisitBinding
-import com.crymzee.spenomatic.model.request.createLocalExpense.CreateLocalExpenseRequest
-import com.crymzee.spenomatic.model.request.createLocalExpense.Customer
+import com.crymzee.spenomatic.model.DropDownClientType
+import com.crymzee.spenomatic.model.request.VisitModelRequest
 import com.crymzee.spenomatic.model.request.createLocalExpense.MiscellaneousExpense
 import com.crymzee.spenomatic.model.request.createLocalExpense.TransportExpense
 import com.crymzee.spenomatic.model.request.createOutsideExpense.BusTrainExpense
+import com.crymzee.spenomatic.model.request.createOutsideExpense.CreateOutsideExpenseRequest
 import com.crymzee.spenomatic.model.request.createOutsideExpense.LodgingBoardingExpense
 import com.crymzee.spenomatic.model.request.createOutsideExpense.TravelAllowance
+import com.crymzee.spenomatic.model.request.createOutsideExpense.Visit
+import com.crymzee.spenomatic.model.request.pendingVisits.Data
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.confirmationPopUp
@@ -56,7 +62,9 @@ import java.util.Locale
 
 class AddOutCityVisitFragment : BaseFragment() {
     private lateinit var binding: FragmentAddOutCityVisitBinding
-    private lateinit var dropDownAdapterClient: DropDownAdapterClient
+    private lateinit var addServiceDropDownAdapter: AddServiceDropDownAdapter
+
+    private lateinit var dropDownAdapterClient: DropDownVisitAdapterClient
     private lateinit var allMiscellaneousExpenseListAdapter: AllMiscellaneousExpenseListAdapter
     private lateinit var allTransportExpenseListAdapter: AllTransportExpenseListAdapter
     private lateinit var allAllowanceExpenseListAdapter: AllAllowanceExpenseListAdapter
@@ -64,7 +72,7 @@ class AddOutCityVisitFragment : BaseFragment() {
     private lateinit var allLodgingExpenseListAdapter: AllLodgingExpenseListAdapter
     private lateinit var outCityCustomerVisitListAdapter: OutCityCustomerVisitListAdapter
     private var activeDialog: AlertDialog? = null  // Keep track of the active dialog
-    val userList: MutableList<Customer> = mutableListOf()
+    val userList: MutableList<VisitModelRequest> = mutableListOf()
     val miscellaneousListExpense: MutableList<MiscellaneousExpense> = mutableListOf()
     val transportExpenseList: MutableList<TransportExpense> = mutableListOf()
     val lodgingExpenseList: MutableList<LodgingBoardingExpense> = mutableListOf()
@@ -73,10 +81,11 @@ class AddOutCityVisitFragment : BaseFragment() {
     private var dialogueAddUser: DialogAddUserBinding? = null
     private val customersViewModel: CustomersViewModel by activityViewModels()
     private val expensesViewModel: ExpensesViewModel by activityViewModels()
-
+    private var fromDate: String? = null
+    private var toDate: String? = null
     // At top of your Fragment class
-    private var selectedCustomer: Customer? = null
-
+    private var selectedCustomer: Data? = null
+    private var objective = ""
     var currentPage = 1
     var perPage = 10
     override fun onCreateView(
@@ -106,11 +115,13 @@ class AddOutCityVisitFragment : BaseFragment() {
         toggleEmptyStateBusTime()
         toggleEmptyStateLodging()
         toggleEmptyStateAllowance()
-        dropDownAdapterClient = DropDownAdapterClient(requireContext())
+        dropDownAdapterClient = DropDownVisitAdapterClient(requireContext())
         fetchPaginatedData(currentPage, perPage)
         binding.apply {
             ivBack.setOnClickListener { goBack() }
-            ivAddUser.setOnClickListener { addUserList() }
+            layoutSelectLocation.setOnClickListener {
+                selectCategory()
+            }
             ivAddTransport.setOnClickListener { addTransportExpenses() }
             ivAddBusTrain.setOnClickListener { addBusTrainExpenses() }
             ivAddAllowance.setOnClickListener { addAllowanceExpenses() }
@@ -120,28 +131,70 @@ class AddOutCityVisitFragment : BaseFragment() {
             btnSave.setOnClickListener {
                 if (userList.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please select a client to visit")
+                }else if (objective.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Objective field must not be empty")
                 } else if (transportExpenseList.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please add transport expense")
                 } else if (lodgingExpenseList.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please add lodging expense")
-                }else if (busTimingExpenseList.isEmpty()) {
+                } else if (busTimingExpenseList.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please add bus/train expense")
                 } else if (allowanceExpenseList.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please add allowance expense")
-                }else if (miscellaneousListExpense.isEmpty()) {
+                } else if (miscellaneousListExpense.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please add miscellaneous expense")
                 } else {
-                    showSuccessPopup(
-                        requireContext(),
-                        "Success!", "Expense has been created successfully",
-                        onConfirm = {
-                            goBack()
-                        })
+                    val requestBody = CreateOutsideExpenseRequest(
+                        description = "Outstation sales trip to meet clients",
+                        type = "outstation_sales",
+                        visits = listOf(
+                            Visit(
+                                bus_train_expenses = busTimingExpenseList,
+                                lodging_boarding_expenses = lodgingExpenseList,
+                                miscellaneous_expenses = miscellaneousListExpense,
+                                objective = objective,
+                                travel_allowances = allowanceExpenseList,
+                                transport_expenses = transportExpenseList,
+                                visit = userList.firstOrNull()?.id ?: 0
+                            )
+                        )
+                    )
+                    addOutStationExpense(requestBody)
                 }
             }
         }
     }
+    private fun addOutStationExpense(model: CreateOutsideExpenseRequest) {
+        expensesViewModel.createOutsideExpenses(model)
+            .observe(viewLifecycleOwner) { response ->
+                binding.loader.isVisible = response is Resource.Loading<*>
 
+                when (response) {
+
+                    is Resource.Error -> {
+                        val errorMessage = extractFirstErrorMessage(response.throwable)
+                        SpenoMaticLogger.logErrorMsg("Error", errorMessage.description)
+                        showErrorPopup(
+                            requireContext(),
+                            heading = errorMessage.heading,
+                            description = errorMessage.description
+                        )
+
+                    }
+
+                    is Resource.Success -> {
+                        showSuccessPopup(
+                            requireContext(),
+                            "Success!", "Expense has been created successfully",
+                            onConfirm = {
+                                navigateClear(R.id.action_addOutCityVisitFragment_to_expensesFragment)
+                            })
+                    }
+
+                    is Resource.Loading<*> -> {}
+                }
+            }
+    }
     private fun setupAdapters() {
 
         outCityCustomerVisitListAdapter = OutCityCustomerVisitListAdapter(userList)
@@ -155,11 +208,14 @@ class AddOutCityVisitFragment : BaseFragment() {
                     // ✅ Remove from adapter
                     outCityCustomerVisitListAdapter.deleteAction(visitId)
 
-                    // ✅ Keep ViewModel list in sync
+                    //✅ Keep ViewModel list in sync
                     userList.removeIf { it.name == visitId }
                     toggleEmptyStateClient()
                 }
             )
+        }
+        outCityCustomerVisitListAdapter.getTypeObject { typedObjective ->
+            objective = typedObjective
         }
         binding.rvCustomers.adapter = outCityCustomerVisitListAdapter
         allMiscellaneousExpenseListAdapter =
@@ -272,10 +328,9 @@ class AddOutCityVisitFragment : BaseFragment() {
 
     private fun toggleEmptyStateClient() {
         if (userList.isEmpty()) {
-            binding.labelNoUserData.visibility = View.VISIBLE
+
             binding.rvCustomers.visibility = View.GONE
         } else {
-            binding.labelNoUserData.visibility = View.GONE
             binding.rvCustomers.visibility = View.VISIBLE
         }
     }
@@ -384,65 +439,6 @@ class AddOutCityVisitFragment : BaseFragment() {
         }
     }
 
-    fun addUserList() {
-        try {
-            activeDialog?.dismiss()
-
-            // Always create a new binding
-            val dialogueAddUser = DialogAddUserBinding.inflate(LayoutInflater.from(context))
-
-            val alertDialog = AlertDialog.Builder(context).create()
-            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            activeDialog = alertDialog
-
-            // Cancel button
-            dialogueAddUser.ivCancel.setOnClickListener {
-                alertDialog.dismiss()
-                activeDialog = null
-            }
-
-            // DropDown click
-            dialogueAddUser.layoutSelectLocation.setOnClickListener {
-                selectCategory(dialogueAddUser)
-            }
-
-            // Add button
-            dialogueAddUser.btnAdd.setOnClickListener {
-                val description = dialogueAddUser.etDescription.text.toString()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    if (selectedCustomer == null) {
-                        showErrorPopup(requireContext(), "", "Please select client")
-                    } else if (description.isEmpty()) {
-                        showErrorPopup(requireContext(), "", "Please enter objective with client")
-                    } else {
-                        val newCustomer = Customer(
-                            customer = selectedCustomer?.customer ?: 0,
-                            objective = description,
-                            name = selectedCustomer?.name ?: "",
-                            email = selectedCustomer?.email ?: ""
-                        )
-
-                        userList.add(newCustomer)
-                        outCityCustomerVisitListAdapter.notifyItemInserted(userList.size - 1)
-                        binding.rvCustomers.scrollToPosition(userList.size - 1)
-                        selectedCustomer = null
-                        toggleEmptyStateClient()
-                        alertDialog.dismiss()
-                        activeDialog = null
-                    }
-                }, 300)
-            }
-
-            alertDialog.setView(dialogueAddUser.root)
-            alertDialog.setCancelable(false)
-            alertDialog.show()
-
-        } catch (e: Exception) {
-            Log.e("CustomDialog", "Error showing dialog: $e")
-        }
-    }
-
-
 
     fun addAllowanceExpenses() {
         try {
@@ -464,10 +460,14 @@ class AddOutCityVisitFragment : BaseFragment() {
                 alertDialog.dismiss()
                 activeDialog = null
             }
+            // OK button with slight delay before invoking the callback
+            dialogueAllowance.layoutSelectLocation.setOnClickListener {
+                selectType(dialogueAllowance)
+            }
 
             dialogueAllowance.btnAdd.setOnClickListener {
                 Handler(Looper.getMainLooper()).postDelayed({
-                    val type = dialogueAllowance.etAllowance.text.toString().trim()
+                    val type = dialogueAllowance.tvLocation.text.toString().trim().toLowerCase()
                     val description = dialogueAllowance.etDescription.text.toString().trim()
                     val amount = dialogueAllowance.etEmail.text.toString().trim()
 
@@ -504,8 +504,57 @@ class AddOutCityVisitFragment : BaseFragment() {
             Log.e("CustomDialog", "Error showing dialog: $e")
         }
     }
+    private fun selectType(dialogueAllowance: DialogAddAllowanceExpenseBinding) {
+        try {
+            val itemList = mutableListOf<DropDownClientType>().apply {
+                add(DropDownClientType("Day", "1"))
+                add(DropDownClientType("Night", "2"))
+            }
 
-    private fun selectCategory(dialogueAddUser: DialogAddUserBinding) {
+            dialogueAllowance.ivDropDownGender.rotation = 180f
+
+            // Ensure the anchor view is measured before using its width
+            dialogueAllowance.layoutSelectGender.post {
+                val anchorView = dialogueAllowance.layoutSelectGender
+                val width = anchorView.width // get exact width of layoutSelectGender
+
+                // Inflate popup layout
+                val dialogView = View.inflate(context, R.layout.layout_drop_down_new, null)
+
+                val popUp = PopupWindow(
+                    dialogView,
+                    width,  // same width as layoutSelectGender
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    true
+                ).apply {
+                    isTouchable = true
+                    isFocusable = true
+                    isOutsideTouchable = true
+                    showAsDropDown(anchorView, 0, 0) // show dropdown below
+                    setOnDismissListener {
+                        dialogueAllowance.ivDropDownGender.rotation = 0f
+                    }
+                }
+
+                // RecyclerView setup
+                val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                addServiceDropDownAdapter = AddServiceDropDownAdapter(requireContext())
+                rvItems.layoutManager = LinearLayoutManager(requireContext())
+                rvItems.adapter = addServiceDropDownAdapter
+                addServiceDropDownAdapter.addAll(itemList)
+
+                // Handle item selection
+                addServiceDropDownAdapter.getClientType { selected ->
+                    dialogueAllowance.tvLocation.text = selected
+                    popUp.dismiss()
+                }
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    private fun selectCategory() {
         try {
             // Function to load more data
             fun loadMoreData() {
@@ -514,41 +563,49 @@ class AddOutCityVisitFragment : BaseFragment() {
                 }
             }
 
-            // Rotate dropdown icon
-            dialogueAddUser.ivDropDownGender.rotation = 180f
+            binding.ivDropDownGender.rotation = 180f
 
-            // Wait until layoutSelectLocation has a width
-            dialogueAddUser.layoutSelectLocation.post {
-                val anchorView = dialogueAddUser.layoutSelectLocation
-                val width = anchorView.width  // exact width of selectLocation layout
+            // Ensure anchor view is measured before using its width
+            binding.layoutSelectLocation.post {
+                val anchorView = binding.layoutSelectLocation
+                val width = anchorView.width // get exact width of selectLocation
 
                 // Inflate popup layout
                 val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
 
                 val popUp = PopupWindow(
                     dialogView,
-                    width, // make popup same width as anchor view
+                    width,  // same width as layoutSelectLocation
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     true
                 ).apply {
                     isTouchable = true
                     isFocusable = true
                     isOutsideTouchable = true
-                    showAsDropDown(anchorView, 0, 0) // show below anchor view
+                    showAsDropDown(anchorView, 0, 0) // show dropdown below
                     setOnDismissListener {
-                        dialogueAddUser.ivDropDownGender.rotation = 0f
+                        binding.ivDropDownGender.rotation = 0f
                     }
                 }
 
-                // RecyclerView setup inside popup
+                // RecyclerView + Empty State
                 val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                val tvEmpty: TextView = dialogView.findViewById(R.id.tv_empty)
+
                 rvItems.layoutManager = LinearLayoutManager(requireContext())
                 rvItems.adapter = dropDownAdapterClient
 
-                // Load first batch
-                loadMoreData()
+                // Show empty state if no items
+                if (dropDownAdapterClient.itemCount == 0) {
+                    rvItems.visibility = View.GONE
+                    tvEmpty.visibility = View.VISIBLE
+                } else {
+                    rvItems.visibility = View.VISIBLE
+                    tvEmpty.visibility = View.GONE
+                    loadMoreData() // load first batch
+                }
 
-                // Add scroll listener for pagination
+                // Pagination on scroll
                 rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
@@ -564,32 +621,47 @@ class AddOutCityVisitFragment : BaseFragment() {
                 })
 
                 // Handle item selection
-                dropDownAdapterClient.getClientType {
-                    selectedCustomer = Customer(
-                        customer = it.id,
-                        objective = dialogueAddUser.etDescription.text.toString(),
-                        name = it.fullname,
-                        email = it.address
-                    )
-                    dialogueAddUser.tvLocation.text = selectedCustomer?.name
+                dropDownAdapterClient.getClientType { data ->
+                    val exists = userList.any { it.id == data.id }
 
+                    if (!exists) {
+                        // Clear existing list
+                        userList.clear()
+                        outCityCustomerVisitListAdapter.notifyDataSetChanged()
+
+                        val dataModel = VisitModelRequest(
+                            id = data.id,
+                            name = data.customer.fullname,
+                            address = data.customer.address,
+                            objective = "",
+                            remark = data.visit_summary,
+                            date = data.schedule_date,
+                        )
+
+                        // Add new item
+                        objective = ""
+                        userList.add(dataModel)
+                        outCityCustomerVisitListAdapter.notifyItemInserted(0)
+                        binding.rvCustomers.scrollToPosition(0)
+                        toggleEmptyStateClient()
+                    }
 
                     popUp.dismiss()
                 }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
 
+
     private fun fetchPaginatedData(page: Int, size: Int) {
         customersViewModel.page = page
         customersViewModel.perPage = size
-        customersViewModel.getAllCustomersVisit()
-        customersViewModel.getAllCustomersVisitLiveData.removeObservers(viewLifecycleOwner)
-        customersViewModel.getAllCustomersVisitLiveData.observe(viewLifecycleOwner) { response ->
+        customersViewModel.getAllPendingVisits()
+        customersViewModel.getAllPendingVisitLiveData.removeObservers(viewLifecycleOwner)
+        customersViewModel.getAllPendingVisitLiveData.observe(viewLifecycleOwner) { response ->
 
             when (response) {
                 is Resource.Error -> {
@@ -726,14 +798,19 @@ class AddOutCityVisitFragment : BaseFragment() {
 
             val calendar = Calendar.getInstance()
 
-            // Pick From Date
-            dialogueLodge.layoutSelectLocation.setOnClickListener {
+            dialogueLodge.etFrom.setOnClickListener {
                 val datePicker = DatePickerDialog(
                     requireContext(),
                     { _, year, month, dayOfMonth ->
                         calendar.set(year, month, dayOfMonth)
-                        val sdf = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
-                        dialogueLodge.etFrom.text = sdf.format(calendar.time)
+
+                        // For showing in UI (MMM d, yyyy)
+                        val displayFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                        dialogueLodge.etFrom.text = displayFormat.format(calendar.time)
+
+                        // For saving in API format (yyyy-MM-dd)
+                        val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        fromDate = apiFormat.format(calendar.time)
                     },
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
@@ -743,14 +820,20 @@ class AddOutCityVisitFragment : BaseFragment() {
                 datePicker.show()
             }
 
-            // Pick To Date
-            dialogueLodge.layoutSecondName.setOnClickListener {
+// Pick To Date
+            dialogueLodge.etSecondName.setOnClickListener {
                 val datePicker = DatePickerDialog(
                     requireContext(),
                     { _, year, month, dayOfMonth ->
                         calendar.set(year, month, dayOfMonth)
-                        val sdf = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
-                        dialogueLodge.etSecondName.text = sdf.format(calendar.time)
+
+                        // For showing in UI (MMM d, yyyy)
+                        val displayFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                        dialogueLodge.etSecondName.text = displayFormat.format(calendar.time)
+
+                        // For saving in API format (yyyy-MM-dd)
+                        val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        toDate = apiFormat.format(calendar.time)
                     },
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
@@ -768,14 +851,19 @@ class AddOutCityVisitFragment : BaseFragment() {
 
             // Add Button with validation
             dialogueLodge.btnAdd.setOnClickListener {
-                val fromDate = dialogueLodge.etFrom.text.toString().trim()
-                val toDate = dialogueLodge.etSecondName.text.toString().trim()
+
                 val nights = dialogueLodge.etPumpLocation.text.toString().trim()
                 val nightAmount = dialogueLodge.etFilledFuel.text.toString().trim()
                 val amount = dialogueLodge.etAmount.text.toString().trim()
 
                 val validation =
-                    expensesViewModel.validateLodgingInput(fromDate, toDate, nights,nightAmount, amount)
+                    expensesViewModel.validateLodgingInput(
+                        fromDate ?: "",
+                        toDate ?: "",
+                        nights,
+                        nightAmount,
+                        amount
+                    )
                 if (!validation.first) {
                     showErrorPopup(requireContext(), "", getString(validation.second))
                     return@setOnClickListener
@@ -783,7 +871,7 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                 // Add item to list
                 lodgingExpenseList.add(
-                    LodgingBoardingExpense(fromDate,nights,nightAmount,toDate,amount)
+                    LodgingBoardingExpense(fromDate ?: "", nights, nightAmount, toDate ?: "", amount)
                 )
 
                 // Notify adapter & scroll

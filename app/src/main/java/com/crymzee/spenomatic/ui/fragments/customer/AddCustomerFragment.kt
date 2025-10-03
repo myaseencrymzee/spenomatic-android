@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.adapter.AddServiceDropDownAdapter
@@ -225,7 +226,7 @@ class AddCustomerFragment : BaseFragment() {
         customersViewModel.customerName = binding.etCustomerName.text.toString()
         customersViewModel.address = binding.etAddress.text.toString()
         customersViewModel.industryType = binding.etIndustryType.text.toString()
-        customersViewModel.visitFrequency = binding.tvLocation.text.toString()
+        customersViewModel.visitFrequency = binding.tvLocation.text.toString().toLowerCase()
         customersViewModel.noOfVisit = binding.etSecondName.text.toString()
         val validationResult = customersViewModel.validateCustomerInput(
             customersViewModel.customerName,
@@ -357,44 +358,47 @@ class AddCustomerFragment : BaseFragment() {
 
             }
 
-
-
             binding.ivDropDownGender.rotation = 180f
 
-            val dialogView = View.inflate(context, R.layout.layout_drop_down_new, null)
-            val location = IntArray(2)
-            binding.layoutSelectGender.getLocationOnScreen(location)
+            // Ensure the anchor view is measured before using its width
+            binding.layoutSelectGender.post {
+                val anchorView = binding.layoutSelectGender
+                val width = anchorView.width // get exact width of layoutSelectGender
 
-            val popUp = PopupWindow(
-                dialogView,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                false
-            ).apply {
-                isTouchable = true
-                isFocusable = true
-                isOutsideTouchable = true
-                showAsDropDown(binding.layoutSelectGender, 0, 0)
-                setOnDismissListener {
-                    binding.ivDropDownGender.rotation = 0f
+                // Inflate popup layout
+                val dialogView = View.inflate(context, R.layout.layout_drop_down_new, null)
+
+                val popUp = PopupWindow(
+                    dialogView,
+                    width,  // same width as layoutSelectGender
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    true
+                ).apply {
+                    isTouchable = true
+                    isFocusable = true
+                    isOutsideTouchable = true
+                    showAsDropDown(anchorView, 0, 0) // show dropdown below
+                    setOnDismissListener {
+                        binding.ivDropDownGender.rotation = 0f
+                    }
+                }
+
+                // RecyclerView setup
+                val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                addServiceDropDownAdapter = AddServiceDropDownAdapter(requireContext())
+                rvItems.layoutManager = LinearLayoutManager(requireContext())
+                rvItems.adapter = addServiceDropDownAdapter
+                addServiceDropDownAdapter.addAll(itemList)
+
+                // Handle item selection
+                addServiceDropDownAdapter.getClientType {
+                    binding.tvLocation.text = it
+                    popUp.dismiss()
                 }
             }
 
-
-            val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
-            addServiceDropDownAdapter = AddServiceDropDownAdapter(requireContext())
-            rvItems.layoutManager = getLinearLayoutManager()
-            rvItems.adapter = addServiceDropDownAdapter
-            addServiceDropDownAdapter.addAll(itemList)
-
-            addServiceDropDownAdapter.getClientType {
-                binding.tvLocation.text = it
-                popUp.dismiss()
-            }
-
-
         } catch (e: Exception) {
-            // Handle the exception if needed
+            e.printStackTrace()
         }
     }
 

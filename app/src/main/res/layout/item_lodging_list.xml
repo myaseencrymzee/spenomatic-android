@@ -24,7 +24,7 @@
             android:fontFamily="@font/mulish_semi_bold"
             android:maxLines="1"
             android:text="Jul 13 - Jul 16"
-            android:textColor="@color/black_1717"
+            android:textColor="@color/grey_3434"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toStartOf="@id/iv_delete"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,9 +65,9 @@
             android:textSize="@dimen/_11sdp"
             app:layout_constraintTop_toTopOf="@id/tv_nights"
             app:layout_constraintBottom_toBottomOf="@id/tv_nights"
-            app:layout_constraintStart_toEndOf="@id/tv_nights"
-            app:layout_constraintEnd_toStartOf="@id/tv_total"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside" />
+
 
         <!-- Total -->
         <TextView
@@ -76,11 +76,12 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/mulish_semi_bold"
             tools:text="Total: $100"
+            android:layout_marginTop="4dp"
             android:textColor="@color/grey_3434"
             android:textSize="@dimen/_11sdp"
-            app:layout_constraintTop_toTopOf="@id/tv_nights"
-            app:layout_constraintBottom_toBottomOf="@id/tv_nights"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tv_nights"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

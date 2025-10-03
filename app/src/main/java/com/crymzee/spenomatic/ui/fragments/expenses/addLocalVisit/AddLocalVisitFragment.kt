@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
@@ -21,15 +22,17 @@ import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.adapter.AllMiscellaneousExpenseListAdapter
 import com.crymzee.spenomatic.adapter.AllTransportExpenseListAdapter
 import com.crymzee.spenomatic.adapter.CustomerVisitListAdapter
-import com.crymzee.spenomatic.adapter.DropDownAdapterClient
+import com.crymzee.spenomatic.adapter.DropDownVisitAdapterClient
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.DialogAddMiscellaneousExpenseBinding
 import com.crymzee.spenomatic.databinding.DialogAddTransportExpenseBinding
 import com.crymzee.spenomatic.databinding.FragmentAddLocalVisitBinding
+import com.crymzee.spenomatic.model.request.VisitModelRequest
 import com.crymzee.spenomatic.model.request.createLocalExpense.CreateLocalExpenseRequest
-import com.crymzee.spenomatic.model.request.createLocalExpense.Customer
 import com.crymzee.spenomatic.model.request.createLocalExpense.MiscellaneousExpense
 import com.crymzee.spenomatic.model.request.createLocalExpense.TransportExpense
+import com.crymzee.spenomatic.model.request.createLocalExpense.Visit
+import com.crymzee.spenomatic.model.request.pendingVisits.Data
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.confirmationPopUp
@@ -42,12 +45,12 @@ import com.crymzee.spenomatic.viewModel.ExpensesViewModel
 
 class AddLocalVisitFragment : BaseFragment() {
     private lateinit var binding: FragmentAddLocalVisitBinding
-    private lateinit var dropDownAdapterClient: DropDownAdapterClient
+    private lateinit var dropDownAdapterClient: DropDownVisitAdapterClient
     private lateinit var customerListAdapter: CustomerVisitListAdapter
     private lateinit var allMiscellaneousExpenseListAdapter: AllMiscellaneousExpenseListAdapter
     private lateinit var allTransportExpenseListAdapter: AllTransportExpenseListAdapter
     private var activeDialog: AlertDialog? = null  // Keep track of the active dialog
-    val userList: MutableList<Customer> = mutableListOf()
+    val userList: MutableList<VisitModelRequest> = mutableListOf()
     val miscellaneousListExpense: MutableList<MiscellaneousExpense> = mutableListOf()
     val transportExpenseList: MutableList<TransportExpense> = mutableListOf()
     private val customersViewModel: CustomersViewModel by activityViewModels()
@@ -78,7 +81,7 @@ class AddLocalVisitFragment : BaseFragment() {
         setupAdapters()
         toggleEmptyState()
         toggleEmptyState1()
-        dropDownAdapterClient = DropDownAdapterClient(requireContext())
+        dropDownAdapterClient = DropDownVisitAdapterClient(requireContext())
         fetchPaginatedData(currentPage, perPage)
         binding.apply {
             layoutSelectLocation.setOnClickListener {
@@ -95,9 +98,15 @@ class AddLocalVisitFragment : BaseFragment() {
                     val requestBody = CreateLocalExpenseRequest(
                         type = "local_visit",
                         description = "local sales trip",
-                        customers = userList,
-                        transport_expenses = transportExpenseList,
-                        miscellaneous_expenses = miscellaneousListExpense,
+                        visits = listOf(
+                            Visit(
+                                miscellaneous_expenses = miscellaneousListExpense,
+                                objective = "",
+                                transport_expenses = transportExpenseList,
+                                visit = userList.firstOrNull()?.id ?: 0
+
+                            )
+                        )
                     )
                     addLocalExpense(requestBody)
                 }
@@ -177,7 +186,7 @@ class AddLocalVisitFragment : BaseFragment() {
                     customerListAdapter.deleteAction(visitId)
 
                     // ✅ Keep ViewModel list in sync
-                    userList.removeIf { it.name == visitId }
+                    userList.removeIf { it.id == visitId }
                     toggleEmptyState1()
                 }
             )
@@ -239,7 +248,7 @@ class AddLocalVisitFragment : BaseFragment() {
             // Ensure anchor view is measured before using its width
             binding.layoutSelectLocation.post {
                 val anchorView = binding.layoutSelectLocation
-                val width = anchorView.width // get exact width of selectLocation
+                val width = anchorView.width // exact width of the anchor view
 
                 // Inflate popup layout
                 val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
@@ -259,12 +268,22 @@ class AddLocalVisitFragment : BaseFragment() {
                     }
                 }
 
-                // RecyclerView setup
+                // Find views inside popup
                 val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                val tvEmpty: TextView = dialogView.findViewById(R.id.tv_empty)
+
                 rvItems.layoutManager = LinearLayoutManager(requireContext())
                 rvItems.adapter = dropDownAdapterClient
 
-                loadMoreData() // load first batch
+                // Empty state check
+                if (dropDownAdapterClient.itemCount == 0) {
+                    rvItems.visibility = View.GONE
+                    tvEmpty.visibility = View.VISIBLE
+                } else {
+                    rvItems.visibility = View.VISIBLE
+                    tvEmpty.visibility = View.GONE
+                    loadMoreData() // load first batch if list has items
+                }
 
                 // Pagination on scroll
                 rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -282,17 +301,28 @@ class AddLocalVisitFragment : BaseFragment() {
                 })
 
                 // Handle item selection
-                dropDownAdapterClient.getClientType {
-                    val newCustomer = Customer(
-                        customer = it.id,
-                        objective = "",
-                        name = it.fullname,
-                        email = it.address
-                    )
+                dropDownAdapterClient.getClientType { data ->
+                    val exists = userList.any { it.id == data.id }
 
-                    userList.add(newCustomer)
-                    customerListAdapter.notifyItemInserted(userList.size - 1)
-                    binding.rvCustomers.scrollToPosition(userList.size - 1)
+                    if (!exists) {
+                        // Clear existing list
+                        userList.clear()
+                        customerListAdapter.notifyDataSetChanged()
+
+                        val dataModel = VisitModelRequest(
+                            id = data.id,
+                            name = data.customer.fullname,
+                            address = data.customer.address,
+                            objective = "",
+                            remark = data.visit_summary,
+                            date = data.schedule_date,
+                        )
+
+                        // Add new item
+                        userList.add(dataModel)
+                        customerListAdapter.notifyItemInserted(0)
+                        binding.rvCustomers.scrollToPosition(0)
+                    }
 
                     popUp.dismiss()
                 }
@@ -303,12 +333,13 @@ class AddLocalVisitFragment : BaseFragment() {
     }
 
 
+
     private fun fetchPaginatedData(page: Int, size: Int) {
         customersViewModel.page = page
         customersViewModel.perPage = size
-        customersViewModel.getAllCustomersVisit()
-        customersViewModel.getAllCustomersVisitLiveData.removeObservers(viewLifecycleOwner)
-        customersViewModel.getAllCustomersVisitLiveData.observe(viewLifecycleOwner) { response ->
+        customersViewModel.getAllPendingVisits()
+        customersViewModel.getAllPendingVisitLiveData.removeObservers(viewLifecycleOwner)
+        customersViewModel.getAllPendingVisitLiveData.observe(viewLifecycleOwner) { response ->
 
             when (response) {
                 is Resource.Error -> {

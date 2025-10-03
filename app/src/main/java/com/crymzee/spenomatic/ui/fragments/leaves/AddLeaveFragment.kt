@@ -166,54 +166,53 @@ class AddLeaveFragment : BaseFragment() {
             val itemList = mutableListOf<DropDownClientType>().apply {
                 add(DropDownClientType("Full Day", "1"))
                 add(DropDownClientType("Half Day", "2"))
-
             }
-
-
 
             binding.ivDropDownGender.rotation = 180f
 
-            val dialogView = View.inflate(context, R.layout.layout_drop_down_new, null)
-            val location = IntArray(2)
-            binding.layoutSelectGender.getLocationOnScreen(location)
+            // Ensure width matches anchor (layoutSelectGender)
+            binding.layoutSelectGender.post {
+                val anchorView = binding.layoutSelectGender
+                val width = anchorView.width  // ✅ exact width of anchor
 
-            val popUp = PopupWindow(
-                dialogView,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                false
-            ).apply {
-                isTouchable = true
-                isFocusable = true
-                isOutsideTouchable = true
-                showAsDropDown(binding.layoutSelectGender, 0, 0)
-                setOnDismissListener {
-                    binding.ivDropDownGender.rotation = 0f
+                val dialogView = View.inflate(context, R.layout.layout_drop_down_new, null)
+
+                val popUp = PopupWindow(
+                    dialogView,
+                    width,  // ✅ same as layoutSelectGender width
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    false
+                ).apply {
+                    isTouchable = true
+                    isFocusable = true
+                    isOutsideTouchable = true
+                    showAsDropDown(anchorView, 0, 0)
+                    setOnDismissListener {
+                        binding.ivDropDownGender.rotation = 0f
+                    }
+                }
+
+                val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                addServiceDropDownAdapter = AddServiceDropDownAdapter(requireContext())
+                rvItems.layoutManager = getLinearLayoutManager()
+                rvItems.adapter = addServiceDropDownAdapter
+                addServiceDropDownAdapter.addAll(itemList)
+
+                addServiceDropDownAdapter.getClientType {
+                    binding.tvLocation.text = it
+                    type = if (it.equals("Full Day", ignoreCase = true)) {
+                        "full_day"
+                    } else {
+                        "half_day"
+                    }
+                    popUp.dismiss()
                 }
             }
-
-
-            val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
-            addServiceDropDownAdapter = AddServiceDropDownAdapter(requireContext())
-            rvItems.layoutManager = getLinearLayoutManager()
-            rvItems.adapter = addServiceDropDownAdapter
-            addServiceDropDownAdapter.addAll(itemList)
-
-            addServiceDropDownAdapter.getClientType {
-                binding.tvLocation.text = it
-                if (it.equals("Full day")) {
-                    type = "full_day"
-                } else {
-                    type = "half_day"
-                }
-                popUp.dismiss()
-            }
-
-
         } catch (e: Exception) {
-            // Handle the exception if needed
+            e.printStackTrace()
         }
     }
+
 
     private fun checkValidation() {
         val remark = binding.etDescription.text.toString()

@@ -25,7 +25,7 @@
             android:fontFamily="@font/mulish_semi_bold"
             android:maxLines="1"
             android:text="Jul 11, 11:03 PM"
-            android:textColor="@color/black_1717"
+            android:textColor="@color/grey_3434"
 
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toStartOf="@id/iv_delete"
@@ -52,7 +52,7 @@
             android:fontFamily="@font/mulish_bold"
             tools:text="Total: $100"
             android:layout_marginTop="@dimen/_2sdp"
-            android:textColor="@color/black_1717"
+            android:textColor="@color/grey_3434"
             android:textSize="@dimen/_11sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

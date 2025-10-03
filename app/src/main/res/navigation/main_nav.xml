@@ -112,6 +112,9 @@
         android:id="@+id/addOutCityVisitFragment"
         android:name="com.crymzee.spenomatic.ui.fragments.expenses.addOutCityExpense.AddOutCityVisitFragment"
         android:label="addOutCityVisitFragment" >
+        <action
+            android:id="@+id/action_addOutCityVisitFragment_to_expensesFragment"
+            app:destination="@id/expensesFragment" />
     </fragment>
 
     <fragment

@@ -1,45 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <!-- Add your variables here if needed -->
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:orientation="vertical">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Left TextView -->
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:fontFamily="@font/mulish_regular"
+            android:text=""
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/black_1717"
+            android:textSize="@dimen/_11sdp"
+            android:includeFontPadding="false"
+            android:gravity="start"
+            android:layout_marginStart="@dimen/_3sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/layout_divider"
+            app:layout_constraintEnd_toStartOf="@+id/tv_right_text"
+            app:layout_constraintHorizontal_bias="0" />
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:fontFamily="@font/mulish_regular"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text=""
-                android:textColor="@color/black_1717"
-                android:textSize="@dimen/_11sdp" />
+        <!-- Right TextView -->
+        <TextView
+            android:id="@+id/tv_right_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/mulish_semi_bold"
+            android:text=""
+            android:includeFontPadding="false"
+            android:textColor="@color/black_1717"
+            android:textSize="@dimen/_9sdp"
+            android:gravity="end"
+            app:layout_constraintStart_toEndOf="@id/tv_name"
+            android:layout_marginEnd="@dimen/_3sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_name"
+            app:layout_constraintBottom_toBottomOf="@id/tv_name" />
 
-
-        </LinearLayout>
-
-
-        <LinearLayout
+        <!-- Divider -->
+        <View
             android:id="@+id/layout_divider"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:background="@color/grey_e7e7e"
-            android:orientation="horizontal" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

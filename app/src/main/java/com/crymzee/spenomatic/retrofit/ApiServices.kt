@@ -16,6 +16,7 @@ import com.crymzee.spenomatic.model.request.checkInVisit.CheckInVisitRequest
 import com.crymzee.spenomatic.model.request.createFuelExpense.CreateFuelExpenseRequest
 import com.crymzee.spenomatic.model.request.createLocalExpense.CreateLocalExpenseRequest
 import com.crymzee.spenomatic.model.request.createOutsideExpense.CreateOutsideExpenseRequest
+import com.crymzee.spenomatic.model.request.pendingVisits.AllPendingVisitResponse
 import com.crymzee.spenomatic.model.response.ForgotPasswordResponseBody
 import com.crymzee.spenomatic.model.response.RefreshResponseBody
 import com.crymzee.spenomatic.model.response.ResetPasswordResponseBody
@@ -112,6 +113,13 @@ interface ApiServices {
         @Query("page") page: Int,
         @Query("perPage") perPage: Int
     ): AllCustomersResponseBody
+
+    @GET("expenses/pending_visits")
+    suspend fun getAllExpensesVisits(
+        @Query("ordering") ordering: String,
+        @Query("page") page: Int,
+        @Query("perPage") perPage: Int
+    ): AllPendingVisitResponse
 
     @GET("customers/{id}")
     suspend fun getSpecificCustomer(

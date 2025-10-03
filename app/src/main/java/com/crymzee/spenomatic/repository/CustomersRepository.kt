@@ -12,6 +12,14 @@ class CustomersRepository(private val apiServices: ApiServices) {
             apiServices.getAllCustomers("-id",page, perPage)
         }
     )
+
+
+    fun executeGetAllPendingVisit(page: Int, perPage: Int) = networkBoundResource(
+        fetch = {
+            apiServices.getAllExpensesVisits("-id",page, perPage)
+        }
+    )
+
     fun executeAddCustomers( createCustomerRequestBody: CreateCustomerRequestBody) = networkBoundResource(
         fetch = {
             apiServices.addCustomer(createCustomerRequestBody)

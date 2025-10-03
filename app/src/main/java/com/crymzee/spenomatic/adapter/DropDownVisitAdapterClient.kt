@@ -6,13 +6,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.crymzee.spenomatic.R
-import com.crymzee.spenomatic.databinding.ItemVisitDropDownClientBinding
-import com.crymzee.spenomatic.model.response.allCustomers.Data
+import com.crymzee.spenomatic.databinding.ItemDropDownClientBinding
+import com.crymzee.spenomatic.model.request.pendingVisits.Data
 import com.crymzee.spenomatic.utils.hide
 import com.crymzee.spenomatic.utils.visible
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class DropDownAdapterClient(private val context: Context) :
-    RecyclerView.Adapter<DropDownAdapterClient.RecyclerViewHolder>() {
+class DropDownVisitAdapterClient(private val context: Context) :
+    RecyclerView.Adapter<DropDownVisitAdapterClient.RecyclerViewHolder>() {
 
     private var list = mutableListOf<Data>()
     private var clientType: ((Data) -> Unit)? = null
@@ -22,7 +25,7 @@ class DropDownAdapterClient(private val context: Context) :
         RecyclerViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_visit_drop_down_client,
+                R.layout.item_drop_down_client,
                 parent,
                 false
             )
@@ -32,8 +35,12 @@ class DropDownAdapterClient(private val context: Context) :
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         val itemModel = list[position]
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
 
-        holder.binding.tvName.text = itemModel.fullname
+        val parsedDate: Date? = inputFormat.parse(itemModel.schedule_date)
+        holder.binding.tvName.text = itemModel.customer.fullname
+        holder.binding.tvRightText.text = "Visit Schedule: ${parsedDate?.let { outputFormat.format(it) } ?: itemModel.schedule_date}"
 
         // Hide divider for the last item
         if (position == list.size - 1) {
@@ -79,6 +86,6 @@ class DropDownAdapterClient(private val context: Context) :
         categoryId = listener
     }
 
-    class RecyclerViewHolder(val binding: ItemVisitDropDownClientBinding) :
+    class RecyclerViewHolder(val binding: ItemDropDownClientBinding) :
         RecyclerView.ViewHolder(binding.root)
 }

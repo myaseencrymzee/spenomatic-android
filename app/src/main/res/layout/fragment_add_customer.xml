@@ -369,7 +369,7 @@
                         android:focusable="true"
                         android:fontFamily="@font/mulish_medium"
                         android:hint="10"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:maxLength="50"
                         android:maxLines="1"
                         android:paddingVertical="@dimen/_7sdp"

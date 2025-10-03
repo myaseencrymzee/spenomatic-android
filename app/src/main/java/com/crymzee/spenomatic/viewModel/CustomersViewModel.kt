@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.model.request.CreateCustomerRequestBody
+import com.crymzee.spenomatic.model.request.pendingVisits.AllPendingVisitResponse
 import com.crymzee.spenomatic.model.response.allCustomers.AllCustomersResponseBody
 import com.crymzee.spenomatic.model.response.createCustomer.CreateCustomerResponse
 import com.crymzee.spenomatic.model.response.customerDetail.Contact
@@ -48,6 +49,13 @@ class CustomersViewModel @Inject constructor(private val customersRepository: Cu
         _getAllCustomersVisitLiveData
 
 
+
+    private var _getAllPendingVisitLiveData =
+        MutableLiveData<Resource<out AllPendingVisitResponse>>()
+    val getAllPendingVisitLiveData: LiveData<Resource<out AllPendingVisitResponse>> =
+        _getAllPendingVisitLiveData
+
+
     fun getAllCustomers() {
         viewModelScope.launch {
             customersRepository.executeGetAllCustomers(page, perPage).collect {
@@ -61,6 +69,15 @@ class CustomersViewModel @Inject constructor(private val customersRepository: Cu
         viewModelScope.launch {
             customersRepository.executeGetAllCustomers(page, 999999).collect {
                 _getAllCustomersVisitLiveData.postValue(it)
+            }
+        }
+    }
+
+
+    fun getAllPendingVisits() {
+        viewModelScope.launch {
+            customersRepository.executeGetAllPendingVisit(page, 999999).collect {
+                _getAllPendingVisitLiveData.postValue(it)
             }
         }
     }

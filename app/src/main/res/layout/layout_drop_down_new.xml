@@ -9,7 +9,6 @@
     android:orientation="horizontal"
     tools:ignore="RtlSymmetry">
 
-
     <RelativeLayout
         android:id="@+id/multi_select_recycler"
         android:layout_width="0dp"
@@ -22,14 +21,24 @@
         android:paddingEnd="10dp"
         android:paddingBottom="10dp">
 
+        <!-- Empty state text -->
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Client to visit."
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:padding="16dp"
+            android:visibility="gone"/>
 
+        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_year"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"/>
     </RelativeLayout>
-
-
 </LinearLayout>

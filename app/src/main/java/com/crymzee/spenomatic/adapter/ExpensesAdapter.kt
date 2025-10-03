@@ -116,17 +116,14 @@ class ExpensesAdapter(val context: Context) :
         fun bind(item: Data) {
             binding.tvPrice.text = "\$${item.amount}"
 
-            val customerNames = item.customers
-                ?.mapNotNull { it.customer?.fullname }
-                ?.joinToString(", ")
-                ?: "No Customers"
+            val customerNames = item.visits.firstOrNull()?.visit?.customer?.fullname
 
-            val transportLocations = item.transport_expenses
+            val transportLocations = item.visits.firstOrNull()?.transport_expenses
                 ?.mapNotNull { it.to_location }
                 ?.joinToString(", ")
                 ?: "No Locations"
 
-            val miscellaneous = item.miscellaneous_expenses
+            val miscellaneous = item.visits.firstOrNull()?.miscellaneous_expenses
                 ?.mapNotNull { it.objective }
                 ?.joinToString(", ")
                 ?: "No Miscellaneous"
@@ -152,22 +149,19 @@ class ExpensesAdapter(val context: Context) :
         private val outputFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
 
         fun bind(item: Data) {
-            val customerNames = item.customers
-                ?.mapNotNull { it.customer?.fullname }
-                ?.joinToString(", ")
-                ?: "No Customers"
+            val customerNames = item.visits.firstOrNull()?.visit?.customer?.fullname
 
-            val transportLocations = item.transport_expenses
+            val transportLocations = item.visits.firstOrNull()?.transport_expenses
                 ?.mapNotNull { it.to_location }
                 ?.joinToString(", ")
                 ?: "No Locations"
 
-            val miscellaneous = item.miscellaneous_expenses
+            val miscellaneous = item.visits.firstOrNull()?.miscellaneous_expenses
                 ?.mapNotNull { it.objective }
                 ?.joinToString(", ")
                 ?: "No Miscellaneous"
 
-            val lodgingRange = item.lodging_boarding_expenses
+            val lodgingRange = item.visits.firstOrNull()?.lodging_boarding_expenses
                 ?.firstOrNull()
                 ?.let {
                     val from = it.from_date?.let { d: String -> inputFormat.parse(d) }?.let(outputFormat::format)
@@ -175,7 +169,7 @@ class ExpensesAdapter(val context: Context) :
                     if (from != null && to != null) "$from - $to" else null
                 } ?: "No Lodging"
 
-            val busTimings = item.bus_train_expenses
+            val busTimings = item.visits.firstOrNull()?.bus_train_expenses
                 ?.mapNotNull { exp ->
                     val dateTimeString = "${exp.date} ${exp.time}"
                     dateTimeInput.parse(dateTimeString)?.let { parsed ->

@@ -15,12 +15,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.crymzee.spenomatic.R
-import com.crymzee.spenomatic.adapter.AddServiceDropDownAdapter
 import com.crymzee.spenomatic.adapter.DropDownAdapterClient
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.FragmentAddScheduleBinding
 import com.crymzee.spenomatic.model.request.CreateVisitRequestBody
-import com.crymzee.spenomatic.model.response.customerDetail.Data
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
@@ -156,7 +154,6 @@ class AddScheduleFragment : BaseFragment() {
 
     private fun selectCategory() {
         try {
-            // Function to load more data
             fun loadMoreData() {
                 if (dropDownAdapterClient.itemCount >= 10) {
                     fetchPaginatedData(currentPage, perPage)
@@ -165,17 +162,15 @@ class AddScheduleFragment : BaseFragment() {
 
             binding.ivDropDownGender.rotation = 180f
 
-            // Ensure the anchor view (layoutSelectLocation) has been measured
             binding.layoutSelectLocation.post {
                 val anchorView = binding.layoutSelectLocation
-                val width = anchorView.width  // ✅ exact width of anchor
+                val width = anchorView.width
 
-                // Inflate popup layout
                 val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
 
                 val popUp = PopupWindow(
                     dialogView,
-                    width,  // ✅ Same width as layoutSelectLocation
+                    width,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     true
                 ).apply {
@@ -189,10 +184,36 @@ class AddScheduleFragment : BaseFragment() {
                 }
 
                 val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
+                val tvEmpty: TextView = dialogView.findViewById(R.id.tv_empty)
+
                 rvItems.layoutManager = LinearLayoutManager(requireContext())
                 rvItems.adapter = dropDownAdapterClient
 
-                loadMoreData() // ✅ Load first batch
+                // ✅ A helper to toggle empty text dynamically
+                fun toggleEmptyState() {
+                    if (dropDownAdapterClient.itemCount == 0) {
+                        rvItems.visibility = View.GONE
+                        tvEmpty.visibility = View.VISIBLE
+                        tvEmpty.text = "No customer found" // <-- dynamic text here
+                    } else {
+                        rvItems.visibility = View.VISIBLE
+                        tvEmpty.visibility = View.GONE
+                    }
+                }
+
+                // First check immediately
+                toggleEmptyState()
+
+                // ✅ Listen for dataset changes dynamically
+                dropDownAdapterClient.registerAdapterDataObserver(
+                    object : RecyclerView.AdapterDataObserver() {
+                        override fun onChanged() = toggleEmptyState()
+                        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) = toggleEmptyState()
+                        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) = toggleEmptyState()
+                    }
+                )
+
+                loadMoreData() // initial load
 
                 rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -208,7 +229,7 @@ class AddScheduleFragment : BaseFragment() {
                     }
                 })
 
-                // ✅ Item click handlers
+                // Item clicks
                 dropDownAdapterClient.getClientType {
                     binding.tvLocation.text = it.fullname
                     popUp.dismiss()
@@ -223,6 +244,7 @@ class AddScheduleFragment : BaseFragment() {
             e.printStackTrace()
         }
     }
+
 
 
     private fun fetchPaginatedData(page: Int, size: Int) {
@@ -279,7 +301,6 @@ class AddScheduleFragment : BaseFragment() {
         }
 
     }
-
 
 
     private fun createVisit(requestBody: CreateVisitRequestBody) {
