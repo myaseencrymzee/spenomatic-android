@@ -32,7 +32,7 @@ class VisitsViewModel @Inject constructor(private val visitsRepository: VisitsRe
     var page = 1
     var perPage = 10
     var filePathProfile: String? = null
-    var selectedTab = "pending,check_in"
+    var selectedTab = "pending,checked_in"
     var status: String? = null
     var visitSummary: String? = null
     var checkOutTime: String? = null

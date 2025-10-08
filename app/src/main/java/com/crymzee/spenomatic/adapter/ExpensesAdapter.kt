@@ -119,7 +119,7 @@ class ExpensesAdapter(val context: Context) :
             val customerNames = item.visits.firstOrNull()?.visit?.customer?.fullname
 
             val transportLocations = item.visits.firstOrNull()?.transport_expenses
-                ?.mapNotNull { it.to_location }
+                ?.mapNotNull { "${it.from_location} to ${it.to_location} " }
                 ?.joinToString(", ")
                 ?: "No Locations"
 

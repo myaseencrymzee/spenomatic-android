@@ -106,10 +106,6 @@ class VisitFragment : BaseFragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        visitViewModel.getAllVisit( visitViewModel.selectedTab)
-    }
 
     private fun viewInit() {
         initAdapter()
@@ -158,6 +154,7 @@ class VisitFragment : BaseFragment() {
     }
 
     private fun observePublicPosts() {
+        visitViewModel.getAllVisit(visitViewModel.selectedTab)
         visitViewModel.getAllVisitLiveData.removeObservers(viewLifecycleOwner)
         visitViewModel.getAllVisitLiveData.observe(viewLifecycleOwner) { response ->
             binding.loader.isVisible = response is Resource.Loading<*>
@@ -277,6 +274,11 @@ class VisitFragment : BaseFragment() {
                     }
                 }
             }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        visitViewModel.selectedTab = "pending,checked_in"
     }
 
     // ----------- Helpers ------------

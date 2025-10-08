@@ -156,7 +156,7 @@
                 android:fontFamily="@font/mulish_semi_bold"
                 android:includeFontPadding="false"
                 android:maxLines="2"
-                android:text="Today’s Visit"
+                android:text="This week"
                 android:textColor="@color/grey_3434"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintBottom_toTopOf="@id/tv_reviews"

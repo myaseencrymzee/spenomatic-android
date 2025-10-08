@@ -69,7 +69,9 @@ class AddScheduleFragment : BaseFragment() {
 
 
         binding.apply {
-            ivBack.setOnClickListener { goBack() }
+            ivBack.setOnClickListener {
+                navigateClear(R.id.action_addScheduleFragment_to_visitFragment)
+            }
             layoutSelectLocation.setOnClickListener {
                 selectCategory()
             }
@@ -330,7 +332,7 @@ class AddScheduleFragment : BaseFragment() {
                                 requireContext(),
                                 "Success!", "Visit has been schedule successfully",
                                 onConfirm = {
-                                    goBack()
+                                    navigateClear(R.id.action_addScheduleFragment_to_visitFragment)
                                 })
 
                         }

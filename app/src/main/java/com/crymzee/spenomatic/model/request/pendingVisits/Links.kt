@@ -5,6 +5,6 @@ import androidx.annotation.Keep
 
 @Keep
 data class Links(
-    val next: Any?,
-    val previous: Any?
+    val next: String?,
+    val previous: String?
 )

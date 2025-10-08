@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
@@ -56,6 +55,7 @@ import com.crymzee.spenomatic.utils.showErrorPopup
 import com.crymzee.spenomatic.utils.showSuccessPopup
 import com.crymzee.spenomatic.viewModel.CustomersViewModel
 import com.crymzee.spenomatic.viewModel.ExpensesViewModel
+import com.example.flowit.abstracts.PaginationScrollListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -83,9 +83,14 @@ class AddOutCityVisitFragment : BaseFragment() {
     private val expensesViewModel: ExpensesViewModel by activityViewModels()
     private var fromDate: String? = null
     private var toDate: String? = null
-    // At top of your Fragment class
-    private var selectedCustomer: Data? = null
+
+
     private var objective = ""
+    private var visitData: Data? = null
+    private val visitMap = mutableMapOf<Int, Visit>()
+    private var isLastPage: Boolean = false
+    private var isLoading: Boolean = false
+    private val layoutManager by lazy { getLinearLayoutManager() }
     var currentPage = 1
     var perPage = 10
     override fun onCreateView(
@@ -111,17 +116,12 @@ class AddOutCityVisitFragment : BaseFragment() {
         setupAdapters()
         toggleEmptyStateMiscellaneous()
         toggleEmptyTransportState()
-        toggleEmptyStateClient()
         toggleEmptyStateBusTime()
         toggleEmptyStateLodging()
         toggleEmptyStateAllowance()
-        dropDownAdapterClient = DropDownVisitAdapterClient(requireContext())
-        fetchPaginatedData(currentPage, perPage)
+
         binding.apply {
             ivBack.setOnClickListener { goBack() }
-            layoutSelectLocation.setOnClickListener {
-                selectCategory()
-            }
             ivAddTransport.setOnClickListener { addTransportExpenses() }
             ivAddBusTrain.setOnClickListener { addBusTrainExpenses() }
             ivAddAllowance.setOnClickListener { addAllowanceExpenses() }
@@ -131,7 +131,7 @@ class AddOutCityVisitFragment : BaseFragment() {
             btnSave.setOnClickListener {
                 if (userList.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please select a client to visit")
-                }else if (objective.isEmpty()) {
+                } else if (objective.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Objective field must not be empty")
                 } else if (transportExpenseList.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please add transport expense")
@@ -164,6 +164,17 @@ class AddOutCityVisitFragment : BaseFragment() {
             }
         }
     }
+
+    private fun adjustRecyclerHeight() {
+        val params = binding.rvCustomers.layoutParams
+        params.height = if (outCityCustomerVisitListAdapter.itemCount > 3) {
+            resources.getDimensionPixelSize(R.dimen._160sdp) // use 160sdp from dimens
+        } else {
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+        binding.rvCustomers.layoutParams = params
+    }
+
     private fun addOutStationExpense(model: CreateOutsideExpenseRequest) {
         expensesViewModel.createOutsideExpenses(model)
             .observe(viewLifecycleOwner) { response ->
@@ -195,29 +206,102 @@ class AddOutCityVisitFragment : BaseFragment() {
                 }
             }
     }
+
     private fun setupAdapters() {
+        outCityCustomerVisitListAdapter = OutCityCustomerVisitListAdapter(requireContext())
+        binding.rvCustomers.apply {
+            adapter = outCityCustomerVisitListAdapter
+            layoutManager = this@AddOutCityVisitFragment.layoutManager
+            addOnScrollListener(object :
+                PaginationScrollListener(this@AddOutCityVisitFragment.layoutManager, 10) {
+                override fun isLastPage(): Boolean = this@AddOutCityVisitFragment.isLastPage
+                override fun isLoading(): Boolean = this@AddOutCityVisitFragment.isLoading
 
-        outCityCustomerVisitListAdapter = OutCityCustomerVisitListAdapter(userList)
-        outCityCustomerVisitListAdapter.getVisitId { visitId ->
-            confirmationPopUp(
-                requireContext(),
-                heading = "Confirm Deletion",
-                description = "Are you sure you want to delete this item? This action cannot be undone.",
-                icon = R.drawable.ic_delete_item,
-                onConfirm = {
-                    // ✅ Remove from adapter
-                    outCityCustomerVisitListAdapter.deleteAction(visitId)
-
-                    //✅ Keep ViewModel list in sync
-                    userList.removeIf { it.name == visitId }
-                    toggleEmptyStateClient()
+                override fun loadMoreItems() {
+                    if (!isLastPage && !isLoading) {
+                        isLoading = true
+//                        visitViewModel.getAllVisit( visitViewModel.selectedTab)
+                    }
                 }
-            )
+            })
         }
+
+        outCityCustomerVisitListAdapter.setOnItemClick { selectedVisit ->
+            val previousId = visitData?.id
+
+            // ✅ 1. Save previous visit data if exists
+            previousId?.let { prevId ->
+                if (
+                    transportExpenseList.isNotEmpty() ||
+                    miscellaneousListExpense.isNotEmpty() ||
+                    allowanceExpenseList.isNotEmpty() ||
+                    lodgingExpenseList.isNotEmpty() ||
+                    busTimingExpenseList.isNotEmpty() ||
+                    !objective.isNullOrEmpty()
+                ) {
+                    visitMap[prevId] = Visit(
+                        objective = objective,
+                        transport_expenses = transportExpenseList.toList(),
+                        miscellaneous_expenses = miscellaneousListExpense.toList(),
+                        bus_train_expenses = busTimingExpenseList.toList(),
+                        lodging_boarding_expenses = lodgingExpenseList.toList(),
+                        travel_allowances = allowanceExpenseList.toList(),
+                        visit = prevId
+                    )
+                } else {
+                    visitMap.remove(prevId)
+                }
+            }
+
+            // ✅ 2. Switch to new visit
+            visitData = selectedVisit
+
+            // ✅ 3. Clear all UI lists
+            transportExpenseList.clear()
+            miscellaneousListExpense.clear()
+            allowanceExpenseList.clear()
+            lodgingExpenseList.clear()
+            busTimingExpenseList.clear()
+
+            // ✅ 4. Load existing saved data (if available)
+            visitMap[selectedVisit.id]?.let { saved ->
+                objective = saved.objective
+                transportExpenseList.addAll(saved.transport_expenses)
+                miscellaneousListExpense.addAll(saved.miscellaneous_expenses)
+                busTimingExpenseList.addAll(saved.bus_train_expenses ?: emptyList())
+                allowanceExpenseList.addAll(saved.travel_allowances ?: emptyList())
+                lodgingExpenseList.addAll(saved.lodging_boarding_expenses ?: emptyList())
+            } ?: run {
+                objective = ""
+            }
+
+            // ✅ 5. Notify all adapters
+            allTransportExpenseListAdapter.notifyDataSetChanged()
+            allMiscellaneousExpenseListAdapter.notifyDataSetChanged()
+            allBusesTrainExpenseListAdapter.notifyDataSetChanged()
+            allLodgingExpenseListAdapter.notifyDataSetChanged()
+            allAllowanceExpenseListAdapter.notifyDataSetChanged()
+
+            toggleEmptyStateMiscellaneous()
+            toggleEmptyTransportState()
+            toggleEmptyStateBusTime()
+            toggleEmptyStateLodging()
+            toggleEmptyStateAllowance()
+
+            // ✅ 6. Update adapter selection + objective
+            outCityCustomerVisitListAdapter.setSelectedVisit(selectedVisit.id, objective)
+        }
+
+
         outCityCustomerVisitListAdapter.getTypeObject { typedObjective ->
             objective = typedObjective
+            visitData?.id?.let { currentId ->
+                visitMap[currentId]?.let { visit ->
+                    visitMap[currentId] = visit.copy(objective = typedObjective)
+                }
+            }
         }
-        binding.rvCustomers.adapter = outCityCustomerVisitListAdapter
+
         allMiscellaneousExpenseListAdapter =
             AllMiscellaneousExpenseListAdapter(miscellaneousListExpense)
         allMiscellaneousExpenseListAdapter.getVisitId { visitId ->
@@ -232,6 +316,18 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                     // ✅ Keep ViewModel list in sync
                     miscellaneousListExpense.removeIf { it.objective == visitId }
+                    visitData?.id?.let { currentId ->
+                        visitMap[currentId] = Visit(
+                            objective = objective,
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId,
+                            bus_train_expenses = busTimingExpenseList,
+                            lodging_boarding_expenses = lodgingExpenseList,
+                            travel_allowances = allowanceExpenseList
+
+                        )
+                    }
                     toggleEmptyStateMiscellaneous()
                 }
             )
@@ -250,6 +346,18 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                     // ✅ Keep ViewModel list in sync
                     transportExpenseList.removeIf { it.from_location == visitId }
+                    visitData?.id?.let { currentId ->
+                        visitMap[currentId] = Visit(
+                            objective = objective,
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId,
+                            bus_train_expenses = busTimingExpenseList,
+                            lodging_boarding_expenses = lodgingExpenseList,
+                            travel_allowances = allowanceExpenseList
+
+                        )
+                    }
                     toggleEmptyTransportState()
                 }
             )
@@ -270,6 +378,18 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                     // ✅ Keep ViewModel list in sync
                     lodgingExpenseList.removeIf { it.nights_stayed == visitId }
+                    visitData?.id?.let { currentId ->
+                        visitMap[currentId] = Visit(
+                            objective = objective,
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId,
+                            bus_train_expenses = busTimingExpenseList,
+                            lodging_boarding_expenses = lodgingExpenseList,
+                            travel_allowances = allowanceExpenseList
+
+                        )
+                    }
                     toggleEmptyStateLodging()
                 }
             )
@@ -307,6 +427,18 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                     // ✅ Keep ViewModel list in sync
                     busTimingExpenseList.removeIf { it.date == visitId }
+                    visitData?.id?.let { currentId ->
+                        visitMap[currentId] = Visit(
+                            objective = objective,
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId,
+                            bus_train_expenses = busTimingExpenseList,
+                            lodging_boarding_expenses = lodgingExpenseList,
+                            travel_allowances = allowanceExpenseList
+
+                        )
+                    }
                     toggleEmptyStateBusTime()
                 }
             )
@@ -316,6 +448,13 @@ class AddOutCityVisitFragment : BaseFragment() {
 
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fetchPaginatedData()
+    }
+
+
     private fun toggleEmptyTransportState() {
         if (transportExpenseList.isEmpty()) {
             binding.labelNoTransportData.visibility = View.VISIBLE
@@ -323,15 +462,6 @@ class AddOutCityVisitFragment : BaseFragment() {
         } else {
             binding.labelNoTransportData.visibility = View.GONE
             binding.rvTransport.visibility = View.VISIBLE
-        }
-    }
-
-    private fun toggleEmptyStateClient() {
-        if (userList.isEmpty()) {
-
-            binding.rvCustomers.visibility = View.GONE
-        } else {
-            binding.rvCustomers.visibility = View.VISIBLE
         }
     }
 
@@ -504,6 +634,7 @@ class AddOutCityVisitFragment : BaseFragment() {
             Log.e("CustomDialog", "Error showing dialog: $e")
         }
     }
+
     private fun selectType(dialogueAllowance: DialogAddAllowanceExpenseBinding) {
         try {
             val itemList = mutableListOf<DropDownClientType>().apply {
@@ -554,111 +685,9 @@ class AddOutCityVisitFragment : BaseFragment() {
             e.printStackTrace()
         }
     }
-    private fun selectCategory() {
-        try {
-            // Function to load more data
-            fun loadMoreData() {
-                if (dropDownAdapterClient.itemCount >= 10) {
-                    fetchPaginatedData(currentPage, perPage)
-                }
-            }
-
-            binding.ivDropDownGender.rotation = 180f
-
-            // Ensure anchor view is measured before using its width
-            binding.layoutSelectLocation.post {
-                val anchorView = binding.layoutSelectLocation
-                val width = anchorView.width // get exact width of selectLocation
-
-                // Inflate popup layout
-                val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
-
-                val popUp = PopupWindow(
-                    dialogView,
-                    width,  // same width as layoutSelectLocation
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    true
-                ).apply {
-                    isTouchable = true
-                    isFocusable = true
-                    isOutsideTouchable = true
-                    showAsDropDown(anchorView, 0, 0) // show dropdown below
-                    setOnDismissListener {
-                        binding.ivDropDownGender.rotation = 0f
-                    }
-                }
-
-                // RecyclerView + Empty State
-                val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
-                val tvEmpty: TextView = dialogView.findViewById(R.id.tv_empty)
-
-                rvItems.layoutManager = LinearLayoutManager(requireContext())
-                rvItems.adapter = dropDownAdapterClient
-
-                // Show empty state if no items
-                if (dropDownAdapterClient.itemCount == 0) {
-                    rvItems.visibility = View.GONE
-                    tvEmpty.visibility = View.VISIBLE
-                } else {
-                    rvItems.visibility = View.VISIBLE
-                    tvEmpty.visibility = View.GONE
-                    loadMoreData() // load first batch
-                }
-
-                // Pagination on scroll
-                rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
-
-                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                        val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-                        val totalItems = layoutManager.itemCount
-
-                        if (totalItems > 10 && lastVisibleItem >= totalItems - 1) {
-                            loadMoreData()
-                        }
-                    }
-                })
-
-                // Handle item selection
-                dropDownAdapterClient.getClientType { data ->
-                    val exists = userList.any { it.id == data.id }
-
-                    if (!exists) {
-                        // Clear existing list
-                        userList.clear()
-                        outCityCustomerVisitListAdapter.notifyDataSetChanged()
-
-                        val dataModel = VisitModelRequest(
-                            id = data.id,
-                            name = data.customer.fullname,
-                            address = data.customer.address,
-                            objective = "",
-                            remark = data.visit_summary,
-                            date = data.schedule_date,
-                        )
-
-                        // Add new item
-                        objective = ""
-                        userList.add(dataModel)
-                        outCityCustomerVisitListAdapter.notifyItemInserted(0)
-                        binding.rvCustomers.scrollToPosition(0)
-                        toggleEmptyStateClient()
-                    }
-
-                    popUp.dismiss()
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
 
-
-    private fun fetchPaginatedData(page: Int, size: Int) {
-        customersViewModel.page = page
-        customersViewModel.perPage = size
+    private fun fetchPaginatedData() {
         customersViewModel.getAllPendingVisits()
         customersViewModel.getAllPendingVisitLiveData.removeObservers(viewLifecycleOwner)
         customersViewModel.getAllPendingVisitLiveData.observe(viewLifecycleOwner) { response ->
@@ -667,19 +696,64 @@ class AddOutCityVisitFragment : BaseFragment() {
                 is Resource.Error -> {
                     val errorMessage = extractFirstErrorMessage(response.throwable)
                     SpenoMaticLogger.logErrorMsg("Error", errorMessage.description)
-
                 }
 
-                is Resource.Loading -> {}
+                is Resource.Loading -> {
+                    // you can show loader here if needed
+                }
+
                 is Resource.Success -> {
-                    response.data?.let { newItems ->
-                        if (newItems.data.isNotEmpty()) {
-                            dropDownAdapterClient.addMore(newItems.data)
-                            currentPage++
+                    response.data?.let { posts ->
+                        val isFirstPage = expensesViewModel.page == 1
+                        val isEmptyList = posts.data.isEmpty() && isFirstPage
+
+                        if (isFirstPage) {
+                            // ✅ Use new setData (auto-selects first item)
+                            outCityCustomerVisitListAdapter.setData(posts.data)
+                            adjustRecyclerHeight()
+                            if (posts.data.isNotEmpty()) {
+                                visitData = outCityCustomerVisitListAdapter.getSelectedItem()
+
+                                // preload saved expenses if any
+                                transportExpenseList.clear()
+                                miscellaneousListExpense.clear()
+                                allowanceExpenseList.clear()
+                                lodgingExpenseList.clear()
+                                busTimingExpenseList.clear()
+                                visitData?.id?.let { id ->
+                                    visitMap[id]?.let { saved ->
+                                        transportExpenseList.addAll(saved.transport_expenses)
+                                        miscellaneousListExpense.addAll(saved.miscellaneous_expenses)
+                                        busTimingExpenseList.addAll(saved.bus_train_expenses ?: emptyList())
+                                        allowanceExpenseList.addAll(saved.travel_allowances ?: emptyList())
+                                        lodgingExpenseList.addAll(saved.lodging_boarding_expenses ?: emptyList())
+                                    }
+                                }
+
+                                allTransportExpenseListAdapter.notifyDataSetChanged()
+                                allMiscellaneousExpenseListAdapter.notifyDataSetChanged()
+                                toggleEmptyStateMiscellaneous()
+                                toggleEmptyTransportState()
+                                toggleEmptyStateBusTime()
+                                toggleEmptyStateLodging()
+                                toggleEmptyStateAllowance()
+                            }
+                        } else {
+                            // ✅ Append unique items for pagination
+                            outCityCustomerVisitListAdapter.addPaginatedData(posts.data)
+                            adjustRecyclerHeight()
+                        }
+
+                        val hasNextPage = !posts.pagination.links.next.isNullOrEmpty()
+                        isLastPage = !hasNextPage
+                        isLoading = false
+
+                        if (hasNextPage) {
+                            expensesViewModel.page++
                         }
                     }
-
                 }
+
             }
         }
     }
@@ -871,7 +945,13 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                 // Add item to list
                 lodgingExpenseList.add(
-                    LodgingBoardingExpense(fromDate ?: "", nights, nightAmount, toDate ?: "", amount)
+                    LodgingBoardingExpense(
+                        fromDate ?: "",
+                        nights,
+                        nightAmount,
+                        toDate ?: "",
+                        amount
+                    )
                 )
 
                 // Notify adapter & scroll

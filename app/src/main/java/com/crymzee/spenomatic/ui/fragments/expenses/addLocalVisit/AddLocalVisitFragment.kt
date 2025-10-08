@@ -10,14 +10,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.adapter.AllMiscellaneousExpenseListAdapter
 import com.crymzee.spenomatic.adapter.AllTransportExpenseListAdapter
@@ -27,7 +22,6 @@ import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.DialogAddMiscellaneousExpenseBinding
 import com.crymzee.spenomatic.databinding.DialogAddTransportExpenseBinding
 import com.crymzee.spenomatic.databinding.FragmentAddLocalVisitBinding
-import com.crymzee.spenomatic.model.request.VisitModelRequest
 import com.crymzee.spenomatic.model.request.createLocalExpense.CreateLocalExpenseRequest
 import com.crymzee.spenomatic.model.request.createLocalExpense.MiscellaneousExpense
 import com.crymzee.spenomatic.model.request.createLocalExpense.TransportExpense
@@ -42,6 +36,7 @@ import com.crymzee.spenomatic.utils.showErrorPopup
 import com.crymzee.spenomatic.utils.showSuccessPopup
 import com.crymzee.spenomatic.viewModel.CustomersViewModel
 import com.crymzee.spenomatic.viewModel.ExpensesViewModel
+import com.example.flowit.abstracts.PaginationScrollListener
 
 class AddLocalVisitFragment : BaseFragment() {
     private lateinit var binding: FragmentAddLocalVisitBinding
@@ -50,14 +45,20 @@ class AddLocalVisitFragment : BaseFragment() {
     private lateinit var allMiscellaneousExpenseListAdapter: AllMiscellaneousExpenseListAdapter
     private lateinit var allTransportExpenseListAdapter: AllTransportExpenseListAdapter
     private var activeDialog: AlertDialog? = null  // Keep track of the active dialog
-    val userList: MutableList<VisitModelRequest> = mutableListOf()
+    val localVisit: MutableList<Visit> = mutableListOf()
     val miscellaneousListExpense: MutableList<MiscellaneousExpense> = mutableListOf()
     val transportExpenseList: MutableList<TransportExpense> = mutableListOf()
     private val customersViewModel: CustomersViewModel by activityViewModels()
     private val expensesViewModel: ExpensesViewModel by activityViewModels()
-
+    private var isLastPage: Boolean = false
+    private var isLoading: Boolean = false
+    private val layoutManager by lazy { getLinearLayoutManager() }
     var currentPage = 1
     var perPage = 10
+
+    // Replace this in your fragment
+    private var visitData: Data? = null
+    private val visitMap = mutableMapOf<Int, Visit>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -81,41 +82,68 @@ class AddLocalVisitFragment : BaseFragment() {
         setupAdapters()
         toggleEmptyState()
         toggleEmptyState1()
-        dropDownAdapterClient = DropDownVisitAdapterClient(requireContext())
-        fetchPaginatedData(currentPage, perPage)
         binding.apply {
-            layoutSelectLocation.setOnClickListener {
-                selectCategory()
-            }
+//            layoutSelectLocation.setOnClickListener {
+//                selectCategory()
+//            }
             btnSave.setOnClickListener {
-                if (userList.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please select a client to visit")
-                } else if (transportExpenseList.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add transport expense")
-                } else if (miscellaneousListExpense.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add miscellaneous expense")
-                } else {
-                    val requestBody = CreateLocalExpenseRequest(
-                        type = "local_visit",
-                        description = "local sales trip",
-                        visits = listOf(
-                            Visit(
-                                miscellaneous_expenses = miscellaneousListExpense,
-                                objective = "",
-                                transport_expenses = transportExpenseList,
-                                visit = userList.firstOrNull()?.id ?: 0
-
-                            )
+                // ✅ Always update map for the last selected visit
+                visitData?.id?.let { currentId ->
+                    if (transportExpenseList.isNotEmpty() || miscellaneousListExpense.isNotEmpty()) {
+                        visitMap[currentId] = Visit(
+                            objective = "",
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId
                         )
-                    )
-                    addLocalExpense(requestBody)
+                    } else {
+                        visitMap.remove(currentId) // ❌ ensure we drop empty visits
+                    }
                 }
+
+                if (visitMap.isEmpty()) {
+                    showErrorPopup(
+                        requireContext(),
+                        "Missing Expenses",
+                        "Please add at least one Transport and one Miscellaneous expense for each selected visit."
+                    )
+                    return@setOnClickListener
+                }
+
+                // ✅ Double-check no empty visits remain
+                val invalidVisit = visitMap.values.find { visit ->
+                    visit.transport_expenses.isEmpty() || visit.miscellaneous_expenses.isEmpty()
+                }
+                if (invalidVisit != null) {
+                    showErrorPopup(
+                        requireContext(),
+                        "Missing Expenses",
+                        "Please add at least one Transport and one Miscellaneous expense for each selected visit."
+                    )
+                    return@setOnClickListener
+                }
+
+                val requestBody = CreateLocalExpenseRequest(
+                    type = "local_visit",
+                    description = "local sales trip",
+                    visits = visitMap.values.toList()
+                )
+                addLocalExpense(requestBody)
             }
 
             ivBack.setOnClickListener { goBack() }
             ivAddTransport.setOnClickListener { addTransportExpenses() }
             ivAddMiscellaneous.setOnClickListener { addMiscellaneousExpenses() }
         }
+    }
+    private fun adjustRecyclerHeight() {
+        val params = binding.rvCustomers.layoutParams
+        params.height = if (customerListAdapter.itemCount > 3) {
+            resources.getDimensionPixelSize(R.dimen._160sdp) // use 160sdp from dimens
+        } else {
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+        binding.rvCustomers.layoutParams = params
     }
 
     private fun toggleEmptyState() {
@@ -172,26 +200,62 @@ class AddLocalVisitFragment : BaseFragment() {
     }
 
     private fun setupAdapters() {
-        customerListAdapter = CustomerVisitListAdapter(userList) {
+        customerListAdapter = CustomerVisitListAdapter(requireContext())
+        binding.rvCustomers.apply {
+            adapter = customerListAdapter
+            layoutManager = this@AddLocalVisitFragment.layoutManager
+            addOnScrollListener(object :
+                PaginationScrollListener(this@AddLocalVisitFragment.layoutManager, 10) {
+                override fun isLastPage(): Boolean = this@AddLocalVisitFragment.isLastPage
+                override fun isLoading(): Boolean = this@AddLocalVisitFragment.isLoading
 
-        }
-        customerListAdapter.getVisitId { visitId ->
-            confirmationPopUp(
-                requireContext(),
-                heading = "Confirm Deletion",
-                description = "Are you sure you want to delete this item? This action cannot be undone.",
-                icon = R.drawable.ic_delete_item,
-                onConfirm = {
-                    // ✅ Remove from adapter
-                    customerListAdapter.deleteAction(visitId)
-
-                    // ✅ Keep ViewModel list in sync
-                    userList.removeIf { it.id == visitId }
-                    toggleEmptyState1()
+                override fun loadMoreItems() {
+                    if (!isLastPage && !isLoading) {
+                        isLoading = true
+//                        visitViewModel.getAllVisit( visitViewModel.selectedTab)
+                    }
                 }
-            )
+            })
         }
-        binding.rvCustomers.adapter = customerListAdapter
+
+        customerListAdapter.setOnItemClick { item ->
+            val currentId = visitData?.id
+
+            // ✅ Always update map when leaving a visit
+            if (currentId != null) {
+                if (transportExpenseList.isNotEmpty() || miscellaneousListExpense.isNotEmpty()) {
+                    visitMap[currentId] = Visit(
+                        objective = "",
+                        transport_expenses = transportExpenseList.toList(),
+                        miscellaneous_expenses = miscellaneousListExpense.toList(),
+                        visit = currentId
+                    )
+                } else {
+                    // ❌ remove if empty
+                    visitMap.remove(currentId)
+                }
+            }
+
+            // ✅ Switch selection
+            visitData = item
+
+            // ✅ Load saved data if exists, otherwise start fresh
+            transportExpenseList.clear()
+            miscellaneousListExpense.clear()
+
+            visitMap[item.id]?.let { savedVisit ->
+                transportExpenseList.addAll(savedVisit.transport_expenses)
+                miscellaneousListExpense.addAll(savedVisit.miscellaneous_expenses)
+            }
+
+            allTransportExpenseListAdapter.notifyDataSetChanged()
+            allMiscellaneousExpenseListAdapter.notifyDataSetChanged()
+            toggleEmptyState()
+            toggleEmptyState1()
+        }
+
+
+
         allMiscellaneousExpenseListAdapter =
             AllMiscellaneousExpenseListAdapter(miscellaneousListExpense)
 
@@ -205,12 +269,24 @@ class AddLocalVisitFragment : BaseFragment() {
                     // ✅ Remove from adapter
                     allMiscellaneousExpenseListAdapter.deleteAction(visitId)
 
-                    // ✅ Keep ViewModel list in sync
+                    // ✅ Keep local list in sync
                     miscellaneousListExpense.removeIf { it.objective == visitId }
+
+                    // ✅ Update visitMap for current customer
+                    visitData?.id?.let { currentId ->
+                        visitMap[currentId] = Visit(
+                            objective = "",
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId
+                        )
+                    }
+
                     toggleEmptyState1()
                 }
             )
         }
+
         binding.rvMiscellaneous.adapter = allMiscellaneousExpenseListAdapter
         allTransportExpenseListAdapter = AllTransportExpenseListAdapter(transportExpenseList)
         allTransportExpenseListAdapter.getVisitId { visitId ->
@@ -223,120 +299,35 @@ class AddLocalVisitFragment : BaseFragment() {
                     // ✅ Remove from adapter
                     allTransportExpenseListAdapter.deleteAction(visitId)
 
-                    // ✅ Keep ViewModel list in sync
+                    // ✅ Keep local list in sync
                     transportExpenseList.removeIf { it.from_location == visitId }
+
+                    // ✅ Update visitMap for current customer
+                    visitData?.id?.let { currentId ->
+                        visitMap[currentId] = Visit(
+                            objective = "",
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId
+                        )
+                    }
+
                     toggleEmptyState()
                 }
             )
-
         }
+
         binding.rvTransport.adapter = allTransportExpenseListAdapter
 
     }
 
-    private fun selectCategory() {
-        try {
-            // Function to load more data
-            fun loadMoreData() {
-                if (dropDownAdapterClient.itemCount >= 10) {
-                    fetchPaginatedData(currentPage, perPage)
-                }
-            }
 
-            binding.ivDropDownGender.rotation = 180f
-
-            // Ensure anchor view is measured before using its width
-            binding.layoutSelectLocation.post {
-                val anchorView = binding.layoutSelectLocation
-                val width = anchorView.width // exact width of the anchor view
-
-                // Inflate popup layout
-                val dialogView = View.inflate(requireContext(), R.layout.layout_drop_down_new, null)
-
-                val popUp = PopupWindow(
-                    dialogView,
-                    width,  // same width as layoutSelectLocation
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    true
-                ).apply {
-                    isTouchable = true
-                    isFocusable = true
-                    isOutsideTouchable = true
-                    showAsDropDown(anchorView, 0, 0) // show dropdown below
-                    setOnDismissListener {
-                        binding.ivDropDownGender.rotation = 0f
-                    }
-                }
-
-                // Find views inside popup
-                val rvItems: RecyclerView = dialogView.findViewById(R.id.rv_year)
-                val tvEmpty: TextView = dialogView.findViewById(R.id.tv_empty)
-
-                rvItems.layoutManager = LinearLayoutManager(requireContext())
-                rvItems.adapter = dropDownAdapterClient
-
-                // Empty state check
-                if (dropDownAdapterClient.itemCount == 0) {
-                    rvItems.visibility = View.GONE
-                    tvEmpty.visibility = View.VISIBLE
-                } else {
-                    rvItems.visibility = View.VISIBLE
-                    tvEmpty.visibility = View.GONE
-                    loadMoreData() // load first batch if list has items
-                }
-
-                // Pagination on scroll
-                rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
-
-                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                        val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-                        val totalItems = layoutManager.itemCount
-
-                        if (totalItems > 10 && lastVisibleItem >= totalItems - 1) {
-                            loadMoreData()
-                        }
-                    }
-                })
-
-                // Handle item selection
-                dropDownAdapterClient.getClientType { data ->
-                    val exists = userList.any { it.id == data.id }
-
-                    if (!exists) {
-                        // Clear existing list
-                        userList.clear()
-                        customerListAdapter.notifyDataSetChanged()
-
-                        val dataModel = VisitModelRequest(
-                            id = data.id,
-                            name = data.customer.fullname,
-                            address = data.customer.address,
-                            objective = "",
-                            remark = data.visit_summary,
-                            date = data.schedule_date,
-                        )
-
-                        // Add new item
-                        userList.add(dataModel)
-                        customerListAdapter.notifyItemInserted(0)
-                        binding.rvCustomers.scrollToPosition(0)
-                    }
-
-                    popUp.dismiss()
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fetchPaginatedData()
     }
 
-
-
-    private fun fetchPaginatedData(page: Int, size: Int) {
-        customersViewModel.page = page
-        customersViewModel.perPage = size
+    private fun fetchPaginatedData() {
         customersViewModel.getAllPendingVisits()
         customersViewModel.getAllPendingVisitLiveData.removeObservers(viewLifecycleOwner)
         customersViewModel.getAllPendingVisitLiveData.observe(viewLifecycleOwner) { response ->
@@ -345,22 +336,59 @@ class AddLocalVisitFragment : BaseFragment() {
                 is Resource.Error -> {
                     val errorMessage = extractFirstErrorMessage(response.throwable)
                     SpenoMaticLogger.logErrorMsg("Error", errorMessage.description)
-
                 }
 
-                is Resource.Loading -> {}
+                is Resource.Loading -> {
+                    // you can show loader here if needed
+                }
+
                 is Resource.Success -> {
-                    response.data?.let { newItems ->
-                        if (newItems.data.isNotEmpty()) {
-                            dropDownAdapterClient.addMore(newItems.data)
-                            currentPage++
+                    response.data?.let { posts ->
+                        val isFirstPage = expensesViewModel.page == 1
+                        val isEmptyList = posts.data.isEmpty() && isFirstPage
+
+                        if (isFirstPage) {
+                            // ✅ Use new setData (auto-selects first item)
+                            customerListAdapter.setData(posts.data)
+                            adjustRecyclerHeight()
+                            if (posts.data.isNotEmpty()) {
+                                // Keep reference to first item
+                                visitData = customerListAdapter.getSelectedItem()
+
+                                // preload expenses if previously saved
+                                transportExpenseList.clear()
+                                miscellaneousListExpense.clear()
+                                visitData?.id?.let { id ->
+                                    visitMap[id]?.let { saved ->
+                                        transportExpenseList.addAll(saved.transport_expenses)
+                                        miscellaneousListExpense.addAll(saved.miscellaneous_expenses)
+                                    }
+                                }
+
+                                allTransportExpenseListAdapter.notifyDataSetChanged()
+                                allMiscellaneousExpenseListAdapter.notifyDataSetChanged()
+                                toggleEmptyState()
+                                toggleEmptyState1()
+                            }
+                        } else {
+                            // ✅ Append unique items
+                            customerListAdapter.addPaginatedData(posts.data)
+                            adjustRecyclerHeight()
+                        }
+
+                        val hasNextPage = !posts.pagination.links.next.isNullOrEmpty()
+                        isLastPage = !hasNextPage
+                        isLoading = false
+
+                        if (hasNextPage) {
+                            expensesViewModel.page++
                         }
                     }
-
                 }
             }
         }
     }
+
 
     fun addTransportExpenses() {
         try {
