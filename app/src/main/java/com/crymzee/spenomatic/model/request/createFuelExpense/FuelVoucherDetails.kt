@@ -14,6 +14,7 @@ data class FuelVoucherDetails(
     val km_travelled: String,
     val places_visited: String,
     val start_meter_reading: String,
+    val end_meter_reading: String,
     val till_number: String,
     val vehicle_number: String
 )

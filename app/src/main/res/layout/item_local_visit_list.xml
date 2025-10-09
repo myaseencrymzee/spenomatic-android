@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/_6sdp"
+    android:paddingHorizontal="@dimen/_4sdp">
+
+    <TextView
+        android:id="@+id/label_clients_to_visit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mulish_semi_bold"
+        android:text="Clients to visit"
+        android:textColor="@color/grey_3434"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintEnd_toStartOf="@id/divider_transport"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_clients_to_visit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="1–12"
+        android:textColor="@color/hint_text"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintEnd_toEndOf="@id/label_clients_to_visit"
+        app:layout_constraintStart_toStartOf="@id/label_clients_to_visit"
+        app:layout_constraintTop_toBottomOf="@id/label_clients_to_visit" />
+
+    <View
+        android:id="@+id/divider_transport"
+        android:layout_width="@dimen/_1sdp"
+        android:layout_height="0dp"
+        android:background="@color/grey_CCCCCC"
+        app:layout_constraintTop_toTopOf="@id/label_clients_to_visit"
+        app:layout_constraintBottom_toBottomOf="@id/tv_transport"
+        app:layout_constraintStart_toEndOf="@id/label_clients_to_visit"
+        app:layout_constraintEnd_toStartOf="@id/label_transport" />
+
+    <TextView
+        android:id="@+id/label_transport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:fontFamily="@font/mulish_semi_bold"
+        android:text="Transport"
+        android:textColor="@color/grey_3434"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintEnd_toStartOf="@id/divider_misc"
+        app:layout_constraintStart_toEndOf="@id/divider_transport"
+        app:layout_constraintTop_toTopOf="@id/label_clients_to_visit" />
+
+    <TextView
+        android:id="@+id/tv_transport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="LE 3888"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:textColor="@color/hint_text"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintEnd_toEndOf="@id/label_transport"
+        app:layout_constraintStart_toStartOf="@id/label_transport"
+        app:layout_constraintTop_toBottomOf="@id/label_transport" />
+
+    <View
+        android:id="@+id/divider_misc"
+        android:layout_width="@dimen/_1sdp"
+        android:layout_height="0dp"
+        android:background="@color/grey_CCCCCC"
+        app:layout_constraintTop_toTopOf="@id/label_transport"
+        app:layout_constraintBottom_toBottomOf="@id/tv_transport"
+        app:layout_constraintStart_toEndOf="@id/label_transport"
+        app:layout_constraintEnd_toStartOf="@id/label_misc" />
+
+    <TextView
+        android:id="@+id/label_misc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:fontFamily="@font/mulish_semi_bold"
+        android:text="Miscellaneous"
+        android:textColor="@color/grey_3434"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/divider_misc"
+        app:layout_constraintTop_toTopOf="@id/label_transport" />
+
+    <TextView
+        android:id="@+id/tv_misc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="5 Ltrs"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:textColor="@color/hint_text"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintEnd_toEndOf="@id/label_misc"
+        app:layout_constraintStart_toStartOf="@id/label_misc"
+        app:layout_constraintTop_toBottomOf="@id/label_misc" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

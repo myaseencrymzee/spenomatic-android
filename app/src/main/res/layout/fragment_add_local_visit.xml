@@ -117,6 +117,22 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/label_no_pending_visit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:text="No pending visit  yet"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toTopOf="@id/iv_add_transport"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/label_description" />
+
 
 
 

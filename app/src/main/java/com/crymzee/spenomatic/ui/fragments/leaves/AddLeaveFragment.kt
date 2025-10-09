@@ -171,8 +171,8 @@ class AddLeaveFragment : BaseFragment() {
             binding.ivDropDownGender.rotation = 180f
 
             // Ensure width matches anchor (layoutSelectGender)
-            binding.layoutSelectGender.post {
-                val anchorView = binding.layoutSelectGender
+            binding.layoutSelectLocation.post {
+                val anchorView = binding.layoutSelectLocation
                 val width = anchorView.width  // ✅ exact width of anchor
 
                 val dialogView = View.inflate(context, R.layout.layout_drop_down_new, null)

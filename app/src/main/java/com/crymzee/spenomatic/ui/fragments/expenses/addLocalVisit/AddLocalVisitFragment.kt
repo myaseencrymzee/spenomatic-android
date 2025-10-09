@@ -32,8 +32,10 @@ import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.confirmationPopUp
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
 import com.crymzee.spenomatic.utils.goBack
+import com.crymzee.spenomatic.utils.hide
 import com.crymzee.spenomatic.utils.showErrorPopup
 import com.crymzee.spenomatic.utils.showSuccessPopup
+import com.crymzee.spenomatic.utils.visible
 import com.crymzee.spenomatic.viewModel.CustomersViewModel
 import com.crymzee.spenomatic.viewModel.ExpensesViewModel
 import com.example.flowit.abstracts.PaginationScrollListener
@@ -346,7 +348,13 @@ class AddLocalVisitFragment : BaseFragment() {
                     response.data?.let { posts ->
                         val isFirstPage = expensesViewModel.page == 1
                         val isEmptyList = posts.data.isEmpty() && isFirstPage
-
+                        if(isEmptyList){
+                            binding.labelNoPendingVisit.visible()
+                            binding.rvCustomers.hide()
+                        }else{
+                            binding.labelNoPendingVisit.hide()
+                            binding.rvCustomers.visible()
+                        }
                         if (isFirstPage) {
                             // ✅ Use new setData (auto-selects first item)
                             customerListAdapter.setData(posts.data)

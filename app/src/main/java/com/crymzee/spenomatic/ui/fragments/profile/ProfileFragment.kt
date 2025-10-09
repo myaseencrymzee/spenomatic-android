@@ -14,16 +14,19 @@ import com.bumptech.glide.Glide
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.FragmentProfileBinding
+import com.crymzee.spenomatic.model.request.createOutsideExpense.Visit
 import com.crymzee.spenomatic.model.response.meResponse.MeResponseBody
 import com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.ui.auth.SignInActivity
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
+import com.crymzee.spenomatic.utils.confirmationPopUp
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
 import com.crymzee.spenomatic.utils.goBack
 import com.crymzee.spenomatic.viewModel.AuthViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import kotlin.collections.set
 
 class ProfileFragment : BaseFragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -58,11 +61,21 @@ class ProfileFragment : BaseFragment() {
                 navigate(R.id.action_profile_fragment_to_update_password_fragment)
             }
             btnSave.setOnClickListener {
-                SharedPrefsHelper.clearAllData()
-                val intent = Intent(requireContext(), SignInActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-                startActivity(intent)
+
+                confirmationPopUp(
+                    requireContext(),
+                    heading = "Confirm Logout",
+                    description = "Are you sure you want to log out? You will need to sign in again to continue.",
+                    icon = R.drawable.ic_logout,
+                    onConfirm = {
+                        SharedPrefsHelper.clearAllData()
+                        val intent = Intent(requireContext(), SignInActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+                        startActivity(intent)
+                    }
+                )
+
             }
         }
 

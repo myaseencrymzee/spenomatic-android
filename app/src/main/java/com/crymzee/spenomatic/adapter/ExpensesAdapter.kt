@@ -4,15 +4,15 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.crymzee.spenomatic.R
-import java.text.SimpleDateFormat
-import java.util.Locale
 import com.crymzee.spenomatic.databinding.ItemFuelVoucherBinding
 import com.crymzee.spenomatic.databinding.ItemLocalSalesVisitBinding
 import com.crymzee.spenomatic.databinding.ItemOtherLunchExpensesBinding
 import com.crymzee.spenomatic.databinding.ItemOutstationVisitBinding
 import com.crymzee.spenomatic.model.response.expenses.Data
+import java.util.Locale
 
 class ExpensesAdapter(val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -44,16 +44,40 @@ class ExpensesAdapter(val context: Context) :
 
         return when (viewType) {
             TYPE_FUEL -> FuelViewHolder(ItemFuelVoucherBinding.inflate(inflater, parent, false))
-            TYPE_LOCAL -> LocalSalesViewHolder(ItemLocalSalesVisitBinding.inflate(inflater, parent, false))
-            TYPE_OUTSTATION -> OutstationViewHolder(ItemOutstationVisitBinding.inflate(inflater, parent, false))
-            TYPE_OTHER -> OtherViewHolder(ItemOtherLunchExpensesBinding.inflate(inflater, parent, false))
+            TYPE_LOCAL -> LocalSalesViewHolder(
+                ItemLocalSalesVisitBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
+
+            TYPE_OUTSTATION -> OutstationViewHolder(
+                ItemOutstationVisitBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
+
+            TYPE_OTHER -> OtherViewHolder(
+                ItemOtherLunchExpensesBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
+
             else -> throw IllegalArgumentException("Invalid view type: $viewType")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = list[position]
-        Log.d("ExpensesAdapter", "Binding item: id=${item.id}, type=${item.type}, amount=${item.amount}")
+        Log.d(
+            "ExpensesAdapter",
+            "Binding item: id=${item.id}, type=${item.type}, amount=${item.amount}"
+        )
 
         when (holder) {
             is FuelViewHolder -> holder.bind(item)
@@ -113,86 +137,67 @@ class ExpensesAdapter(val context: Context) :
 
     class LocalSalesViewHolder(private val binding: ItemLocalSalesVisitBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        private val visitAdapter = LocalVisitListAdapter()
+
+        init {
+            binding.rvVisitMap.apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                adapter = visitAdapter
+                setHasFixedSize(false)
+                isNestedScrollingEnabled = false
+                overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            }
+        }
+
         fun bind(item: Data) {
-            binding.tvPrice.text = "\$${item.amount}"
+            binding.tvVisitSubtitle.text = "\$${item.amount}"
 
-            val customerNames = item.visits.firstOrNull()?.visit?.customer?.fullname
+            when (item.status.lowercase()) {
+                "pending" -> binding.ivVisitStatus.setImageResource(R.drawable.ic_pending)
+                "approved" -> binding.ivVisitStatus.setImageResource(R.drawable.ic_approved)
+                "rejected" -> binding.ivVisitStatus.setImageResource(R.drawable.ic_rejceted)
+            }
 
-            val transportLocations = item.visits.firstOrNull()?.transport_expenses
-                ?.mapNotNull { "${it.from_location} to ${it.to_location} " }
-                ?.joinToString(", ")
-                ?: "No Locations"
+            val visits = item.visits ?: emptyList()
 
-            val miscellaneous = item.visits.firstOrNull()?.miscellaneous_expenses
-                ?.mapNotNull { it.objective }
-                ?.joinToString(", ")
-                ?: "No Miscellaneous"
-
-            binding.tvMeterReading.text = customerNames
-            binding.tvVichelNo.text = transportLocations
-            binding.tvFuelKts.text = miscellaneous
-
-            when (item.status) {
-                "pending" -> binding.ivNotifications.setImageResource(R.drawable.ic_pending)
-                "approved" -> binding.ivNotifications.setImageResource(R.drawable.ic_approved)
-                "rejected" -> binding.ivNotifications.setImageResource(R.drawable.ic_rejceted)
+            // ✅ This fixes the "first item only shows 1" issue
+            binding.rvVisitMap.post {
+                visitAdapter.submitList(visits)
             }
         }
     }
+
+
+
 
     class OutstationViewHolder(private val binding: ItemOutstationVisitBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val dateTimeInput = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        private val dateTimeOutput = SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault())
-        private val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        private val outputFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
+        private val visitAdapter = OutstationVisitListAdapter()
 
-        fun bind(item: Data) {
-            val customerNames = item.visits.firstOrNull()?.visit?.customer?.fullname
+        init {
+            binding.rvLeaves.adapter = visitAdapter
+        }
 
-            val transportLocations = item.visits.firstOrNull()?.transport_expenses
-                ?.mapNotNull { it.to_location }
-                ?.joinToString(", ")
-                ?: "No Locations"
+        fun bind(item: Data) = with(binding) {
+            tvPrice.text = "\$${item.amount ?: 0}"
 
-            val miscellaneous = item.visits.firstOrNull()?.miscellaneous_expenses
-                ?.mapNotNull { it.objective }
-                ?.joinToString(", ")
-                ?: "No Miscellaneous"
-
-            val lodgingRange = item.visits.firstOrNull()?.lodging_boarding_expenses
-                ?.firstOrNull()
-                ?.let {
-                    val from = it.from_date?.let { d: String -> inputFormat.parse(d) }?.let(outputFormat::format)
-                    val to = it.to_date?.let { d: String -> inputFormat.parse(d) }?.let(outputFormat::format)
-                    if (from != null && to != null) "$from - $to" else null
-                } ?: "No Lodging"
-
-            val busTimings = item.visits.firstOrNull()?.bus_train_expenses
-                ?.mapNotNull { exp ->
-                    val dateTimeString = "${exp.date} ${exp.time}"
-                    dateTimeInput.parse(dateTimeString)?.let { parsed ->
-                        dateTimeOutput.format(parsed)
-                    }
-                }
-                ?.joinToString(", ")
-                ?: "No Bus/Train"
-
-            binding.tvPrice.text = "\$${item.amount}"
-            binding.tvLastVisit.text = customerNames
-            binding.tvFrequency.text = transportLocations
-            binding.tvTotalVisit.text = miscellaneous
-            binding.tvMeterReading.text = lodgingRange
-            binding.tvVichelNo.text = busTimings
-
-            when (item.status) {
-                "pending" -> binding.ivNotifications.setImageResource(R.drawable.ic_pending)
-                "approved" -> binding.ivNotifications.setImageResource(R.drawable.ic_approved)
-                "rejected" -> binding.ivNotifications.setImageResource(R.drawable.ic_rejceted)
+            // ✅ Safe status handling
+            val statusIcon = when (item.status.lowercase(Locale.getDefault())) {
+                "pending" -> R.drawable.ic_pending
+                "approved" -> R.drawable.ic_approved
+                "rejected" -> R.drawable.ic_rejceted
+                else -> R.drawable.ic_pending
             }
+            ivNotifications.setImageResource(statusIcon)
+
+            // ✅ Populate nested visit list
+            visitAdapter.submitList(item.visits ?: emptyList())
         }
     }
+
+
 
     class OtherViewHolder(private val binding: ItemOtherLunchExpensesBinding) :
         RecyclerView.ViewHolder(binding.root) {

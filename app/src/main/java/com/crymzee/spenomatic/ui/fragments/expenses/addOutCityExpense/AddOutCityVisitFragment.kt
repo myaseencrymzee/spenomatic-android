@@ -51,8 +51,10 @@ import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.confirmationPopUp
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
 import com.crymzee.spenomatic.utils.goBack
+import com.crymzee.spenomatic.utils.hide
 import com.crymzee.spenomatic.utils.showErrorPopup
 import com.crymzee.spenomatic.utils.showSuccessPopup
+import com.crymzee.spenomatic.utils.visible
 import com.crymzee.spenomatic.viewModel.CustomersViewModel
 import com.crymzee.spenomatic.viewModel.ExpensesViewModel
 import com.example.flowit.abstracts.PaginationScrollListener
@@ -128,40 +130,108 @@ class AddOutCityVisitFragment : BaseFragment() {
             ivAddLodging.setOnClickListener { addLodgingExpenses() }
             ivAddMiscellaneous.setOnClickListener { addMiscellaneousExpenses() }
 
-            btnSave.setOnClickListener {
-                if (userList.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please select a client to visit")
-                } else if (objective.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Objective field must not be empty")
-                } else if (transportExpenseList.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add transport expense")
-                } else if (lodgingExpenseList.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add lodging expense")
-                } else if (busTimingExpenseList.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add bus/train expense")
-                } else if (allowanceExpenseList.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add allowance expense")
-                } else if (miscellaneousListExpense.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add miscellaneous expense")
-                } else {
-                    val requestBody = CreateOutsideExpenseRequest(
-                        description = "Outstation sales trip to meet clients",
-                        type = "outstation_sales",
-                        visits = listOf(
-                            Visit(
-                                bus_train_expenses = busTimingExpenseList,
-                                lodging_boarding_expenses = lodgingExpenseList,
-                                miscellaneous_expenses = miscellaneousListExpense,
-                                objective = objective,
-                                travel_allowances = allowanceExpenseList,
-                                transport_expenses = transportExpenseList,
-                                visit = userList.firstOrNull()?.id ?: 0
-                            )
+            binding.btnSave.setOnClickListener {
+                // ✅ 1️⃣ Always persist the current visit data before proceeding
+                visitData?.id?.let { currentId ->
+                    if (
+                        transportExpenseList.isNotEmpty() ||
+                        miscellaneousListExpense.isNotEmpty() ||
+                        allowanceExpenseList.isNotEmpty() ||
+                        lodgingExpenseList.isNotEmpty() ||
+                        busTimingExpenseList.isNotEmpty() ||
+                        !objective.isNullOrEmpty()
+                    ) {
+                        visitMap[currentId] = Visit(
+                            objective = objective,
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            bus_train_expenses = busTimingExpenseList.toList(),
+                            lodging_boarding_expenses = lodgingExpenseList.toList(),
+                            travel_allowances = allowanceExpenseList.toList(),
+                            visit = currentId
                         )
-                    )
-                    addOutStationExpense(requestBody)
+                    } else {
+                        visitMap.remove(currentId) // remove if empty
+                    }
                 }
+
+                // ✅ 2️⃣ Check if objective exists
+                if (objective.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Objective field must not be empty")
+                    return@setOnClickListener
+                }
+
+                // ✅ 3️⃣ Ensure at least one visit exists
+                if (visitMap.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Please add at least one visit before submitting")
+                    return@setOnClickListener
+                }
+
+                // ✅ 4️⃣ Validate each visit — check if any required list is null or empty
+                val incompleteVisit = visitMap.values.find { visit ->
+                    visit.transport_expenses.isEmpty() ||
+                            visit.bus_train_expenses.isNullOrEmpty() ||
+                            visit.travel_allowances.isNullOrEmpty() ||
+                            visit.lodging_boarding_expenses.isNullOrEmpty() ||
+                            visit.miscellaneous_expenses.isEmpty()
+                }
+
+                if (incompleteVisit != null) {
+                    when {
+                        incompleteVisit.transport_expenses.isEmpty() ->
+                            showErrorPopup(requireContext(), "", "Please add transport expense")
+                        incompleteVisit.lodging_boarding_expenses.isNullOrEmpty() ->
+                            showErrorPopup(requireContext(), "", "Please add lodging expense")
+                        incompleteVisit.bus_train_expenses.isNullOrEmpty() ->
+                            showErrorPopup(requireContext(), "", "Please add bus/train expense")
+                        incompleteVisit.travel_allowances.isNullOrEmpty() ->
+                            showErrorPopup(requireContext(), "", "Please add allowance expense")
+                        incompleteVisit.miscellaneous_expenses.isEmpty() ->
+                            showErrorPopup(requireContext(), "", "Please add miscellaneous expense")
+                    }
+                    return@setOnClickListener
+                }
+
+                // ✅ 5️⃣ Double-check all visits complete
+                val allFilled = visitMap.values.all { visit ->
+                    visit.transport_expenses.isNotEmpty() &&
+                            !visit.bus_train_expenses.isNullOrEmpty() &&
+                            !visit.travel_allowances.isNullOrEmpty() &&
+                            !visit.lodging_boarding_expenses.isNullOrEmpty() &&
+                            visit.miscellaneous_expenses.isNotEmpty()
+                }
+
+                if (!allFilled) {
+                    showErrorPopup(requireContext(), "", "Please make sure all visits have complete expense details")
+                    return@setOnClickListener
+                }
+
+                // ✅ 6️⃣ Prepare final list with objective set
+                val validVisits = visitMap.values.map { visit ->
+                    visit.copy(objective = objective)
+                }
+
+                if (validVisits.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Please fill at least one complete visit before submitting")
+                    return@setOnClickListener
+                }
+
+                // ✅ 7️⃣ Submit final request
+                val requestBody = CreateOutsideExpenseRequest(
+                    description = "Outstation sales trip to meet clients",
+                    type = "outstation_sales",
+                    visits = validVisits
+                )
+
+                Log.d("DEBUG_EXPENSE", "Submitting ${validVisits.size} visits → $requestBody")
+                addOutStationExpense(requestBody)
             }
+
+
+
+
+
+
         }
     }
 
@@ -408,6 +478,18 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                     // ✅ Keep ViewModel list in sync
                     allowanceExpenseList.removeIf { it.allowance_type == visitId }
+                    visitData?.id?.let { currentId ->
+                        visitMap[currentId] = Visit(
+                            objective = objective,
+                            transport_expenses = transportExpenseList.toList(),
+                            miscellaneous_expenses = miscellaneousListExpense.toList(),
+                            visit = currentId,
+                            bus_train_expenses = busTimingExpenseList,
+                            lodging_boarding_expenses = lodgingExpenseList,
+                            travel_allowances = allowanceExpenseList
+
+                        )
+                    }
                     toggleEmptyStateAllowance()
                 }
             )
@@ -707,6 +789,13 @@ class AddOutCityVisitFragment : BaseFragment() {
                         val isFirstPage = expensesViewModel.page == 1
                         val isEmptyList = posts.data.isEmpty() && isFirstPage
 
+                        if(isEmptyList){
+                            binding.labelNoPendingVisit.visible()
+                            binding.rvCustomers.hide()
+                        }else{
+                            binding.labelNoPendingVisit.hide()
+                            binding.rvCustomers.visible()
+                        }
                         if (isFirstPage) {
                             // ✅ Use new setData (auto-selects first item)
                             outCityCustomerVisitListAdapter.setData(posts.data)
@@ -871,43 +960,28 @@ class AddOutCityVisitFragment : BaseFragment() {
             activeDialog = alertDialog
 
             val calendar = Calendar.getInstance()
+            var fromDateCalendar: Calendar? = null // store selected from-date
 
+            // Pick From Date
             dialogueLodge.etFrom.setOnClickListener {
                 val datePicker = DatePickerDialog(
                     requireContext(),
                     { _, year, month, dayOfMonth ->
                         calendar.set(year, month, dayOfMonth)
 
-                        // For showing in UI (MMM d, yyyy)
+                        fromDateCalendar = Calendar.getInstance().apply {
+                            set(year, month, dayOfMonth)
+                        }
+
                         val displayFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
                         dialogueLodge.etFrom.text = displayFormat.format(calendar.time)
 
-                        // For saving in API format (yyyy-MM-dd)
                         val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         fromDate = apiFormat.format(calendar.time)
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-                )
-                datePicker.datePicker.minDate = System.currentTimeMillis() - 1000 // no past dates
-                datePicker.show()
-            }
 
-// Pick To Date
-            dialogueLodge.etSecondName.setOnClickListener {
-                val datePicker = DatePickerDialog(
-                    requireContext(),
-                    { _, year, month, dayOfMonth ->
-                        calendar.set(year, month, dayOfMonth)
-
-                        // For showing in UI (MMM d, yyyy)
-                        val displayFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
-                        dialogueLodge.etSecondName.text = displayFormat.format(calendar.time)
-
-                        // For saving in API format (yyyy-MM-dd)
-                        val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                        toDate = apiFormat.format(calendar.time)
+                        // Reset "To Date" when From Date changes
+                        dialogueLodge.etSecondName.text = ""
+                        toDate = null
                     },
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
@@ -917,33 +991,60 @@ class AddOutCityVisitFragment : BaseFragment() {
                 datePicker.show()
             }
 
+            // Pick To Date
+            dialogueLodge.etSecondName.setOnClickListener {
+                if (fromDateCalendar == null) {
+                    showErrorPopup(requireContext(), "", "Please select From Date first")
+                    return@setOnClickListener
+                }
+
+                val toCalendar = Calendar.getInstance()
+                val datePicker = DatePickerDialog(
+                    requireContext(),
+                    { _, year, month, dayOfMonth ->
+                        toCalendar.set(year, month, dayOfMonth)
+
+                        val displayFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                        dialogueLodge.etSecondName.text = displayFormat.format(toCalendar.time)
+
+                        val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        toDate = apiFormat.format(toCalendar.time)
+                    },
+                    toCalendar.get(Calendar.YEAR),
+                    toCalendar.get(Calendar.MONTH),
+                    toCalendar.get(Calendar.DAY_OF_MONTH)
+                )
+
+                // ✅ Restrict "To Date" to be >= selected "From Date"
+                datePicker.datePicker.minDate = fromDateCalendar!!.timeInMillis
+
+                datePicker.show()
+            }
+
             // Cancel Button
             dialogueLodge.ivCancel.setOnClickListener {
                 alertDialog.dismiss()
                 activeDialog = null
             }
 
-            // Add Button with validation
+            // Add Button (same as before)
             dialogueLodge.btnAdd.setOnClickListener {
-
                 val nights = dialogueLodge.etPumpLocation.text.toString().trim()
                 val nightAmount = dialogueLodge.etFilledFuel.text.toString().trim()
                 val amount = dialogueLodge.etAmount.text.toString().trim()
 
-                val validation =
-                    expensesViewModel.validateLodgingInput(
-                        fromDate ?: "",
-                        toDate ?: "",
-                        nights,
-                        nightAmount,
-                        amount
-                    )
+                val validation = expensesViewModel.validateLodgingInput(
+                    fromDate ?: "",
+                    toDate ?: "",
+                    nights,
+                    nightAmount,
+                    amount
+                )
                 if (!validation.first) {
                     showErrorPopup(requireContext(), "", getString(validation.second))
                     return@setOnClickListener
                 }
 
-                // Add item to list
                 lodgingExpenseList.add(
                     LodgingBoardingExpense(
                         fromDate ?: "",
@@ -954,10 +1055,7 @@ class AddOutCityVisitFragment : BaseFragment() {
                     )
                 )
 
-                // Notify adapter & scroll
-                allLodgingExpenseListAdapter.notifyItemInserted(
-                    lodgingExpenseList.size - 1
-                )
+                allLodgingExpenseListAdapter.notifyItemInserted(lodgingExpenseList.size - 1)
                 binding.rvLoging.scrollToPosition(lodgingExpenseList.size - 1)
                 toggleEmptyStateLodging()
                 alertDialog.dismiss()
@@ -972,6 +1070,7 @@ class AddOutCityVisitFragment : BaseFragment() {
             Log.e("CustomDialog", "Error showing dialog: $e")
         }
     }
+
 
 
     fun addMiscellaneousExpenses() {

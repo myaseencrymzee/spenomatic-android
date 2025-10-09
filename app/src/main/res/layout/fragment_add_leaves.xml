@@ -3,14 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
+    <data />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background">
+
+        <!-- 🔹 Sticky Header -->
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/iv_back"
+            app:layout_constraintStart_toStartOf="@+id/guideline_startOut"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/label_heading" />
 
         <TextView
             android:id="@+id/label_heading"
@@ -19,265 +27,262 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:fontFamily="@font/mulish_bold"
             android:text="Leave Request"
-
             android:textColor="@color/black_1717"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_back"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_out"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/iv_back"
-            android:id="@+id/iv_back"
-            app:layout_constraintBottom_toBottomOf="@id/label_heading"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toTopOf="@id/label_heading" />
-
-        <ProgressBar
-            android:id="@+id/loader"
+        <!-- 🔹 Scrollable Content -->
+        <ScrollView
+            android:id="@+id/scroll_container"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="@dimen/_10sdp"
-            android:theme="@style/circularProgressStyle"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/label_heading"
+            app:layout_constraintBottom_toTopOf="@id/btn_save"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:id="@+id/label_location_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:fontFamily="@font/mulish_semi_bold"
-            android:text="Leave Type"
-            android:textColor="@color/black_1717"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/iv_back" />
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:id="@+id/layout_select_location"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:background="@drawable/bg_rounded_12"
-            android:gravity="center_vertical|left"
-            android:layoutDirection="ltr"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/label_location_type"
-            tools:ignore="ObsoleteLayoutParam,RtlHardcoded">
-
-
-            <RelativeLayout
-                android:id="@+id/layout_select_gender"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:paddingEnd="15dp">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <!-- Leave Type -->
+                <TextView
+                    android:id="@+id/label_location_type"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="35dp"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Leave Type"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- DropDown -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_select_location"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/label_location_type"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end">
 
                     <TextView
                         android:id="@+id/tv_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/mulish_regular"
-                        android:gravity="start|center"
+                        android:gravity="center_vertical|start"
                         android:hint="Full Day"
-                        android:paddingVertical="@dimen/_3sdp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_text"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_drop_down_gender" />
 
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/iv_drop_down_gender"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_drop_down"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="ContentDescription" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/iv_drop_down_gender"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:rotation="0"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_drop_down"
-                    tools:ignore="ContentDescription,RtlHardcoded" />
-            </RelativeLayout>
+                <!-- To -->
+                <TextView
+                    android:id="@+id/label_To"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="To"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/layout_select_location" />
 
-        </LinearLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_to"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_34sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toBottomOf="@id/label_To">
 
-        <TextView
-            android:id="@+id/label_To"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/mulish_semi_bold"
-            android:text="To"
-            android:textColor="@color/black_1717"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/layout_select_location" />
+                    <TextView
+                        android:id="@+id/et_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:fontFamily="@font/mulish_regular"
+                        android:gravity="center_vertical"
+                        android:hint="10-07-2025"
+                        android:textColor="@color/black_1717"
+                        android:textColorHint="@color/hint_text"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/container_to"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_34sdp"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:background="@drawable/bg_rounded_12"
-            android:padding="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/label_To">
+                <!-- From -->
+                <TextView
+                    android:id="@+id/label_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="From"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_to" />
 
-            <TextView
-                android:id="@+id/et_email"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:fontFamily="@font/mulish_regular"
-                android:gravity="center_vertical"
-                android:hint="10-07-2025"
-                android:includeFontPadding="false"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/black_1717"
-                android:textColorHint="@color/hint_text"
-                android:textSize="@dimen/_10ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_from"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_34sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    android:padding="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toBottomOf="@id/label_from">
 
+                    <TextView
+                        android:id="@+id/et_from"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:fontFamily="@font/mulish_regular"
+                        android:gravity="center_vertical"
+                        android:hint="10-07-2025"
+                        android:textColor="@color/black_1717"
+                        android:textColorHint="@color/hint_text"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- Reason -->
+                <TextView
+                    android:id="@+id/label_add_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/mulish_semi_bold"
+                    android:text="Reason"
+                    android:textColor="@color/black_1717"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/container_from" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_description"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:background="@drawable/bg_rounded_12"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toBottomOf="@id/label_add_remark">
 
-        <TextView
-            android:id="@+id/label_from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/mulish_semi_bold"
-            android:text="From"
-            android:textColor="@color/black_1717"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/container_to" />
+                    <EditText
+                        android:id="@+id/et_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:background="@null"
+                        android:fontFamily="@font/mulish_medium"
+                        android:gravity="top"
+                        android:hint="Write...."
+                        android:inputType="textMultiLine"
+                        android:maxLength="300"
+                        android:paddingVertical="@dimen/_7sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_6sdp"
+                        android:textColor="@color/black_1717"
+                        android:textColorHint="@color/hint_text"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/container_from"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_34sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:background="@drawable/bg_rounded_12"
-            android:padding="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/label_from">
+                <!-- Guidelines -->
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/_15sdp" />
 
-            <TextView
-                android:id="@+id/et_from"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:fontFamily="@font/mulish_regular"
-                android:gravity="center_vertical"
-                android:hint="10-07-2025"
-                android:includeFontPadding="false"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/black_1717"
-                android:textColorHint="@color/hint_text"
-                android:textSize="@dimen/_10ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/_15sdp" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/label_add_remark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/mulish_semi_bold"
-            android:text="Reason"
-            android:textColor="@color/black_1717"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/container_from" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_description"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_110sdp"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:background="@drawable/bg_rounded_12"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/label_add_remark">
-
-
-            <EditText
-                android:id="@+id/et_description"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@null"
-                android:focusable="true"
-                android:fontFamily="@font/mulish_medium"
-                android:gravity="top"
-                android:hint="Write...."
-                android:inputType="textMultiLine"
-                android:maxLength="300"
-                android:paddingVertical="@dimen/_7sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_6sdp"
-                android:textColor="@color/black_1717"
-                android:textColorHint="@color/hint_text"
-                android:textSize="@dimen/_12ssp"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="Autofill" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+        <!-- ✅ Sticky Submit Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save"
             style="@style/CustomMaterialButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_32sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:letterSpacing="-0.02"
             android:text="Submit"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_out"
+            app:layout_constraintStart_toStartOf="@id/guideline_startOut" />
 
+        <!-- Loader -->
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            android:theme="@style/circularProgressStyle"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Guidelines -->
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start"
+            android:id="@+id/guideline_startOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="@dimen/_15sdp" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
+            android:id="@+id/guideline_end_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

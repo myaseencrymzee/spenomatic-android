@@ -159,6 +159,7 @@ class AddFuelFragment : BaseFragment() {
                     km_travelled = kmMeter,
                     places_visited = description,
                     start_meter_reading = startMeter,
+                    end_meter_reading = endMeter,
                     till_number = mpesaNo.toString(),
                     vehicle_number = vehicleNo,
                 )

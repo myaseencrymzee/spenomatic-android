@@ -1,5 +1,6 @@
 package com.crymzee.spenomatic.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +10,9 @@ import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.databinding.ItemScheduleListBinding
 import com.crymzee.spenomatic.model.response.visitsList.Data
 import com.crymzee.spenomatic.utils.toCamelCase
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class ScheduleListAdapter(val context: Context) :
     RecyclerView.Adapter<ScheduleListAdapter.RecyclerViewHolder>() {
@@ -69,7 +73,8 @@ class ScheduleListAdapter(val context: Context) :
             labelHello.text = data.customer.fullname
             labelExplore.text = data.customer.industry_type
 
-            tvLastVisit.text = data.customer.latest_visit_date
+            tvLastVisit.text = formatRelativeDate(data.customer.latest_visit_date)
+
             tvAvgVisit.text = "${data.customer.avg_visit_time} min"
 
             tvFrequency.text = data.customer.visit_frequency.toCamelCase()
@@ -115,7 +120,27 @@ class ScheduleListAdapter(val context: Context) :
 
         holder.binding.executePendingBindings()
     }
+    @SuppressLint("SimpleDateFormat")
+    fun formatRelativeDate(dateString: String?): String {
+        if (dateString.isNullOrEmpty()) return ""
 
+        return try {
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = sdf.parse(dateString) ?: return ""
+
+            val now = System.currentTimeMillis()
+            val diff = now - date.time
+            val days = TimeUnit.MILLISECONDS.toDays(diff)
+
+            when {
+                days < 1 -> "Today"
+                days == 1L -> "Yesterday"
+                else -> "$days days ago"
+            }
+        } catch (e: Exception) {
+            ""
+        }
+    }
 
     class RecyclerViewHolder(val binding: ItemScheduleListBinding) :
         RecyclerView.ViewHolder(binding.root)

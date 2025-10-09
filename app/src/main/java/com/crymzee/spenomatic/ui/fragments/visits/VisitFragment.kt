@@ -153,8 +153,13 @@ class VisitFragment : BaseFragment() {
         }
     }
 
-    private fun observePublicPosts() {
+    override fun onResume() {
+        super.onResume()
+        visitViewModel.page = 1
+        visitViewModel.perPage = 10
         visitViewModel.getAllVisit(visitViewModel.selectedTab)
+    }
+    private fun observePublicPosts() {
         visitViewModel.getAllVisitLiveData.removeObservers(viewLifecycleOwner)
         visitViewModel.getAllVisitLiveData.observe(viewLifecycleOwner) { response ->
             binding.loader.isVisible = response is Resource.Loading<*>
@@ -372,15 +377,10 @@ class VisitFragment : BaseFragment() {
                 } else if (visitViewModel.visitSummary == "") {
                     showErrorPopup(requireContext(), "", "Please enter your visit summary")
                 } else {
+                    alertDialog.dismiss()
+                    activeDialog = null
                     checkOutVisit(alertDialog, visitId)
                 }
-
-
-
-
-                Handler(Looper.getMainLooper()).postDelayed({
-//                    reportUser(description, post.id)
-                }, 300)
             }
 
             // Set the view and show dialog
@@ -410,8 +410,7 @@ class VisitFragment : BaseFragment() {
                 }
 
                 is Resource.Success -> {
-                    alertDialog.dismiss()
-                    activeDialog = null
+
                     showSuccessPopup(
                         requireContext(),
                         "Success!",

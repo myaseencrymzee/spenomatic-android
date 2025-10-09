@@ -66,6 +66,7 @@
     <string name="error_enter_end_meter">Please enter end meter reading.</string>
     <string name="error_enter_places_visited">Places visited field cannot be empty.</string>
     <string name="error_enter_kilometers">Please enter kilometers travelled.</string>
+    <string name="error_end_meter_must_be_greater">End meter must be greater than start meter reading</string>
 
 
     <string name="error_enter_from">Please enter start destination</string>

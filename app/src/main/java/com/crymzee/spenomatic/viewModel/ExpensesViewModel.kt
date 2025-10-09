@@ -202,15 +202,22 @@ class ExpensesViewModel @Inject constructor(private val expensesRepository: Expe
             fuelPumpName.isNullOrEmpty() -> Pair(false, R.string.error_enter_fuel_pump_name)
             fuelPumpLocation.isNullOrEmpty() -> Pair(false, R.string.error_select_fuel_pump_location)
             amount.isNullOrEmpty() -> Pair(false, R.string.error_enter_amount)
-            amount.toDoubleOrNull()?.let { it <= 0 } == true -> Pair(false, R.string.error_invalid_amount) // Amount > 0 check
+            amount.toDoubleOrNull()?.let { it <= 0 } == true -> Pair(false, R.string.error_invalid_amount)
             mpesaTillNo.isNullOrEmpty() -> Pair(false, R.string.error_enter_mpesa_till_no)
             startMeter.isNullOrEmpty() -> Pair(false, R.string.error_enter_start_meter)
             endMeter.isNullOrEmpty() -> Pair(false, R.string.error_enter_end_meter)
+
+            // 🔹 New check: end meter must be greater than start meter
+            startMeter.toDoubleOrNull() != null && endMeter.toDoubleOrNull() != null &&
+                    endMeter.toDouble() <= startMeter.toDouble() ->
+                Pair(false, R.string.error_end_meter_must_be_greater)
+
             placesVisited.isNullOrEmpty() -> Pair(false, R.string.error_enter_places_visited)
             kilometers.isNullOrEmpty() -> Pair(false, R.string.error_enter_kilometers)
-            else -> Pair(true, R.string.empty_string) // ✅ valid
+            else -> Pair(true, R.string.empty_string)
         }
     }
+
 
 
 
