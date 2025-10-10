@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/_2sdp"
-            android:src="@drawable/ic_divider_line"
+            android:src="@drawable/line_pic"
             app:layout_constraintBottom_toBottomOf="@id/label_leave_type"
             app:layout_constraintEnd_toEndOf="@id/ic_map"
             app:layout_constraintStart_toStartOf="@id/ic_map"

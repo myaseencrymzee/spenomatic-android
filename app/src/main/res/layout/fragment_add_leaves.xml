@@ -142,6 +142,20 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:rotation="0"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_calender"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription,RtlHardcoded" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- From -->
@@ -182,6 +196,20 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_calendar2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:rotation="0"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_calender"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription,RtlHardcoded" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- Reason -->
@@ -251,7 +279,7 @@
             style="@style/CustomMaterialButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginVertical="@dimen/_16sdp"
             android:letterSpacing="-0.02"
             android:text="Submit"
             android:textAllCaps="false"

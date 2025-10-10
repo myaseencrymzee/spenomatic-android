@@ -66,18 +66,18 @@
     <string name="error_enter_end_meter">Please enter end meter reading.</string>
     <string name="error_enter_places_visited">Places visited field cannot be empty.</string>
     <string name="error_enter_kilometers">Please enter kilometers travelled.</string>
-    <string name="error_end_meter_must_be_greater">End meter must be greater than start meter reading</string>
+    <string name="error_end_meter_must_be_greater">End meter reading must be greater than start meter reading.</string>
 
 
-    <string name="error_enter_from">Please enter start destination</string>
-    <string name="error_enter_to">Please enter end destination</string>
-    <string name="error_invalid_amount">Amount must be at least 1</string>
-    <string name="error_select_date">Please select a date</string>
-    <string name="error_select_time">Please select a time</string>
+    <string name="error_enter_from">Please enter start destination.</string>
+    <string name="error_enter_to">Please enter end destination.</string>
+    <string name="error_invalid_amount">Amount must be at least 1.</string>
+    <string name="error_select_date">Please select a date.</string>
+    <string name="error_select_time">Please select a time.</string>
     <string name="error_enter_objective">Objective field cannot be empty.</string>
     <string name="error_enter_allowance">Allowance field cannot be empty.</string>
-    <string name="error_enter_description">Description field cannot be empty</string>
+    <string name="error_enter_description">Description field cannot be empty.</string>
 
     <string name="error_enter_nights">Please enter number of nights stayed</string>
-    <string name="error_invalid_date_range">To date cannot be from date</string>
+    <string name="error_invalid_date_range">To date must be after from date.</string>
 </resources>

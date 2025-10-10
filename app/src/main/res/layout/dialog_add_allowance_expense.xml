@@ -104,7 +104,7 @@
                                 android:layout_height="34dp"
                                 android:fontFamily="@font/mulish_regular"
                                 android:gravity="start|center"
-                                android:hint="select the allowance type"
+                                android:hint="Day"
                                 android:paddingVertical="@dimen/_3sdp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/hint_text"

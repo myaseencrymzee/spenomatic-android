@@ -131,7 +131,7 @@ class AddOutCityVisitFragment : BaseFragment() {
             ivAddMiscellaneous.setOnClickListener { addMiscellaneousExpenses() }
 
             binding.btnSave.setOnClickListener {
-                // ✅ 1️⃣ Always persist the current visit data before proceeding
+                // :white_check_mark: :one: Always persist the current visit data before proceeding
                 visitData?.id?.let { currentId ->
                     if (
                         transportExpenseList.isNotEmpty() ||
@@ -155,19 +155,24 @@ class AddOutCityVisitFragment : BaseFragment() {
                     }
                 }
 
-                // ✅ 2️⃣ Check if objective exists
+                // :white_check_mark: :two: Check if objective exists
+                if (outCityCustomerVisitListAdapter.itemCount == 0) {
+                    showErrorPopup(requireContext(), "", "No pending visit  yet")
+                    return@setOnClickListener
+                }
+                // :white_check_mark: :two: Check if objective exists
                 if (objective.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Objective field must not be empty")
                     return@setOnClickListener
                 }
 
-                // ✅ 3️⃣ Ensure at least one visit exists
+                // :white_check_mark: :three: Ensure at least one visit exists
                 if (visitMap.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Please add at least one visit before submitting")
                     return@setOnClickListener
                 }
 
-                // ✅ 4️⃣ Validate each visit — check if any required list is null or empty
+                // :white_check_mark: :four: Validate each visit — check if any required list is null or empty
                 val incompleteVisit = visitMap.values.find { visit ->
                     visit.transport_expenses.isEmpty() ||
                             visit.bus_train_expenses.isNullOrEmpty() ||
@@ -179,20 +184,20 @@ class AddOutCityVisitFragment : BaseFragment() {
                 if (incompleteVisit != null) {
                     when {
                         incompleteVisit.transport_expenses.isEmpty() ->
-                            showErrorPopup(requireContext(), "", "Please add transport expense")
+                            showErrorPopup(requireContext(), "", "Please add transport expense.")
                         incompleteVisit.lodging_boarding_expenses.isNullOrEmpty() ->
-                            showErrorPopup(requireContext(), "", "Please add lodging expense")
+                            showErrorPopup(requireContext(), "", "Please add lodging & boarding expense.")
                         incompleteVisit.bus_train_expenses.isNullOrEmpty() ->
-                            showErrorPopup(requireContext(), "", "Please add bus/train expense")
+                            showErrorPopup(requireContext(), "", "Please add bus/train expense.")
                         incompleteVisit.travel_allowances.isNullOrEmpty() ->
-                            showErrorPopup(requireContext(), "", "Please add allowance expense")
+                            showErrorPopup(requireContext(), "", "Please add allowances expense.")
                         incompleteVisit.miscellaneous_expenses.isEmpty() ->
-                            showErrorPopup(requireContext(), "", "Please add miscellaneous expense")
+                            showErrorPopup(requireContext(), "", "Please add miscellaneous expense.")
                     }
                     return@setOnClickListener
                 }
 
-                // ✅ 5️⃣ Double-check all visits complete
+                // :white_check_mark: :five: Double-check all visits complete
                 val allFilled = visitMap.values.all { visit ->
                     visit.transport_expenses.isNotEmpty() &&
                             !visit.bus_train_expenses.isNullOrEmpty() &&
@@ -202,11 +207,11 @@ class AddOutCityVisitFragment : BaseFragment() {
                 }
 
                 if (!allFilled) {
-                    showErrorPopup(requireContext(), "", "Please make sure all visits have complete expense details")
+                    showErrorPopup(requireContext(), "", "Please make sure all visits have complete their expenses detail")
                     return@setOnClickListener
                 }
 
-                // ✅ 6️⃣ Prepare final list with objective set
+                // :white_check_mark: :six: Prepare final list with objective set
                 val validVisits = visitMap.values.map { visit ->
                     visit.copy(objective = objective)
                 }
@@ -216,7 +221,7 @@ class AddOutCityVisitFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                // ✅ 7️⃣ Submit final request
+                // :white_check_mark: :seven: Submit final request
                 val requestBody = CreateOutsideExpenseRequest(
                     description = "Outstation sales trip to meet clients",
                     type = "outstation_sales",
@@ -226,9 +231,6 @@ class AddOutCityVisitFragment : BaseFragment() {
                 Log.d("DEBUG_EXPENSE", "Submitting ${validVisits.size} visits → $requestBody")
                 addOutStationExpense(requestBody)
             }
-
-
-
 
 
 
