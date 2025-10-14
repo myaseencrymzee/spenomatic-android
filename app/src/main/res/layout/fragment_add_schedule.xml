@@ -328,20 +328,23 @@
         </ScrollView>
 
         <!-- Sticky Bottom Button -->
+
+        <!-- Guidelines -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save"
             style="@style/CustomMaterialButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginVertical="@dimen/_16sdp"
+            android:layout_marginBottom="20dp"
             android:text="Add"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline_start_outer"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end_outer" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_outer"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_outer" />
 
-        <!-- Guidelines -->
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start_outer"
             android:layout_width="wrap_content"

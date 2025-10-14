@@ -123,7 +123,13 @@ class ExpensesAdapter(val context: Context) :
             binding.tvFrequency.text = item.fuel_voucher_details?.fuel_type
             binding.tvTotalVisit.text = item.fuel_voucher_details?.till_number
             binding.tvAvgVisit.text = "${item.fuel_voucher_details?.km_travelled.toString()} KM"
-            binding.tvMeterReading.text = "${item.fuel_voucher_details?.start_meter_reading.toString()} - ${item.fuel_voucher_details?.end_meter_reading.toString()}"
+            val startReading = item.fuel_voucher_details?.start_meter_reading
+            val endReading = item.fuel_voucher_details?.end_meter_reading
+
+            val formattedStart = if (startReading != null) String.format("%.3f", startReading) else "-"
+            val formattedEnd = if (endReading != null) String.format("%.3f", endReading) else "-"
+
+            binding.tvMeterReading.text = "$formattedStart - $formattedEnd"
             binding.tvVichelNo.text = item.fuel_voucher_details?.vehicle_number
             binding.tvFuelKts.text = "${item.fuel_voucher_details?.fuel_in_liters.toString()} ltrs"
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data></data>
 
@@ -46,7 +47,7 @@
                 android:id="@+id/tv_present"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3"
+                tools:text="3"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
@@ -91,7 +92,7 @@
                 android:id="@+id/tv_half_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2"
+                tools:text="2"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
@@ -138,7 +139,7 @@
                 android:id="@+id/tv_absent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="13"
+                tools:text="13"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
@@ -183,7 +184,7 @@
                 android:id="@+id/tv_on_leave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                tools:text="1"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
@@ -229,7 +230,7 @@
                 android:id="@+id/tv_available_leaves"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="28"
+                tools:text="28"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"

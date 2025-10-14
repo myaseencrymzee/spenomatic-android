@@ -21,6 +21,7 @@ import com.crymzee.spenomatic.state.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
@@ -94,7 +95,6 @@ class ExpensesViewModel @Inject constructor(private val expensesRepository: Expe
         }
     }
 
-
     fun validateLodgingInput(
         fromDate: String,
         toDate: String,
@@ -103,30 +103,61 @@ class ExpensesViewModel @Inject constructor(private val expensesRepository: Expe
         amount: String
     ): Pair<Boolean, Int> {
         return when {
-            fromDate.isEmpty() -> Pair(false, R.string.error_select_date)
-            toDate.isEmpty() -> Pair(false, R.string.error_select_date)
+            fromDate.isEmpty() -> Pair(false, R.string.error_select_start_date)
+            toDate.isEmpty() -> Pair(false, R.string.error_select_end_date)
             nights.isEmpty() -> Pair(false, R.string.error_enter_nights)
             nightAmount.isEmpty() -> Pair(false, R.string.error_enter_amount)
             amount.isEmpty() -> Pair(false, R.string.error_enter_total)
-
             else -> {
                 val sdf = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                sdf.isLenient = false
                 try {
                     val from = sdf.parse(fromDate)
                     val to = sdf.parse(toDate)
 
-                    if (from != null && to != null && !from.before(to)) {
-                        // ❌ Invalid if from == to OR from > to
-                        Pair(false, R.string.error_invalid_date_range)
+                    if (from != null && to != null) {
+                        // Normalize both to ignore time part
+                        val fromCal = Calendar.getInstance().apply {
+                            time = from
+                            set(Calendar.HOUR_OF_DAY, 0)
+                            set(Calendar.MINUTE, 0)
+                            set(Calendar.SECOND, 0)
+                            set(Calendar.MILLISECOND, 0)
+                        }
+
+                        val toCal = Calendar.getInstance().apply {
+                            time = to
+                            set(Calendar.HOUR_OF_DAY, 0)
+                            set(Calendar.MINUTE, 0)
+                            set(Calendar.SECOND, 0)
+                            set(Calendar.MILLISECOND, 0)
+                        }
+
+                        when {
+                            fromCal.after(toCal) -> {
+                                // ❌ fromDate is after toDate
+                                Pair(false, R.string.error_invalid_date_range)
+                            }
+                            fromCal.timeInMillis == toCal.timeInMillis -> {
+                                // ❌ fromDate and toDate are the same day
+                                Pair(false, R.string.error_same_date_not_allowed)
+                            }
+                            else -> {
+                                // ✅ valid range
+                                Pair(true, R.string.empty_string)
+                            }
+                        }
                     } else {
-                        Pair(true, R.string.empty_string)
+                        Pair(false, R.string.error_invalid_date_range)
                     }
                 } catch (e: Exception) {
-                    Pair(true, R.string.empty_string)
+                    Pair(false, R.string.error_invalid_date_range)
                 }
             }
         }
     }
+
+
 
 
 

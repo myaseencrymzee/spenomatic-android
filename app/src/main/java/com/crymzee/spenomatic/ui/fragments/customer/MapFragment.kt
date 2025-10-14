@@ -74,9 +74,9 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
 
             ivBack.setOnClickListener {
-                customersViewModel.address = selectedAddress.toString()
-                customersViewModel.lat = selectedLat ?: 0.0
-                customersViewModel.lng = selectedLng ?: 0.0
+                customersViewModel.address = address
+                customersViewModel.lat = lat ?: 0.0
+                customersViewModel.lng = lng ?: 0.0
                 goBack()
             }
             btnSave.setOnClickListener {
@@ -138,7 +138,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         when {
             // Case 1: Editing existing customer
             isEditable && lat != 0.0 && lng != 0.0 -> {
-                val editLatLng = LatLng(lng, lat)
+                val editLatLng = LatLng(lat, lng)
 
                 if (address.isNotEmpty()) {
                     binding.etAddress.setText(address)

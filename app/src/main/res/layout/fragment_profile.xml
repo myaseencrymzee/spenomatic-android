@@ -145,7 +145,7 @@
             style="@style/CustomMaterialButtonRed"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginVertical="@dimen/_16sdp"
             android:letterSpacing="-0.02"
             android:text="Log Out"
             android:textAllCaps="false"

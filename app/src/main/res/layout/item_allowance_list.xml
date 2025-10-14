@@ -65,7 +65,7 @@
             android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/mulish_bold"
+            android:fontFamily="@font/mulish_semi_bold"
             tools:text="Total: $100"
             android:textColor="@color/grey_3434"
             android:textSize="@dimen/_11sdp"

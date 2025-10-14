@@ -14,6 +14,7 @@ import com.crymzee.spenomatic.model.response.allLeaves.AllLeavesResponseBody
 import com.crymzee.spenomatic.model.response.attendenceList.AttendanceListResponse
 import com.crymzee.spenomatic.model.response.createLeaveResponse.CreateLeaveResponseBody
 import com.crymzee.spenomatic.model.response.createdVisitResponse.CreatedVisitResponse
+import com.crymzee.spenomatic.model.response.dashboardData.DashboardDataResponse
 import com.crymzee.spenomatic.repository.HomeRepository
 import com.crymzee.spenomatic.repository.LeavesRepository
 import com.crymzee.spenomatic.state.Resource
@@ -35,6 +36,13 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     val getAllAttendanceLiveData: LiveData<Resource<out AttendanceListResponse>> =
         _getAllAttendanceLiveData
 
+
+
+    private var _getDashboardDataLiveData =
+        MutableLiveData<Resource<out DashboardDataResponse>>()
+    val getDashboardDataLiveData: LiveData<Resource<out DashboardDataResponse>> =
+        _getDashboardDataLiveData
+
     fun checkInUser(
         checkInRequestBody: CheckInRequestBody
     ): LiveData<Resource<out CreatedVisitResponse>> {
@@ -50,8 +58,17 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     fun getAllAttendance() {
         viewModelScope.launch {
-            homeRepository.executeGetAttendance().collect {
+            homeRepository.executeGetAttendance("","").collect {
                 _getAllAttendanceLiveData.postValue(it)
+            }
+        }
+    }
+
+
+    fun getAllDashboardData() {
+        viewModelScope.launch {
+            homeRepository.executeGetDashBoardData().collect {
+                _getDashboardDataLiveData.postValue(it)
             }
         }
     }

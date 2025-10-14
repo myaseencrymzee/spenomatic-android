@@ -29,6 +29,7 @@ import com.crymzee.spenomatic.model.response.createCustomer.CreateCustomerRespon
 import com.crymzee.spenomatic.model.response.createLeaveResponse.CreateLeaveResponseBody
 import com.crymzee.spenomatic.model.response.createdVisitResponse.CreatedVisitResponse
 import com.crymzee.spenomatic.model.response.customerDetail.CustomerDetailResponse
+import com.crymzee.spenomatic.model.response.dashboardData.DashboardDataResponse
 import com.crymzee.spenomatic.model.response.expenses.AllExpensesResponseBody
 import com.crymzee.spenomatic.model.response.expenses.Data
 import com.crymzee.spenomatic.model.response.loginResponseBody.LoginResponseBody
@@ -216,7 +217,10 @@ interface ApiServices {
 
 
     @GET("users/attendance")
-    suspend fun getAllLeaves(): AttendanceListResponse
+    suspend fun getAllLeaves(
+        @Query("date__gte") startDate: String,
+        @Query("date__lte") endDate: String,
+    ): AttendanceListResponse
 
 
     /*--------------------------- Expenses APIs ----------------- */
@@ -249,6 +253,11 @@ interface ApiServices {
     suspend fun createOutsideExpenses(
         @Body createOutsideExpenseRequest: CreateOutsideExpenseRequest
     ): Data
+
+    /*--------------------------- Dashboard APIs ----------------- */
+
+    @GET("dashboard")
+    suspend fun getDashBoardData(): DashboardDataResponse
 }
 
 

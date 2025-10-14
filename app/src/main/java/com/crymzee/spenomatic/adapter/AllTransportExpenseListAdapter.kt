@@ -8,6 +8,7 @@ import com.crymzee.spenomatic.databinding.ItemCustomerVisitListBinding
 import com.crymzee.spenomatic.databinding.ItemMiscellaneousListBinding
 import com.crymzee.spenomatic.databinding.ItemTransaportExpenseListBinding
 import com.crymzee.spenomatic.model.request.createLocalExpense.TransportExpense
+import com.crymzee.spenomatic.utils.toCamelCase
 
 class AllTransportExpenseListAdapter(
     private val list: MutableList<TransportExpense>,
@@ -26,8 +27,8 @@ class AllTransportExpenseListAdapter(
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         val item = list[position]
         holder.binding.apply {
-            labelLeaveType.text = item.from_location
-            labelLeaveDate.text = item.to_location
+            labelLeaveType.text = item.from_location.toCamelCase()
+            labelLeaveDate.text = item.to_location.toCamelCase()
             tvAmount.text = "\$${item.amount}"
             ivDelete.setOnClickListener {
                 item.from_location?.let { name -> visitId?.invoke(name) }

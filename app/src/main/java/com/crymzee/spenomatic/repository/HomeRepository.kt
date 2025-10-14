@@ -20,9 +20,14 @@ class HomeRepository(private val apiServices: ApiServices) {
             apiServices.checkOutApp(checkOutRequestBody)
         }
     )
-    fun executeGetAttendance() = networkBoundResource(
+    fun executeGetAttendance(startDate: String, endDate: String) = networkBoundResource(
         fetch = {
-            apiServices.getAllLeaves()
+            apiServices.getAllLeaves(startDate,endDate)
+        }
+    )
+    fun executeGetDashBoardData() = networkBoundResource(
+        fetch = {
+            apiServices.getDashBoardData()
         }
     )
 }

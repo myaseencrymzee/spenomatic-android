@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.crymzee.spenomatic.databinding.ItemAllowanceListBinding
 import com.crymzee.spenomatic.model.request.createOutsideExpense.TravelAllowance
+import com.crymzee.spenomatic.utils.toCamelCase
 
 class AllAllowanceExpenseListAdapter(
     private val list: MutableList<TravelAllowance>,
@@ -23,7 +24,7 @@ class AllAllowanceExpenseListAdapter(
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         val item = list[position]
         holder.binding.apply {
-            labelLeaveType.text = item.allowance_type
+            labelLeaveType.text = item.allowance_type.toCamelCase()
             labelLeaveDate.text = item.description
             tvAmount.text = "Total: \$${item.amount}"
             ivDelete.setOnClickListener {

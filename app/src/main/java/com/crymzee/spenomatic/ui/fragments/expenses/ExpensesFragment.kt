@@ -103,6 +103,7 @@ class ExpensesFragment : BaseFragment() {
                         val isEmptyList =
                             posts.data.isEmpty() && expensesViewModel.page == 1
                         binding.tvNoData.isVisible = isEmptyList
+                        binding.tvNoData.text = "No ${expensesViewModel.category} expenses yet"
 
                         if (isFirstPage) {
                             expressAdapter.clearList(posts.data)

@@ -37,7 +37,7 @@
         android:layout_width="@dimen/_1sdp"
         android:layout_height="0dp"
         android:background="@color/grey_CCCCCC"
-        app:layout_constraintBottom_toBottomOf="@id/tv_total_visit"
+        app:layout_constraintBottom_toBottomOf="@id/tv_frequency"
         app:layout_constraintEnd_toStartOf="@id/label_frequency"
         app:layout_constraintStart_toEndOf="@id/label_last_visit"
         app:layout_constraintTop_toTopOf="@id/label_last_visit" />
@@ -77,7 +77,7 @@
         android:layout_width="@dimen/_1sdp"
         android:layout_height="0dp"
         android:background="@color/grey_CCCCCC"
-        app:layout_constraintBottom_toBottomOf="@id/tv_total_visit"
+        app:layout_constraintBottom_toBottomOf="@id/tv_frequency"
         app:layout_constraintEnd_toStartOf="@id/label_total_visit"
         app:layout_constraintStart_toEndOf="@id/label_frequency"
         app:layout_constraintTop_toTopOf="@id/label_frequency" />
@@ -117,7 +117,7 @@
         android:id="@+id/label_meter_reading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:fontFamily="@font/mulish_semi_bold"
         android:text="Lodging &amp; Boarding"
         android:textColor="@color/grey_3434"

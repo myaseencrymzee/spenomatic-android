@@ -106,7 +106,7 @@
                                 android:gravity="start|center"
                                 android:hint="Day"
                                 android:paddingVertical="@dimen/_3sdp"
-                                android:textColor="@color/black"
+                                android:textColor="@color/black_1717"
                                 android:textColorHint="@color/hint_text"
                                 android:textSize="@dimen/_12ssp" />
 
@@ -166,7 +166,7 @@
                         android:inputType="numberDecimal"
                         android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +205,7 @@
                         android:layout_height="0dp"
                         android:background="@null"
                         android:focusable="true"
-                        android:fontFamily="@font/mulish_medium"
+                        android:fontFamily="@font/mulish_regular"
                         android:gravity="top"
                         android:hint="Write...."
                         android:inputType="textMultiLine"
@@ -219,8 +219,10 @@
 
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
                         tools:ignore="Autofill" />
 
 

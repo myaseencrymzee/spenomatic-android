@@ -157,12 +157,12 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                 // :white_check_mark: :two: Check if objective exists
                 if (outCityCustomerVisitListAdapter.itemCount == 0) {
-                    showErrorPopup(requireContext(), "", "No pending visit  yet")
+                    showErrorPopup(requireContext(), "", "No pending client visited yet ")
                     return@setOnClickListener
                 }
                 // :white_check_mark: :two: Check if objective exists
                 if (objective.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Objective field must not be empty")
+                    showErrorPopup(requireContext(), "", "Objective field cannot be empty.")
                     return@setOnClickListener
                 }
 
@@ -996,7 +996,7 @@ class AddOutCityVisitFragment : BaseFragment() {
             // Pick To Date
             dialogueLodge.etSecondName.setOnClickListener {
                 if (fromDateCalendar == null) {
-                    showErrorPopup(requireContext(), "", "Please select From Date first")
+                    showErrorPopup(requireContext(), "", "Please select start date.")
                     return@setOnClickListener
                 }
 
@@ -1025,6 +1025,8 @@ class AddOutCityVisitFragment : BaseFragment() {
 
             // Cancel Button
             dialogueLodge.ivCancel.setOnClickListener {
+                toDate = null
+                fromDate = null
                 alertDialog.dismiss()
                 activeDialog = null
             }

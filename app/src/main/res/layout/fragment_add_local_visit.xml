@@ -117,39 +117,45 @@
                     </RelativeLayout>
 
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/label_no_pending_visit"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_pending_visits"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:fontFamily="@font/mulish_semi_bold"
-                    android:gravity="center_horizontal"
-                    android:text="No pending visit  yet"
-                    android:textColor="@color/theme_blue"
-                    android:textSize="@dimen/_12ssp"
-                    app:layout_constraintBottom_toTopOf="@id/iv_add_transport"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/label_description" />
-
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_customers"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_160sdp"
                     android:layout_marginVertical="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    app:layout_constraintBottom_toTopOf="@id/iv_add_transport"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/label_description"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/item_contact_list" />
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end">
+
+                    <TextView
+                        android:id="@+id/label_no_pending_visit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:gravity="center_horizontal"
+                        android:text="No pending visit yet"
+                        android:textColor="@color/theme_blue"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_customers"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_160sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/label_no_pending_visit"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_contact_list" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <TextView
                     android:id="@+id/label_transport"
@@ -161,7 +167,7 @@
                     android:textColor="@color/black_1717"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/rv_customers" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_pending_visits" />
 
                 <ImageView
                     android:id="@+id/iv_add_transport"
@@ -290,7 +296,7 @@
             style="@style/CustomMaterialButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginVertical="@dimen/_16sdp"
             android:letterSpacing="-0.02"
             android:text="Submit"
             android:layout_marginHorizontal="@dimen/_12ssp"

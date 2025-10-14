@@ -182,16 +182,6 @@ class AuthViewModel @Inject constructor(private val providerAuthRepository: Auth
                 result = Pair(false, R.string.error_enter_password) // Prompt to enter password
             }
 
-            TextUtils.isEmpty(confirmPassword) -> {
-                result = Pair(
-                    false,
-                    R.string.error_enter_confirm_password
-                ) // Prompt to enter confirm password
-            }
-
-            password != confirmPassword -> {
-                result = Pair(false, R.string.error_password_mismatch) // Passwords do not match
-            }
 
             password.contains(" ") -> {
                 result = Pair(
@@ -229,6 +219,17 @@ class AuthViewModel @Inject constructor(private val providerAuthRepository: Auth
                 result =
                     Pair(false, R.string.error_password_special) // Must contain a special character
             }
+
+            TextUtils.isEmpty(confirmPassword) -> {
+                result = Pair(
+                    false,
+                    R.string.error_enter_confirm_password
+                ) // Prompt to enter confirm password
+            }
+
+            password != confirmPassword -> {
+                result = Pair(false, R.string.error_password_mismatch) // Passwords do not match
+            }
         }
 
         return result
@@ -248,14 +249,6 @@ class AuthViewModel @Inject constructor(private val providerAuthRepository: Auth
 
             TextUtils.isEmpty(newPassword) -> {
                 result = Pair(false, R.string.error_enter_new_password)
-            }
-
-            TextUtils.isEmpty(confirmPassword) -> {
-                result = Pair(false, R.string.error_enter_confirm_password)
-            }
-
-            newPassword != confirmPassword -> {
-                result = Pair(false, R.string.error_password_mismatch)
             }
 
             newPassword.contains(" ") -> {
@@ -280,6 +273,13 @@ class AuthViewModel @Inject constructor(private val providerAuthRepository: Auth
 
             !newPassword.any { it in "@#\$%^&+=!" } -> {
                 result = Pair(false, R.string.error_password_special)
+            }
+            TextUtils.isEmpty(confirmPassword) -> {
+                result = Pair(false, R.string.error_enter_confirm_password)
+            }
+
+            newPassword != confirmPassword -> {
+                result = Pair(false, R.string.error_password_mismatch)
             }
         }
 

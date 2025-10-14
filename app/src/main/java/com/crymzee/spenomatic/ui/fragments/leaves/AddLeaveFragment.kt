@@ -44,7 +44,7 @@ class AddLeaveFragment : BaseFragment() {
     private var startDateDisplay: String? = null
     private var endDateDisplay: String? = null
     private var type: String? = null
-    var totalLeaves = 0
+    var totalLeaves = 0.0
 
     private val apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val displayDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
@@ -67,7 +67,7 @@ class AddLeaveFragment : BaseFragment() {
     }
 
     private fun viewInit() {
-        totalLeaves = arguments?.getInt("totalLeaves") ?: 0
+        totalLeaves = arguments?.getDouble("totalLeaves") ?: 0.0
         binding.apply {
             ivBack.setOnClickListener { goBack() }
             layoutSelectLocation.setOnClickListener {

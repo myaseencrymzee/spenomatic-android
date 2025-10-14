@@ -123,7 +123,7 @@ class AddCustomerFragment : BaseFragment() {
 
 
 
-            ivPin.setOnClickListener {
+            containerMapIn.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putInt("customerId", customerId)
                 bundle.putBoolean("isEditable", isEditable)
@@ -557,11 +557,11 @@ class AddCustomerFragment : BaseFragment() {
 
                 val latLngFormatted = String.format(
                     "%.4f° %s, %.4f° %s",
-                    abs(setlat), latDirection,
-                    abs(setlng), lonDirection
+                    abs(setlng), latDirection,
+                    abs(setlat), lonDirection
                 )
-                customersViewModel.lat = setlat
-                customersViewModel.lng = setlng
+                customersViewModel.lat = setlng
+                customersViewModel.lng = setlat
                 customersViewModel.address = data.address
                 binding.etAddress.setText(data.address)
                 binding.etPinPoints.paintFlags =

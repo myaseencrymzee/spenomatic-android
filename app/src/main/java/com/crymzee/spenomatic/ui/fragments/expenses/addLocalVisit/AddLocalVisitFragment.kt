@@ -103,6 +103,10 @@ class AddLocalVisitFragment : BaseFragment() {
                     }
                 }
 
+                if (customerListAdapter.itemCount == 0) {
+                    showErrorPopup(requireContext(), "", "No pending client visited yet ")
+                    return@setOnClickListener
+                }
                 if (visitMap.isEmpty()) {
                     showErrorPopup(
                         requireContext(),

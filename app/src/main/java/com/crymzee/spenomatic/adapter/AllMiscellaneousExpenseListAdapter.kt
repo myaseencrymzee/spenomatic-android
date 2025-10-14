@@ -7,6 +7,7 @@ import com.crymzee.spenomatic.databinding.ItemCustomerListBinding
 import com.crymzee.spenomatic.databinding.ItemCustomerVisitListBinding
 import com.crymzee.spenomatic.databinding.ItemMiscellaneousListBinding
 import com.crymzee.spenomatic.model.request.createLocalExpense.MiscellaneousExpense
+import com.crymzee.spenomatic.utils.toCamelCase
 
 class AllMiscellaneousExpenseListAdapter(
     private val list: MutableList<MiscellaneousExpense>,
@@ -26,7 +27,7 @@ class AllMiscellaneousExpenseListAdapter(
         val item = list[position]
 
         holder.binding.apply {
-            labelLeaveType.text = item.objective
+            labelLeaveType.text = item.objective.toCamelCase()
             labelLeaveDate.text = item.description
             tvAmount.text = "\$${item.amount}"
             ivDelete.setOnClickListener {

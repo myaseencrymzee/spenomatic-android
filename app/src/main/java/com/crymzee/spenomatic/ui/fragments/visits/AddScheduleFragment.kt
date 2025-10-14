@@ -70,7 +70,8 @@ class AddScheduleFragment : BaseFragment() {
 
         binding.apply {
             ivBack.setOnClickListener {
-                navigateClear(R.id.action_addScheduleFragment_to_visitFragment)
+//                navigateClear(R.id.action_addScheduleFragment_to_visitFragment)
+                goBack()
             }
             layoutSelectLocation.setOnClickListener {
                 selectCategory()

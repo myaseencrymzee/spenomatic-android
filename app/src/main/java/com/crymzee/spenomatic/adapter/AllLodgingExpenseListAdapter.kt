@@ -27,7 +27,7 @@ class AllLodgingExpenseListAdapter(
         val item = list[position]
         holder.binding.apply {
             labelLeaveType.text = formatRangeDate(item.from_date, item.to_date)
-            tvNights.text = "Nights: ${item.nights_stayed}"
+            labelNights.text = "${item.nights_stayed}"
             tvAmountPerDay.text = "Amount/day: \$${item.per_night_amount}"
             tvTotal.text = "Total: \$${item.total_amount}"
             ivDelete.setOnClickListener {

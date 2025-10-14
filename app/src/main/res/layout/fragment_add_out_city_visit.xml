@@ -60,39 +60,44 @@
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
-                <TextView
-                    android:id="@+id/label_no_pending_visit"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_pending_visits"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_12sdp"
-                    android:fontFamily="@font/mulish_semi_bold"
-                    android:gravity="center_horizontal"
-                    android:text="No pending visit  yet"
-                    android:textColor="@color/theme_blue"
-                    android:textSize="@dimen/_12ssp"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@id/label_transport"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/label_description" />
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_customers"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_160sdp"
                     android:layout_marginVertical="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    app:layout_constraintBottom_toTopOf="@id/iv_add_transport"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/label_description"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/item_contact_list" />
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end">
+
+                    <TextView
+                        android:id="@+id/label_no_pending_visit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:gravity="center_horizontal"
+                        android:text="No pending visit yet"
+                        android:textColor="@color/theme_blue"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_customers"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_160sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/label_no_pending_visit"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_contact_list" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <TextView
                     android:id="@+id/label_transport"
@@ -104,7 +109,7 @@
                     android:textColor="@color/black_1717"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/rv_customers" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_pending_visits" />
 
                 <ImageView
                     android:id="@+id/iv_add_transport"
@@ -115,37 +120,45 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintTop_toTopOf="@id/label_transport" />
 
-                <TextView
-                    android:id="@+id/label_no_transport_data"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_transport_section"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_12sdp"
-                    android:fontFamily="@font/mulish_semi_bold"
-                    android:gravity="center_horizontal"
-                    android:text="No transport expenses added yet"
-                    android:textColor="@color/theme_blue"
-                    android:textSize="@dimen/_12ssp"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@id/label_lodging"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/label_transport" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_transport"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_6sdp"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@id/iv_add_lodging"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    android:layout_marginVertical="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@id/iv_add_transport"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/item_contact_list" />
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintBottom_toTopOf="@id/label_lodging">
+
+                    <TextView
+                        android:id="@+id/label_no_transport_data"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:gravity="center_horizontal"
+                        android:text="No transport expenses added yet"
+                        android:textColor="@color/theme_blue"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_transport"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/label_no_transport_data"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_contact_list" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <ImageView
                     android:id="@+id/iv_add_lodging"
@@ -166,49 +179,56 @@
                     android:textColor="@color/black_1717"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/label_no_transport_data" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_transport_section" />
 
-                <TextView
-                    android:id="@+id/label_no_lodging_data"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_lodging_section"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_12sdp"
-                    android:fontFamily="@font/mulish_semi_bold"
-                    android:gravity="center_horizontal"
-                    android:text="No lodging expenses added yet"
-                    android:textColor="@color/theme_blue"
-                    android:textSize="@dimen/_12ssp"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@id/layout_bus_train_section"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/iv_add_lodging" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_loging"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_6sdp"
-                    android:orientation="vertical"
-
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@id/layout_bus_train_section"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    android:layout_marginVertical="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@id/iv_add_lodging"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/item_contact_list" />
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintBottom_toTopOf="@id/layout_bus_train_section">
+
+                    <TextView
+                        android:id="@+id/label_no_lodging_data"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish_semi_bold"
+                        android:gravity="center_horizontal"
+                        android:text="No lodging expenses added yet"
+                        android:textColor="@color/theme_blue"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_loging"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/label_no_lodging_data"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_contact_list" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_bus_train_section"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/rv_loging"
+                    app:layout_constraintTop_toBottomOf="@id/layout_lodging_section"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_marginVertical="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_6sdp">
 
                     <TextView
@@ -309,13 +329,14 @@
                         android:id="@+id/label_no_allowance_data"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginVertical="@dimen/_8sdp"
                         android:fontFamily="@font/mulish_semi_bold"
                         android:gravity="center"
                         android:text="No allowance expenses added yet"
                         android:textColor="@color/theme_blue"
                         android:textSize="@dimen/_12ssp"
                         android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/label_allowance"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -425,7 +446,7 @@
             style="@style/CustomMaterialButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginVertical="@dimen/_16sdp"
             android:letterSpacing="-0.02"
             android:text="Submit"
             android:layout_marginHorizontal="@dimen/_12ssp"

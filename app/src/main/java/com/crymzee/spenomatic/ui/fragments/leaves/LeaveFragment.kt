@@ -24,7 +24,7 @@ class LeaveFragment : BaseFragment() {
     private lateinit var leaveListAdapter: LeaveListAdapter
     private var isLastPage: Boolean = false
     private var isLoading: Boolean = false
-    var totalLeaves = 0
+    var totalLeaves = 0.0
     private val layoutManager by lazy { getLinearLayoutManager() }
     private val leavesViewModel: LeavesViewModel by activityViewModels()
 
@@ -52,7 +52,7 @@ class LeaveFragment : BaseFragment() {
         binding.apply {
             icAdd.setOnClickListener {
                 val bundle = Bundle()
-                bundle.putInt("totalLeaves", totalLeaves)
+                bundle.putDouble("totalLeaves", totalLeaves)
                 navigate(R.id.action_leaveFragment_to_addLeaveFragment, bundle)
             }
             tvAll.setOnClickListener { selectTab(tvAll) }
@@ -140,7 +140,8 @@ class LeaveFragment : BaseFragment() {
                         val isEmptyList =
                             posts.data.isEmpty() && leavesViewModel.page == 1
                         binding.tvNoData.isVisible = isEmptyList
-                        totalLeaves = posts.stats.leaves_left.toInt()
+                        binding.tvNoData.text = "No ${leavesViewModel.category} expenses yet"
+                        totalLeaves = posts.stats.leaves_left
 
                         if (isFirstPage) {
                             leaveListAdapter.clearList(posts.data)

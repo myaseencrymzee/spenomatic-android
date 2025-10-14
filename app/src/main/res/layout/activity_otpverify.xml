@@ -67,7 +67,7 @@
             style="@style/CustomMaterialButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_32sdp"
+            android:layout_marginBottom="@dimen/_25sdp"
             android:letterSpacing="-0.02"
             android:text="Confirm"
             android:textAllCaps="false"
