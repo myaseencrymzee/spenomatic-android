@@ -386,7 +386,7 @@
                     android:fontFamily="@font/mulish_semi_bold"
                     android:gravity="center_horizontal"
                     android:visibility="gone"
-                    android:text="No allowance expenses added yet"
+                    android:text="No miscellaneous expenses added yet"
                     android:textColor="@color/theme_blue"
                     android:textSize="@dimen/_12ssp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

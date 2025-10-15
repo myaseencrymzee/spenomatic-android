@@ -109,46 +109,38 @@ class ExpensesViewModel @Inject constructor(private val expensesRepository: Expe
             nightAmount.isEmpty() -> Pair(false, R.string.error_enter_amount)
             amount.isEmpty() -> Pair(false, R.string.error_enter_total)
             else -> {
-                val sdf = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()) // ✅ use same as apiFormat
                 sdf.isLenient = false
+
                 try {
                     val from = sdf.parse(fromDate)
                     val to = sdf.parse(toDate)
 
-                    if (from != null && to != null) {
-                        // Normalize both to ignore time part
-                        val fromCal = Calendar.getInstance().apply {
-                            time = from
-                            set(Calendar.HOUR_OF_DAY, 0)
-                            set(Calendar.MINUTE, 0)
-                            set(Calendar.SECOND, 0)
-                            set(Calendar.MILLISECOND, 0)
-                        }
+                    if (from == null || to == null) {
+                        return Pair(false, R.string.error_invalid_date_format)
+                    }
 
-                        val toCal = Calendar.getInstance().apply {
-                            time = to
-                            set(Calendar.HOUR_OF_DAY, 0)
-                            set(Calendar.MINUTE, 0)
-                            set(Calendar.SECOND, 0)
-                            set(Calendar.MILLISECOND, 0)
-                        }
+                    val fromCal = Calendar.getInstance().apply {
+                        time = from
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }
 
-                        when {
-                            fromCal.after(toCal) -> {
-                                // ❌ fromDate is after toDate
-                                Pair(false, R.string.error_invalid_date_range)
-                            }
-                            fromCal.timeInMillis == toCal.timeInMillis -> {
-                                // ❌ fromDate and toDate are the same day
-                                Pair(false, R.string.error_same_date_not_allowed)
-                            }
-                            else -> {
-                                // ✅ valid range
-                                Pair(true, R.string.empty_string)
-                            }
-                        }
-                    } else {
-                        Pair(false, R.string.error_invalid_date_range)
+                    val toCal = Calendar.getInstance().apply {
+                        time = to
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }
+
+                    // ✅ Logical validation
+                    when {
+                        fromCal.after(toCal) -> Pair(false, R.string.error_invalid_date_range) // toDate before fromDate
+                        fromCal.timeInMillis == toCal.timeInMillis -> Pair(false, R.string.error_same_date_not_allowed) // same day
+                        else -> Pair(true, R.string.empty_string) // valid
                     }
                 } catch (e: Exception) {
                     Pair(false, R.string.error_invalid_date_range)
@@ -156,10 +148,6 @@ class ExpensesViewModel @Inject constructor(private val expensesRepository: Expe
             }
         }
     }
-
-
-
-
 
 
     fun validateBusTrainExpenseInput(

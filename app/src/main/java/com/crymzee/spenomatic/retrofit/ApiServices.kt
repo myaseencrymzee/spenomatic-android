@@ -17,12 +17,14 @@ import com.crymzee.spenomatic.model.request.createFuelExpense.CreateFuelExpenseR
 import com.crymzee.spenomatic.model.request.createLocalExpense.CreateLocalExpenseRequest
 import com.crymzee.spenomatic.model.request.createOutsideExpense.CreateOutsideExpenseRequest
 import com.crymzee.spenomatic.model.request.pendingVisits.AllPendingVisitResponse
+import com.crymzee.spenomatic.model.request.trackingRequest.TrackingRequestBody
 import com.crymzee.spenomatic.model.response.ForgotPasswordResponseBody
 import com.crymzee.spenomatic.model.response.RefreshResponseBody
 import com.crymzee.spenomatic.model.response.ResetPasswordResponseBody
 import com.crymzee.spenomatic.model.response.allCustomers.AllCustomersResponseBody
 import com.crymzee.spenomatic.model.response.allLeaves.AllLeavesResponseBody
 import com.crymzee.spenomatic.model.response.attendenceList.AttendanceListResponse
+import com.crymzee.spenomatic.model.response.checkINApp.CheckInAppResponse
 import com.crymzee.spenomatic.model.response.checkOutResponse.CheckOutResponse
 import com.crymzee.spenomatic.model.response.checkedInResponse.CheckInResponseBody
 import com.crymzee.spenomatic.model.response.createCustomer.CreateCustomerResponse
@@ -208,7 +210,7 @@ interface ApiServices {
     @POST("users/attendance/check_in")
     suspend fun checkInApp(
         @Body checkInRequestBody: CheckInRequestBody
-    ): CreatedVisitResponse
+    ): CheckInAppResponse
 
     @POST("users/attendance/check_out")
     suspend fun checkOutApp(
@@ -258,6 +260,11 @@ interface ApiServices {
 
     @GET("dashboard")
     suspend fun getDashBoardData(): DashboardDataResponse
+
+    @POST("users/tracking")
+    suspend fun trackLocation(
+        @Body trackingRequestBody: TrackingRequestBody
+    ): Data
 }
 
 

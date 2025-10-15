@@ -32,6 +32,8 @@ open class Constants {
 
         val CHECKED_IN_USER = "checked_in_user"
         val CHECKED_IN_TIME = "checked_in_time"
+        val LAST_CHECKIN_DATE = "last_checkin_date"
+        val LAST_CHECKIN_ID = "last_checkin_id"
 
 
     }

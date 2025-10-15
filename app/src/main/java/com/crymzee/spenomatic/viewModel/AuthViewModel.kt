@@ -240,44 +240,56 @@ class AuthViewModel @Inject constructor(private val providerAuthRepository: Auth
         newPassword: String,
         confirmPassword: String
     ): Pair<Boolean, Int> {
+        // Default result: valid
         var result = Pair(true, R.string.empty_string)
 
         when {
+            // 1️⃣ Old password validation
             TextUtils.isEmpty(password) -> {
                 result = Pair(false, R.string.error_enter_old_password)
             }
 
+            // 2️⃣ New password - empty check first (important)
             TextUtils.isEmpty(newPassword) -> {
                 result = Pair(false, R.string.error_enter_new_password)
             }
 
+            // 3️⃣ New password - whitespace check
             newPassword.contains(" ") -> {
-                result = Pair(false, R.string.error_password_whitespace) // No spaces allowed
+                result = Pair(false, R.string.error_password_whitespace)
             }
 
+            // 4️⃣ New password - minimum length
             newPassword.length < 8 -> {
                 result = Pair(false, R.string.error_password_length)
             }
 
+            // 5️⃣ New password - at least one uppercase letter
             !newPassword.any { it.isUpperCase() } -> {
-                result = Pair(false, R.string.error_password_lowercase)
-            }
-
-            !newPassword.any { it.isLowerCase() } -> {
                 result = Pair(false, R.string.error_password_uppercase)
             }
 
+            // 6️⃣ New password - at least one lowercase letter
+            !newPassword.any { it.isLowerCase() } -> {
+                result = Pair(false, R.string.error_password_lowercase)
+            }
+
+            // 7️⃣ New password - at least one digit
             !newPassword.any { it.isDigit() } -> {
                 result = Pair(false, R.string.error_password_digit)
             }
 
+            // 8️⃣ New password - at least one special character
             !newPassword.any { it in "@#\$%^&+=!" } -> {
                 result = Pair(false, R.string.error_password_special)
             }
+
+            // 9️⃣ Confirm password empty
             TextUtils.isEmpty(confirmPassword) -> {
                 result = Pair(false, R.string.error_enter_confirm_password)
             }
 
+            // 🔟 Confirm password mismatch
             newPassword != confirmPassword -> {
                 result = Pair(false, R.string.error_password_mismatch)
             }
@@ -285,5 +297,6 @@ class AuthViewModel @Inject constructor(private val providerAuthRepository: Auth
 
         return result
     }
+
 
 }

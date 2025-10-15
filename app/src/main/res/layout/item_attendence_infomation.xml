@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_6sdp"
                 android:text="Present"
+                app:layout_constraintBottom_toTopOf="@id/tv_present"
                 android:fontFamily="@font/mulish_semi_bold"
                 android:textSize="@dimen/_10ssp"
                 android:textColor="@color/grey_3434"
@@ -51,6 +52,7 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_present"
                 android:textColor="@color/hint_text"
                 app:layout_constraintStart_toStartOf="@id/label_present"
                 app:layout_constraintTop_toBottomOf="@id/label_present" />
@@ -82,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:text="Half Day"
+                app:layout_constraintBottom_toTopOf="@id/tv_half_day"
                 android:fontFamily="@font/mulish_semi_bold"
                 android:textSize="@dimen/_10ssp"
                 android:textColor="@color/grey_3434"
@@ -97,6 +100,7 @@
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
                 android:textColor="@color/hint_text"
+                app:layout_constraintBottom_toBottomOf="@id/iv_half_day"
                 app:layout_constraintStart_toStartOf="@id/label_half_day"
                 app:layout_constraintTop_toBottomOf="@id/label_half_day" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -129,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:text="Absent"
+                app:layout_constraintBottom_toTopOf="@id/tv_absent"
                 android:fontFamily="@font/mulish_semi_bold"
                 android:textSize="@dimen/_10ssp"
                 android:textColor="@color/grey_3434"
@@ -143,6 +148,7 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_absent"
                 android:textColor="@color/hint_text"
                 app:layout_constraintStart_toStartOf="@id/label_absent"
                 app:layout_constraintTop_toBottomOf="@id/label_absent" />
@@ -176,6 +182,7 @@
                 android:text="On Leave"
                 android:fontFamily="@font/mulish_semi_bold"
                 android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toTopOf="@id/tv_on_leave"
                 android:textColor="@color/grey_3434"
                 app:layout_constraintStart_toEndOf="@id/iv_on_leave"
                 app:layout_constraintTop_toTopOf="@id/iv_on_leave" />
@@ -188,6 +195,7 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_on_leave"
                 android:textColor="@color/hint_text"
                 app:layout_constraintStart_toStartOf="@id/label_on_leave"
                 app:layout_constraintTop_toBottomOf="@id/label_on_leave" />
@@ -222,6 +230,7 @@
                 android:text="Available Leaves"
                 android:fontFamily="@font/mulish_semi_bold"
                 android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toTopOf="@id/tv_available_leaves"
                 android:textColor="@color/grey_3434"
                 app:layout_constraintStart_toEndOf="@id/iv_available_leaves"
                 app:layout_constraintTop_toTopOf="@id/iv_available_leaves" />
@@ -234,6 +243,7 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:textSize="@dimen/_9ssp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_available_leaves"
                 android:textColor="@color/hint_text"
                 app:layout_constraintStart_toStartOf="@id/label_available_leaves"
                 app:layout_constraintTop_toBottomOf="@id/label_available_leaves" />

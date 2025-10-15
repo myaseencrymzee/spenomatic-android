@@ -270,6 +270,8 @@ class AddOutCityVisitFragment : BaseFragment() {
                             requireContext(),
                             "Success!", "Expense has been created successfully",
                             onConfirm = {
+                                outCityCustomerVisitListAdapter.setData(emptyList())
+                                outCityCustomerVisitListAdapter.notifyDataSetChanged()
                                 navigateClear(R.id.action_addOutCityVisitFragment_to_expensesFragment)
                             })
                     }
@@ -620,7 +622,10 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                     if (validationResult.first) {
                         val amountValue = amount
-                        if (amountValue == null || amountValue <= "0.0") {
+                        if (from == to) {
+                            showErrorPopup(requireContext(), "", "From and To destinations cannot be the same.")
+                            return@postDelayed
+                        }else if (amountValue == null || amountValue <= "0.0") {
                             showErrorPopup(requireContext(), "", "Please enter a valid amount")
                             return@postDelayed
                         }
@@ -775,6 +780,7 @@ class AddOutCityVisitFragment : BaseFragment() {
         customersViewModel.getAllPendingVisits()
         customersViewModel.getAllPendingVisitLiveData.removeObservers(viewLifecycleOwner)
         customersViewModel.getAllPendingVisitLiveData.observe(viewLifecycleOwner) { response ->
+            binding.loader.isVisible = response is Resource.Loading<*>
 
             when (response) {
                 is Resource.Error -> {
@@ -789,7 +795,7 @@ class AddOutCityVisitFragment : BaseFragment() {
                 is Resource.Success -> {
                     response.data?.let { posts ->
                         val isFirstPage = expensesViewModel.page == 1
-                        val isEmptyList = posts.data.isEmpty() && isFirstPage
+                        val isEmptyList = posts.data.isNullOrEmpty() && isFirstPage
 
                         if(isEmptyList){
                             binding.labelNoPendingVisit.visible()
@@ -893,27 +899,40 @@ class AddOutCityVisitFragment : BaseFragment() {
 
 
             // --- Time Picker ---
+            // --- Time Picker ---
             dialogueTrains.containerContact.setOnClickListener {
                 val calendar = Calendar.getInstance()
                 val timePicker = TimePickerDialog(
                     context,
                     { _, hourOfDay, minute ->
-                        // Format time: HH:mm (24hr format)
-                        val formattedTime = String.format("%02d:%02d", hourOfDay, minute)
-                        dialogueTrains.etContact.text = formattedTime
+                        // --- Save in 24-hour format ---
+                        val savedTime24 = String.format("%02d:%02d", hourOfDay, minute)
+
+                        // --- Display in 12-hour format with AM/PM ---
+                        val displayFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                        val parseFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                        val date = parseFormat.parse(savedTime24)
+                        val displayTime = displayFormat.format(date!!)
+
+                        // Show the 12-hour formatted time
+                        dialogueTrains.etContact.text = displayTime
+
+                        // If you need to save 24-hour value somewhere
+                        dialogueTrains.etContact.tag = savedTime24
                     },
                     calendar.get(Calendar.HOUR_OF_DAY),
                     calendar.get(Calendar.MINUTE),
-                    true // 24-hour format
+                    false // 👈 false = 12-hour format with AM/PM
                 )
                 timePicker.show()
             }
+
 
             // OK button
             dialogueTrains.btnAdd.setOnClickListener {
                 Handler(Looper.getMainLooper()).postDelayed({
                     val date = dialogueTrains.etCustomerName.text.toString().trim()
-                    val time = dialogueTrains.etContact.text.toString().trim()
+                    val time = dialogueTrains.etContact.tag.toString().trim()
                     val amount = dialogueTrains.etEmail.text.toString().trim()
 
                     val validationResult =

@@ -58,8 +58,21 @@ object SharedPrefsHelper {
         null
     )
 
+
     fun getUserCheckedInTime(): String? = get<String?>(
         Constants.CHECKED_IN_TIME,
+        null
+    )
+
+
+
+    fun getUserCheckedInDate(): String? = get<String?>(
+        Constants.LAST_CHECKIN_DATE,
+        null
+    )
+
+    fun getUserCheckedInId(): String? = get<String?>(
+        Constants.LAST_CHECKIN_ID,
         null
     )
 
@@ -95,6 +108,16 @@ object SharedPrefsHelper {
 
     fun setUserCheckedInTime(id: String?) {
         save(Constants.CHECKED_IN_TIME, id)
+    }
+
+
+    fun setUserCheckedInTimeDate(id: String?) {
+        save(Constants.LAST_CHECKIN_DATE, id)
+    }
+
+
+    fun setUserCheckedInId(id: String?) {
+        save(Constants.LAST_CHECKIN_ID, id)
     }
 
     fun setStatus(id: String?) {

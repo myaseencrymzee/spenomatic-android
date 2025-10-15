@@ -196,6 +196,8 @@ class AddLocalVisitFragment : BaseFragment() {
                             requireContext(),
                             "Success!", "Expense has been created successfully",
                             onConfirm = {
+                                customerListAdapter.setData(emptyList())
+                                customerListAdapter.notifyDataSetChanged()
                                 navigateClear(R.id.action_addLocalVisitFragment_to_expensesFragment)
                             })
                     }
@@ -350,6 +352,7 @@ class AddLocalVisitFragment : BaseFragment() {
 
                 is Resource.Success -> {
                     response.data?.let { posts ->
+
                         val isFirstPage = expensesViewModel.page == 1
                         val isEmptyList = posts.data.isEmpty() && isFirstPage
                         if(isEmptyList){
@@ -360,6 +363,7 @@ class AddLocalVisitFragment : BaseFragment() {
                             binding.rvCustomers.visible()
                         }
                         if (isFirstPage) {
+
                             // ✅ Use new setData (auto-selects first item)
                             customerListAdapter.setData(posts.data)
                             adjustRecyclerHeight()
@@ -434,7 +438,10 @@ class AddLocalVisitFragment : BaseFragment() {
 
                     if (validationResult.first) {
                         val amountValue = amount
-                        if (amountValue == null || amountValue <= "0.0") {
+                        if (from == to) {
+                            showErrorPopup(requireContext(), "", "From and To destinations cannot be the same.")
+                            return@postDelayed
+                        }else if (amountValue == null || amountValue <= "0.0") {
                             showErrorPopup(requireContext(), "", "Please enter a valid amount")
                             return@postDelayed
                         }

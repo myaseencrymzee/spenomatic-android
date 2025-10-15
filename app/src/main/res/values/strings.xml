@@ -19,13 +19,11 @@
     <string name="error_password_digit">Password must contain a numeral.</string>
     <string name="error_password_special">Password must contain a symbol.</string>
     <string name="error_password_whitespace">Password must not contain spaces.</string>
-
-
+    <string name="error_invalid_date_format">Invalid date format. Please select valid dates.</string>
     <string name="error_enter_name">Name field cannot be empty.</string>
     <string name="error_enter_designation">Designation field cannot be empty.</string>
     <string name="error_enter_phone">Please enter your phone number.</string>
     <string name="error_invalid_phone_number">Please enter a valid Contact with a country code.</string>
-
     <string name="error_enter_customer_name">Customer name field cannot be empty.</string>
     <string name="error_enter_address">Customer address field cannot be empty.</string>
     <string name="error_enter_pinpoints">Map Pin location field cannot be empty.</string>
@@ -34,25 +32,14 @@
     <string name="error_number_of_visit_empty">Please enter number of visits.</string>
     <string name="error_number_of_visit_invalid">The number of visits must be at least 1.</string>
     <string name="error_atleast_one_contact">At least one contact must be added.</string>
-
-
-
-
     <string name="error_select_customer">Please select your client.</string>
     <string name="error_enter_schedule_date">Please select a schedule date.</string>
     <string name="error_enter_visit_type">Please select visit type.</string>
     <string name="error_enter_remarks">Add remarks field cannot be empty.</string>
-
-
-
-
     <string name="error_select_leave_type">Please select leave type.</string>
     <string name="error_select_start_date">Please select start date.</string>
     <string name="error_select_end_date">Please select end date.</string>
     <string name="error_enter_reason">Reason field cannot be empty.</string>
-
-
-
     <string name="error_enter_driver_name">Driver name field cannot be empty.</string>
     <string name="error_enter_vehicle_no">Vehicle number Field cannot be empty.</string>
     <string name="error_select_fuel_type">Please select fuel type.</string>
@@ -67,8 +54,6 @@
     <string name="error_enter_places_visited">Places visited field cannot be empty.</string>
     <string name="error_enter_kilometers">Please enter kilometers travelled.</string>
     <string name="error_end_meter_must_be_greater">End meter reading must be greater than start meter reading.</string>
-
-
     <string name="error_enter_from">Please enter start destination.</string>
     <string name="error_enter_to">Please enter end destination.</string>
     <string name="error_invalid_amount">Amount must be at least 1.</string>
@@ -77,7 +62,7 @@
     <string name="error_enter_objective">Objective field cannot be empty.</string>
     <string name="error_enter_allowance">Please select allowance type.</string>
     <string name="error_enter_description">Description field cannot be empty.</string>
-    <string name="error_same_date_not_allowed">From and To date cannot be the same</string>
-    <string name="error_enter_nights">Please enter number of nights stayed</string>
+    <string name="error_same_date_not_allowed">To date must be after from date.</string>
+    <string name="error_enter_nights">Please enter number of nights stayed.</string>
     <string name="error_invalid_date_range">To date must be after from date.</string>
 </resources>

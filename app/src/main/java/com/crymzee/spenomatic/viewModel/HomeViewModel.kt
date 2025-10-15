@@ -12,6 +12,7 @@ import com.crymzee.spenomatic.model.request.CreateLeaveRequest
 import com.crymzee.spenomatic.model.response.allCustomers.AllCustomersResponseBody
 import com.crymzee.spenomatic.model.response.allLeaves.AllLeavesResponseBody
 import com.crymzee.spenomatic.model.response.attendenceList.AttendanceListResponse
+import com.crymzee.spenomatic.model.response.checkINApp.CheckInAppResponse
 import com.crymzee.spenomatic.model.response.createLeaveResponse.CreateLeaveResponseBody
 import com.crymzee.spenomatic.model.response.createdVisitResponse.CreatedVisitResponse
 import com.crymzee.spenomatic.model.response.dashboardData.DashboardDataResponse
@@ -45,7 +46,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     fun checkInUser(
         checkInRequestBody: CheckInRequestBody
-    ): LiveData<Resource<out CreatedVisitResponse>> {
+    ): LiveData<Resource<out CheckInAppResponse>> {
         return homeRepository.executeCheckInUser(checkInRequestBody).asLiveData()
     }
 
