@@ -9,6 +9,8 @@ import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.databinding.ItemRecentVisitBinding
 import com.crymzee.spenomatic.databinding.ItemScheduleListBinding
 import com.crymzee.spenomatic.model.response.visitsList.Data
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class RecentVisitAdapter(val context: Context) :
@@ -66,7 +68,7 @@ class RecentVisitAdapter(val context: Context) :
 
 
         holder.binding.apply {
-            labelLeaveType.text =data.schedule_date
+            labelLeaveType.text = formatFullDate(data.schedule_date)
             when (data.type) {
                 "sales" -> {
                     icLeaveStatus.setImageResource(R.drawable.type_sales)
@@ -79,6 +81,18 @@ class RecentVisitAdapter(val context: Context) :
         }
 
         holder.binding.executePendingBindings()
+    }
+    fun formatFullDate(dateString: String?): String {
+        if (dateString.isNullOrEmpty()) return ""
+
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+            val date = inputFormat.parse(dateString)
+            if (date != null) outputFormat.format(date) else ""
+        } catch (e: Exception) {
+            ""
+        }
     }
 
 

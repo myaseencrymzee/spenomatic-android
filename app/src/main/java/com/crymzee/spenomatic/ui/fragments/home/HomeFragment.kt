@@ -240,6 +240,7 @@ class HomeFragment : BaseFragment() {
                     }
 
                     is Resource.Success -> {
+                        getDashBoardData()
                         val checkInId = response.data?.id ?: return@observe
 
                         // Save state

@@ -84,9 +84,9 @@
                         android:fontFamily="@font/mulish_regular"
                         android:gravity="center_vertical|start"
                         android:hint="Full Day"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_10ssp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -250,7 +250,7 @@
                         android:paddingEnd="@dimen/_6sdp"
                         android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_10ssp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

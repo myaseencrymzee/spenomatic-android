@@ -114,9 +114,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -151,9 +150,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -216,9 +214,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -254,9 +251,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

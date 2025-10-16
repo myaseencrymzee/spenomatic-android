@@ -54,8 +54,9 @@
             android:fillViewport="true"
             android:overScrollMode="never"
             android:scrollbars="none"
+            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintTop_toBottomOf="@id/header_container"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_save"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -219,7 +220,7 @@
                                 android:gravity="start|center"
                                 android:hint="Petrol"
                                 android:paddingVertical="@dimen/_3sdp"
-                                android:textColor="@color/black"
+                                android:textColor="@color/black_1717"
                                 android:textColorHint="@color/hint_text"
                                 android:textSize="@dimen/_10ssp" />
 
@@ -265,9 +266,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -320,9 +320,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -371,8 +370,8 @@
                         android:maxLines="1"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/dark_sw"
+                        android:textColor="@color/black_1717"
+                        android:textColorHint="@color/hint_text"
                         android:textSize="@dimen/_10ssp"
 
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -525,9 +524,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -563,9 +561,8 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_6sdp"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -616,7 +613,7 @@
                         android:paddingEnd="@dimen/_6sdp"
                         android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_10ssp"
 
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -671,20 +668,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_save"
-                    style="@style/CustomMaterialButton"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginVertical="@dimen/_18sdp"
-                    android:letterSpacing="-0.02"
-                    android:text="Submit"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/container_kilo_meter" />
+
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
@@ -702,7 +686,20 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
+            style="@style/CustomMaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_18sdp"
+            android:letterSpacing="-0.02"
+            android:text="Submit"
+            android:layout_margin="@dimen/_16sdp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <!-- Loader -->
         <ProgressBar
             android:id="@+id/loader"

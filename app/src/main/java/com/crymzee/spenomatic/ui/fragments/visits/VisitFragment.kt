@@ -102,6 +102,7 @@ class VisitFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         visitViewModel.page = 1
         visitViewModel.perPage = 10
+        visitViewModel.selectedTab = "pending,checked_in"
         observePublicPosts()
 
     }
@@ -177,6 +178,11 @@ class VisitFragment : BaseFragment() {
                         val isEmptyList =
                             posts.data.isEmpty() && visitViewModel.page == 1
                         binding.tvNoData.isVisible = isEmptyList
+                        if(visitViewModel.selectedTab == "pending,checked_in"){
+                            binding.tvNoData.text = "No schedule visit yet"
+                        }else{
+                            binding.tvNoData.text = "No visited yet"
+                        }
 
                         binding.tvEarnings.text = posts.stats.total_visits_today.toString()
                         binding.tvReviews.text = posts.stats.avg_visit_time.toString()

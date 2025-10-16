@@ -38,21 +38,32 @@
         <!-- Auth screens -->
         <activity
             android:name=".ui.auth.ResetPasswordActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.auth.OTPVerifyActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.auth.ForgotPasswordActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.auth.SignInActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
+
             android:theme="@style/Theme.SpenoMatic" />
 
         <!-- Splash (launcher) -->
         <activity
             android:name=".ui.splash.SplashActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

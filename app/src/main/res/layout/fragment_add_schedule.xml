@@ -113,9 +113,9 @@
                                 android:gravity="start|center"
                                 android:hint="John Doe"
                                 android:paddingVertical="@dimen/_3sdp"
-                                android:textColor="@color/black"
+                                android:textColor="@color/black_1717"
                                 android:textColorHint="@color/hint_text"
-                                android:textSize="@dimen/_12ssp" />
+                                android:textSize="@dimen/_10ssp" />
 
                         </LinearLayout>
 
@@ -298,7 +298,7 @@
                         android:paddingEnd="@dimen/_6sdp"
                         android:textColor="@color/black_1717"
                         android:textColorHint="@color/hint_text"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_10ssp"
 
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

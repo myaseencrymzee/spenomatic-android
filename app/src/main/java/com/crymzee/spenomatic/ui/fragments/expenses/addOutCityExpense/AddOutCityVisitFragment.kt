@@ -934,7 +934,7 @@ class AddOutCityVisitFragment : BaseFragment() {
                     val date = dialogueTrains.etCustomerName.text.toString().trim()
                     val time = dialogueTrains.etContact.tag.toString().trim()
                     val amount = dialogueTrains.etEmail.text.toString().trim()
-
+                    SpenoMaticLogger.logErrorMsg("date formate","$time")
                     val validationResult =
                         expensesViewModel.validateBusTrainExpenseInput(date, time, amount)
 

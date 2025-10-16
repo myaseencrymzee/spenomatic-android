@@ -405,7 +405,7 @@
             style="@style/CustomMaterialButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />
@@ -418,7 +418,7 @@
             android:visibility="gone"
             android:elevation="@dimen/_5sdp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
             android:src="@drawable/btn_detail_visited"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

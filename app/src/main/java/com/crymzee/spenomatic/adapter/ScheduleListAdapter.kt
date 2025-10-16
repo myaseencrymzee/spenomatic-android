@@ -133,6 +133,11 @@ class ScheduleListAdapter(val context: Context) :
             val days = TimeUnit.MILLISECONDS.toDays(diff)
 
             when {
+                days < 0 -> {
+                    // Future date — format as "26 Oct"
+                    val futureFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
+                    futureFormat.format(date)
+                }
                 days < 1 -> "Today"
                 days == 1L -> "Yesterday"
                 else -> "$days days ago"
@@ -141,6 +146,7 @@ class ScheduleListAdapter(val context: Context) :
             ""
         }
     }
+
 
     class RecyclerViewHolder(val binding: ItemScheduleListBinding) :
         RecyclerView.ViewHolder(binding.root)
