@@ -126,8 +126,8 @@ class ExpensesAdapter(val context: Context) :
             val startReading = item.fuel_voucher_details?.start_meter_reading
             val endReading = item.fuel_voucher_details?.end_meter_reading
 
-            val formattedStart = if (startReading != null) String.format("%.3f", startReading) else "-"
-            val formattedEnd = if (endReading != null) String.format("%.3f", endReading) else "-"
+            val formattedStart = if (startReading != null) String.format("%.1f", startReading) else "-"
+            val formattedEnd = if (endReading != null) String.format("%.1f", endReading) else "-"
 
             binding.tvMeterReading.text = "$formattedStart - $formattedEnd"
             binding.tvVichelNo.text = item.fuel_voucher_details?.vehicle_number

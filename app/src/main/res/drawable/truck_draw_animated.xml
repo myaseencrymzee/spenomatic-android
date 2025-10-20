@@ -1,0 +1,137 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="54dp"
+            android:height="55dp"
+            android:viewportWidth="21"
+            android:viewportHeight="17">
+
+            <!-- Truck Fills -->
+            <path
+                android:name="fill1"
+                android:pathData="M12.25,14.125V2.875C12.25,2.378 12.052,1.901 11.701,1.549C11.349,1.198 10.872,1 10.375,1H2.875C2.378,1 1.901,1.198 1.549,1.549C1.198,1.901 1,2.378 1,2.875V13.188C1,13.436 1.099,13.675 1.275,13.85C1.45,14.026 1.689,14.125 1.938,14.125H3.813"
+                android:fillColor="#9DB2CE" />
+
+            <path
+                android:name="fill2"
+                android:pathData="M16.938,14.125H18.813C19.061,14.125 19.3,14.026 19.475,13.85C19.651,13.675 19.75,13.436 19.75,13.188V9.766C19.75,9.553 19.677,9.347 19.544,9.181L16.281,5.102C16.194,4.993 16.082,4.904 15.956,4.843C15.829,4.782 15.691,4.75 15.55,4.75H12.25"
+                android:fillColor="#9DB2CE" />
+
+            <!-- Outlines for stroke animation -->
+            <path
+                android:name="outline1"
+                android:pathData="M12.25,14.125V2.875C12.25,2.378 12.052,1.901 11.701,1.549C11.349,1.198 10.872,1 10.375,1H2.875C2.378,1 1.901,1.198 1.549,1.549C1.198,1.901 1,2.378 1,2.875V13.188C1,13.436 1.099,13.675 1.275,13.85C1.45,14.026 1.689,14.125 1.938,14.125H3.813"
+                android:strokeColor="#3E53AD"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"/>
+
+            <path
+                android:name="outline2"
+                android:pathData="M16.938,14.125H18.813C19.061,14.125 19.3,14.026 19.475,13.85C19.651,13.675 19.75,13.436 19.75,13.188V9.766C19.75,9.553 19.677,9.347 19.544,9.181L16.281,5.102C16.194,4.993 16.082,4.904 15.956,4.843C15.829,4.782 15.691,4.75 15.55,4.75H12.25"
+                android:strokeColor="#3E53AD"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"/>
+
+            <!-- Wheels -->
+            <path
+                android:name="outline3"
+                android:pathData="M15.063,16C16.098,16 16.938,15.16 16.938,14.125C16.938,13.09 16.098,12.25 15.063,12.25C14.027,12.25 13.188,13.09 13.188,14.125C13.188,15.16 14.027,16 15.063,16Z"
+                android:strokeColor="#3E53AD"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"/>
+
+            <path
+                android:name="outline4"
+                android:pathData="M5.688,16C6.723,16 7.563,15.16 7.563,14.125C7.563,13.09 6.723,12.25 5.688,12.25C4.652,12.25 3.813,13.09 3.813,14.125C3.813,15.16 4.652,16 5.688,16Z"
+                android:strokeColor="#3E53AD"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"/>
+        </vector>
+    </aapt:attr>
+
+    <!-- Animate drawing of outlines -->
+    <target android:name="outline1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="trimPathEnd"
+                android:duration="800"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/linear_interpolator"/>
+        </aapt:attr>
+    </target>
+
+    <target android:name="outline2">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="trimPathEnd"
+                android:duration="800"
+                android:startOffset="200"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/linear_interpolator"/>
+        </aapt:attr>
+    </target>
+
+    <target android:name="outline3">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="trimPathEnd"
+                android:duration="600"
+                android:startOffset="400"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+
+    <target android:name="outline4">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="trimPathEnd"
+                android:duration="600"
+                android:startOffset="600"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType"/>
+        </aapt:attr>
+    </target>
+
+    <!-- Fade fills after stroke -->
+    <target android:name="fill1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillColor"
+                android:duration="400"
+                android:startOffset="1000"
+                android:valueFrom="#009DB2CE"
+                android:valueTo="#9DB2CE"
+                android:valueType="colorType"/>
+        </aapt:attr>
+    </target>
+
+    <target android:name="fill2">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillColor"
+                android:duration="400"
+                android:startOffset="1000"
+                android:valueFrom="#009DB2CE"
+                android:valueTo="#9DB2CE"
+                android:valueType="colorType"/>
+        </aapt:attr>
+    </target>
+
+</animated-vector>

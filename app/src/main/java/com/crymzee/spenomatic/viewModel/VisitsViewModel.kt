@@ -7,10 +7,13 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.model.request.CreateVisitRequestBody
+import com.crymzee.spenomatic.model.request.UpdateDeliveryRequest
 import com.crymzee.spenomatic.model.request.checkInVisit.CheckInVisitRequest
 import com.crymzee.spenomatic.model.response.checkOutResponse.CheckOutResponse
 import com.crymzee.spenomatic.model.response.checkedInResponse.CheckInResponseBody
 import com.crymzee.spenomatic.model.response.createdVisitResponse.CreatedVisitResponse
+import com.crymzee.spenomatic.model.response.delivery.AllDeliveryResponseBody
+import com.crymzee.spenomatic.model.response.updateDelivery.UpdateDeliveryResponse
 import com.crymzee.spenomatic.model.response.updateProfile.UpdateProfileResponse
 import com.crymzee.spenomatic.model.response.visitDetail.VisitDetailResponseBody
 import com.crymzee.spenomatic.model.response.visitsList.AllVisitListResponse
@@ -49,6 +52,13 @@ class VisitsViewModel @Inject constructor(private val visitsRepository: VisitsRe
         _getAllRecentVisitLiveData
 
 
+
+    private var _getAllDeliveryLiveData =
+        MutableLiveData<Resource<out AllDeliveryResponseBody>>()
+    val getAllDeliveryLiveData: LiveData<Resource<out AllDeliveryResponseBody>> =
+        _getAllDeliveryLiveData
+
+
     fun getAllVisit(order: String) {
         viewModelScope.launch {
             visitsRepository.executeGetAllVisits(order, page, perPage).collect {
@@ -64,10 +74,26 @@ class VisitsViewModel @Inject constructor(private val visitsRepository: VisitsRe
         }
     }
 
+    fun getAllDelivery(status: String) {
+        viewModelScope.launch {
+            visitsRepository.executeGetAllDelivery(status, page, perPage).collect {
+                _getAllDeliveryLiveData.postValue(it)
+            }
+        }
+    }
+
     fun createVisit(
         createVisitRequestBody: CreateVisitRequestBody
     ): LiveData<Resource<out CreatedVisitResponse>> {
         return visitsRepository.executeCreateVisit(createVisitRequestBody).asLiveData()
+    }
+
+
+
+    fun updateDelivery(
+        deliveryId: Int, updateDeliveryRequest: UpdateDeliveryRequest
+    ): LiveData<Resource<out UpdateDeliveryResponse>> {
+        return visitsRepository.executeUpdateDelivery(deliveryId,updateDeliveryRequest).asLiveData()
     }
 
 

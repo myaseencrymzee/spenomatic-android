@@ -52,7 +52,7 @@
             android:id="@+id/label_last_visit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/mulish_semi_bold"
             android:text="Amount"
             android:textColor="@color/grey_3434"

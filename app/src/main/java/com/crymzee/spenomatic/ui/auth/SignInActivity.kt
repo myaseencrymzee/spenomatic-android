@@ -40,10 +40,17 @@ class SignInActivity : BaseActivity() {
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(ContextCompat.getColor(this, R.color.background))
         )
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+
+            // Dynamically adjust bottom padding so content moves above keyboard
+            view.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                maxOf(systemBars.bottom, imeInsets.bottom)
+            )
             insets
         }
         viewInit()
@@ -66,6 +73,7 @@ class SignInActivity : BaseActivity() {
 
             btnLogin.setSingleClickListener {
                 val selectedRole = getSelectedRole()
+
                 if (selectedRole == null) {
                     showErrorPopup("Validation", "Please select a role before login")
                 } else {
@@ -125,6 +133,7 @@ class SignInActivity : BaseActivity() {
                                 this@SignInActivity,
                                 MainActivity::class.java
                             )
+                            intent.putExtra("ROLE", role)
                             startActivity(intent)
                             finish()
 

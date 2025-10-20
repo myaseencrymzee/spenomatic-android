@@ -11,6 +11,7 @@ import com.crymzee.spenomatic.model.request.LoginRequestBody
 import com.crymzee.spenomatic.model.request.OtherExpensesRequest
 import com.crymzee.spenomatic.model.request.RefreshTokenRequestBody
 import com.crymzee.spenomatic.model.request.ResetPasswordRequestPassword
+import com.crymzee.spenomatic.model.request.UpdateDeliveryRequest
 import com.crymzee.spenomatic.model.request.VerifyOTPRequestBody
 import com.crymzee.spenomatic.model.request.checkInVisit.CheckInVisitRequest
 import com.crymzee.spenomatic.model.request.createFuelExpense.CreateFuelExpenseRequest
@@ -32,11 +33,13 @@ import com.crymzee.spenomatic.model.response.createLeaveResponse.CreateLeaveResp
 import com.crymzee.spenomatic.model.response.createdVisitResponse.CreatedVisitResponse
 import com.crymzee.spenomatic.model.response.customerDetail.CustomerDetailResponse
 import com.crymzee.spenomatic.model.response.dashboardData.DashboardDataResponse
+import com.crymzee.spenomatic.model.response.delivery.AllDeliveryResponseBody
 import com.crymzee.spenomatic.model.response.expenses.AllExpensesResponseBody
 import com.crymzee.spenomatic.model.response.expenses.Data
 import com.crymzee.spenomatic.model.response.loginResponseBody.LoginResponseBody
 import com.crymzee.spenomatic.model.response.meResponse.MeResponseBody
 import com.crymzee.spenomatic.model.response.updateCustomer.UpdateCustomerResponse
+import com.crymzee.spenomatic.model.response.updateDelivery.UpdateDeliveryResponse
 import com.crymzee.spenomatic.model.response.updateProfile.UpdateProfileResponse
 import com.crymzee.spenomatic.model.response.visitDetail.VisitDetailResponseBody
 import com.crymzee.spenomatic.model.response.visitsList.AllVisitListResponse
@@ -161,6 +164,24 @@ interface ApiServices {
         @Query("page") page: Int,
         @Query("perPage") perPage: Int
     ): AllVisitListResponse
+
+
+
+    @PATCH("deliveries/{id}")
+    suspend fun updateDelivery(
+        @Path("id") id: Int,
+        @Body updateDeliveryRequest: UpdateDeliveryRequest
+    ): UpdateDeliveryResponse
+
+
+
+    @GET("deliveries")
+    suspend fun getAllDelivery(
+        @Query("status") status: String,
+        @Query("ordering") ordering: String,
+        @Query("page") page: Int,
+        @Query("perPage") perPage: Int
+    ): AllDeliveryResponseBody
 
 
     @POST("visits")

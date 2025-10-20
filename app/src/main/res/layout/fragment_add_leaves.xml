@@ -10,15 +10,14 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
-        <!-- 🔹 Sticky Header -->
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/iv_back"
-            app:layout_constraintStart_toStartOf="@+id/guideline_startOut"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/label_heading" />
+            app:layout_constraintBottom_toBottomOf="@id/label_heading"
+            app:layout_constraintStart_toStartOf="@id/guideline_startOut"
+            app:layout_constraintTop_toTopOf="@id/label_heading" />
 
         <TextView
             android:id="@+id/label_heading"
@@ -29,10 +28,9 @@
             android:text="Leave Request"
             android:textColor="@color/black_1717"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_back"
             app:layout_constraintEnd_toEndOf="@id/guideline_end_out"
-            app:layout_constraintBottom_toBottomOf="@id/iv_back" />
+            app:layout_constraintStart_toStartOf="@id/guideline_startOut"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 🔹 Scrollable Content -->
         <ScrollView

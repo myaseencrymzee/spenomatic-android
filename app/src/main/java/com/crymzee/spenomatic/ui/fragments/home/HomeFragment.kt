@@ -21,8 +21,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.crymzee.spenomatic.R
-import java.util.*
-import java.util.concurrent.TimeUnit
 import com.crymzee.spenomatic.adapter.WeekDaysAdapter
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.DialogCheckInUserBinding
@@ -50,7 +48,10 @@ import retrofit2.HttpException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
+import java.util.concurrent.TimeUnit
 
 class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -64,16 +65,18 @@ class HomeFragment : BaseFragment() {
     ): View {
         if (!::binding.isInitialized) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-
+            hideKeyboard()
             // ✅ Check on fragment start
             checkPreviousCheckIn()
 
             // ✅ If not checked in — show popup
             if (SharedPrefsHelper.getUserCheckedIn() == false || SharedPrefsHelper.getUserCheckedIn() == null) {
+                hideKeyboard()
                 addCheckInPopup()
             }
 
             showBottomNav()
+
             viewInit()
         }
 
@@ -254,15 +257,18 @@ class HomeFragment : BaseFragment() {
                         alertDialog.dismiss()
                         activeDialog = null
                         binding.btnSave.text = "Check Out"
+                        val role = SharedPrefsHelper.getRole()
+                        // Schedule tracking
+                        if (role != "office") {
+                            val initialDelay = TrackingWorker.randomMinutes(1, 15)
+                            TrackingWorker.scheduleOnce(
+                                requireContext().applicationContext,
+                                delayMinutes = initialDelay,
+                                isFirstRun = true,
+                                checkInId = checkInId.toString() // ✅ Pass ID
+                            )
+                        }
 
-                        // Schedule tracking work
-                        val initialDelay = TrackingWorker.randomMinutes(1, 15)
-                        TrackingWorker.scheduleOnce(
-                            requireContext().applicationContext,
-                            delayMinutes = initialDelay,
-                            isFirstRun = true,
-                            checkInId = checkInId.toString() // ✅ Pass ID
-                        )
                     }
 
 
@@ -397,6 +403,7 @@ class HomeFragment : BaseFragment() {
             SharedPrefsHelper.setUserID(data?.id)
             SharedPrefsHelper.setStatus(data?.status)
             SharedPrefsHelper.setName(data?.fullname)
+            SharedPrefsHelper.setUserRole(data?.role)
             SharedPrefsHelper.setUserImage(data?.profile_picture)
             Glide.with(requireContext()).load(data?.profile_picture ?: "")
                 .into(containerProfileImage)

@@ -77,6 +77,12 @@ object SharedPrefsHelper {
     )
 
 
+    fun getRole(): String? = get<String?>(
+        Constants.USER_ROLE,
+        null
+    )
+
+
     fun getUserId(): Int? = get<Int?>(
         Constants.USER_ID,
         null

@@ -140,7 +140,14 @@ class LeaveFragment : BaseFragment() {
                         val isEmptyList =
                             posts.data.isEmpty() && leavesViewModel.page == 1
                         binding.tvNoData.isVisible = isEmptyList
-                        binding.tvNoData.text = "No ${leavesViewModel.category} expenses yet"
+                        if(leavesViewModel.category == ""){
+                            binding.tvNoData.text = "No leaves have been created yet"
+
+                        }else {
+                            binding.tvNoData.text = "No ${leavesViewModel.category} leaves yet"
+
+                        }
+
                         totalLeaves = posts.stats.leaves_left
 
                         if (isFirstPage) {

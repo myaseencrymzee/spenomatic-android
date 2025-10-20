@@ -36,6 +36,7 @@ import kotlin.getValue
 class OTPVerifyActivity : BaseActivity() {
     private lateinit var binding: ActivityOtpverifyBinding
     var otpCode = ""
+    var role = ""
     private val authViewModel by viewModels<AuthViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +47,17 @@ class OTPVerifyActivity : BaseActivity() {
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(ContextCompat.getColor(this, R.color.background))
         )
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+
+            // Dynamically adjust bottom padding so content moves above keyboard
+            view.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                maxOf(systemBars.bottom, imeInsets.bottom)
+            )
             insets
         }
         viewInit()
@@ -57,6 +65,7 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun viewInit() {
         val data = intent.getStringExtra("email")
+        role = intent.getStringExtra("ROLE") ?: ""
 
         binding.apply {
             icBack.setOnClickListener {
@@ -105,7 +114,7 @@ class OTPVerifyActivity : BaseActivity() {
             VerifyOTPRequestBody(
                 data ?: "",
                 otpCode,
-                OTPType.FORGOT.toStringValue(),"delivery"
+                OTPType.FORGOT.toStringValue(),role
             )
         )
             .observe(this) { response ->
@@ -136,6 +145,10 @@ class OTPVerifyActivity : BaseActivity() {
                             "email",
                            data
                         )
+                        intent.putExtra(
+                            "ROLE",
+                           role
+                        )
                         startActivity(intent)
                     }
                 }
@@ -148,7 +161,7 @@ class OTPVerifyActivity : BaseActivity() {
             forgotRequestBody = ForgotRequestBody(
                 data ?: "",
                 OTPType.FORGOT.toStringValue(),
-                "delivery"
+                role
             )
         )
             .observe(this) { response ->

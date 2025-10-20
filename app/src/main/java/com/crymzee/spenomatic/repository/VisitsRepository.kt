@@ -2,6 +2,7 @@ package com.crymzee.spenomatic.repository
 
 
 import com.crymzee.spenomatic.model.request.CreateVisitRequestBody
+import com.crymzee.spenomatic.model.request.UpdateDeliveryRequest
 import com.crymzee.spenomatic.model.request.checkInVisit.CheckInVisitRequest
 import com.crymzee.spenomatic.retrofit.ApiServices
 import com.crymzee.spenomatic.state.networkBoundResource
@@ -19,6 +20,19 @@ class VisitsRepository(private val apiServices: ApiServices) {
     fun executeGetRecentVisits(order: Int, page: Int, perPage: Int) = networkBoundResource(
         fetch = {
             apiServices.getRecentVisit(order,"-id", page, perPage)
+        }
+    )
+
+
+    fun executeGetAllDelivery(status: String,page: Int, perPage: Int) = networkBoundResource(
+        fetch = {
+            apiServices.getAllDelivery(status,"-id", page, perPage)
+        }
+    )
+
+    fun executeUpdateDelivery(deliveryId: Int, updateDeliveryRequest: UpdateDeliveryRequest) = networkBoundResource(
+        fetch = {
+            apiServices.updateDelivery(deliveryId,updateDeliveryRequest)
         }
     )
 

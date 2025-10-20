@@ -134,9 +134,10 @@ class ScheduleListAdapter(val context: Context) :
 
             when {
                 days < 0 -> {
-                    // Future date — format as "26 Oct"
-                    val futureFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
-                    futureFormat.format(date)
+                    // Future date — show "X days ahead"
+                    val aheadDays = kotlin.math.abs(days)
+                    if (aheadDays == 1L) "Tomorrow"
+                    else "$aheadDays days ahead"
                 }
                 days < 1 -> "Today"
                 days == 1L -> "Yesterday"
@@ -146,6 +147,7 @@ class ScheduleListAdapter(val context: Context) :
             ""
         }
     }
+
 
 
     class RecyclerViewHolder(val binding: ItemScheduleListBinding) :

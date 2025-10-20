@@ -129,10 +129,12 @@ class SplashActivity : BaseActivity() {
             SharedPrefsHelper.setPhoneNumber(it.phone)
             SharedPrefsHelper.setUserEmail(it.email)
             SharedPrefsHelper.setName(it.fullname)
+            SharedPrefsHelper.setUserRole(it.role)
 
             val intent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
+            intent.putExtra("ROLE", it.role)
             startActivity(intent)
             finish()
         }
@@ -145,6 +147,7 @@ class SplashActivity : BaseActivity() {
         val intent = Intent(this, SignInActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+
         startActivity(intent)
         finish()
     }

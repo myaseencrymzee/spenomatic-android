@@ -33,6 +33,7 @@ class ResetPasswordActivity : BaseActivity() {
     var password = ""
     var code = ""
     var email = ""
+    var role = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +43,17 @@ class ResetPasswordActivity : BaseActivity() {
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(ContextCompat.getColor(this, R.color.background))
         )
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+
+            // Dynamically adjust bottom padding so content moves above keyboard
+            view.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                maxOf(systemBars.bottom, imeInsets.bottom)
+            )
             insets
         }
         viewInit()
@@ -54,6 +62,7 @@ class ResetPasswordActivity : BaseActivity() {
     private fun viewInit() {
         code = intent.getStringExtra("OTP_CODE").toString()
         email = intent.getStringExtra("email").toString()
+        role = intent.getStringExtra("ROLE").toString()
 
         binding.apply {
             icBack.setOnClickListener {
@@ -86,7 +95,7 @@ class ResetPasswordActivity : BaseActivity() {
                 password,
                 confirmPassword,
                 code,
-                "delivery"
+                role
             )
         )
             .observe(this) { response ->

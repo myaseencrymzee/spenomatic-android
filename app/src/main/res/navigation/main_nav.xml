@@ -38,6 +38,28 @@
     </fragment>
 
 
+
+    <fragment
+        android:id="@+id/deliveryFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.delivery.DeliveryFragment"
+        android:label="deliveryFragment">
+        <action
+            android:id="@+id/action_deliveryFragment_to_deliveryMapFragment"
+            app:destination="@id/deliveryMapFragment" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/deliveryMapFragment"
+        android:name="com.crymzee.spenomatic.ui.fragments.delivery.DeliveryMapFragment"
+        android:label="deliveryMapFragment">
+        <action
+            android:id="@+id/action_deliveryMapFragment_to_deliveryFragment"
+            app:destination="@id/deliveryFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/addCustomerFragment"
         android:name="com.crymzee.spenomatic.ui.fragments.customer.AddCustomerFragment"

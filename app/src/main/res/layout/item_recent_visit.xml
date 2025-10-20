@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_5sdp"
         android:background="@drawable/bg_rounded_12"
-        android:padding="@dimen/_12sdp">
+        android:padding="@dimen/_8sdp">
 
         <ImageView
             android:id="@+id/ic_type"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_5sdp"
             android:fontFamily="@font/mulish_regular"
-            android:text="45 Minutes | 1 Visit"
+            android:text="1 Visit"
             android:textColor="@color/hint_text"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintBottom_toBottomOf="@id/ic_type"

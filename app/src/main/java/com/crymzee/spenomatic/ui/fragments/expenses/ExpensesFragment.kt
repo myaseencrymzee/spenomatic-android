@@ -17,7 +17,10 @@ import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.adapter.ExpensesAdapter
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.FragmentExpensesBinding
+import com.crymzee.spenomatic.databinding.ItemPostActionMenuDeliveryPublicBinding
+import com.crymzee.spenomatic.databinding.ItemPostActionMenuOfficePublicBinding
 import com.crymzee.spenomatic.databinding.ItemPostActionMenuPublicBinding
+import com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
@@ -55,7 +58,19 @@ class ExpensesFragment : BaseFragment() {
         initAdapter()
         binding.apply {
             icAdd.setOnClickListener {
-                onMenuClick(icAdd)
+                val role = SharedPrefsHelper.getRole()
+                when (role){
+                    "sales"-> {
+                        onMenuClick(icAdd)
+                    }
+                    "delivery"-> {
+                        onDeliveryMenuClick(icAdd)
+                    }
+                    "office"-> {
+                        onOfficeMenuClick(icAdd)
+                    }
+                }
+
             }
             tvAll.setOnClickListener { selectTab(tvAll) }
             tvApproved.setOnClickListener { selectTab(tvApproved) }
@@ -103,8 +118,13 @@ class ExpensesFragment : BaseFragment() {
                         val isEmptyList =
                             posts.data.isEmpty() && expensesViewModel.page == 1
                         binding.tvNoData.isVisible = isEmptyList
-                        binding.tvNoData.text = "No ${expensesViewModel.category} expenses yet"
+                        if(expensesViewModel.category == ""){
+                            binding.tvNoData.text = "No expenses have been created yet"
 
+                        }else {
+                            binding.tvNoData.text = "No ${expensesViewModel.category} expenses yet"
+
+                        }
                         if (isFirstPage) {
                             expressAdapter.clearList(posts.data)
                         } else {
@@ -232,6 +252,80 @@ class ExpensesFragment : BaseFragment() {
 
 
             }
+            dialogBinding.tvOther.setOnClickListener {
+                popUp.dismiss()
+                navigate(R.id.action_expensesFragment_to_addOthersFragment)
+
+            }
+
+        } catch (e: Exception) {
+            Log.i("EXC", "showInfoBanner: exception $e")
+        }
+    }
+    private fun onOfficeMenuClick(icon: View) {
+        try {
+            val dialogBinding = ItemPostActionMenuOfficePublicBinding.inflate(
+                LayoutInflater.from(requireContext()),
+                null,
+                false
+            )
+
+            val popUp = PopupWindow(
+                dialogBinding.root,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                false
+            )
+
+            val location = IntArray(2)
+            icon.getLocationOnScreen(location)
+
+            popUp.apply {
+                isTouchable = true
+                isFocusable = true
+                isOutsideTouchable = true
+                showAtLocation(icon, Gravity.NO_GRAVITY, location[0], location[1] + 30)
+            }
+
+            dialogBinding.tvOther.setOnClickListener {
+                popUp.dismiss()
+                navigate(R.id.action_expensesFragment_to_addOthersFragment)
+
+            }
+
+        } catch (e: Exception) {
+            Log.i("EXC", "showInfoBanner: exception $e")
+        }
+    }
+    private fun onDeliveryMenuClick(icon: View) {
+        try {
+            val dialogBinding = ItemPostActionMenuDeliveryPublicBinding.inflate(
+                LayoutInflater.from(requireContext()),
+                null,
+                false
+            )
+
+            val popUp = PopupWindow(
+                dialogBinding.root,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                false
+            )
+
+            val location = IntArray(2)
+            icon.getLocationOnScreen(location)
+
+            popUp.apply {
+                isTouchable = true
+                isFocusable = true
+                isOutsideTouchable = true
+                showAtLocation(icon, Gravity.NO_GRAVITY, location[0], location[1] + 30)
+            }
+            dialogBinding.tvFuelVoucher.setOnClickListener {
+                popUp.dismiss()
+                navigate(R.id.action_expensesFragment_to_addFuelExpensesFragment)
+            }
+
             dialogBinding.tvOther.setOnClickListener {
                 popUp.dismiss()
                 navigate(R.id.action_expensesFragment_to_addOthersFragment)

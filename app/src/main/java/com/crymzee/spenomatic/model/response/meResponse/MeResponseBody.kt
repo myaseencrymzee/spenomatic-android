@@ -12,6 +12,7 @@ data class MeResponseBody(
     val join_date: String,
     val office: Office,
     val phone: String,
+    val role: String,
     val profile_picture: String,
     val status: String,
     val updated_at: String

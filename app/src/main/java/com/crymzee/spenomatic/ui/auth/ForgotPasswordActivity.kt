@@ -32,6 +32,7 @@ import kotlin.toString
 class ForgotPasswordActivity : BaseActivity() {
     private lateinit var binding: ActivityForgotPasswordBinding
     var email = ""
+    var role = ""
     private val authViewModel by viewModels<AuthViewModel>()
 
 
@@ -43,16 +44,24 @@ class ForgotPasswordActivity : BaseActivity() {
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(ContextCompat.getColor(this, R.color.background))
         )
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+
+            // Dynamically adjust bottom padding so content moves above keyboard
+            view.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                maxOf(systemBars.bottom, imeInsets.bottom)
+            )
             insets
         }
         viewInit()
     }
 
     private fun viewInit() {
+        role = intent.getStringExtra("ROLE") ?: ""
         binding.apply {
             icBack.setOnClickListener {
                 moveBack(this@ForgotPasswordActivity)
@@ -78,7 +87,7 @@ class ForgotPasswordActivity : BaseActivity() {
         authViewModel.forgotPassword(
             ForgotRequestBody(
                 email, OTPType.FORGOT.toStringValue(),
-                "delivery"
+               role
             )
         )
             .observe(this) { response ->
@@ -107,6 +116,7 @@ class ForgotPasswordActivity : BaseActivity() {
         val intent = Intent(this@ForgotPasswordActivity, OTPVerifyActivity::class.java)
 
         intent.putExtra("email", email)
+        intent.putExtra("ROLE", role)
         startActivity(intent)
     }
 
