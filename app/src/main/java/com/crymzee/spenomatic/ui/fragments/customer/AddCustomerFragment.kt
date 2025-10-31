@@ -41,6 +41,7 @@ import com.crymzee.spenomatic.utils.confirmationPopUp
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
 import com.crymzee.spenomatic.utils.goBack
 import com.crymzee.spenomatic.utils.parseLocation
+import com.crymzee.spenomatic.utils.setSingleClickListener
 import com.crymzee.spenomatic.utils.showErrorPopup
 import com.crymzee.spenomatic.utils.showSuccessPopup
 import com.crymzee.spenomatic.utils.toCamelCase
@@ -91,6 +92,7 @@ class AddCustomerFragment : BaseFragment() {
         binding.apply {
             ivBack.setOnClickListener { goBack() }
             layoutSelectLocation.setOnClickListener {
+                hideKeyboard()
                 selectLocation()
             }
             if (isEditable) {
@@ -132,7 +134,7 @@ class AddCustomerFragment : BaseFragment() {
                 bundle.putDouble("lng", customersViewModel.lng)
                 navigate(R.id.action_addCustomerFragment_to_mapFragment, bundle)
             }
-            ivAddContact.setOnClickListener {
+            ivAddContact.setSingleClickListener {
                 addContactPopUp()
             }
 

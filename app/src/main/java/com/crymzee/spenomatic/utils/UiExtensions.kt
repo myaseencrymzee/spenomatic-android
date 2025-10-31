@@ -79,6 +79,9 @@ fun View.disabled() {
 
 }
 
+
+
+
 fun View.setSingleClickListener(interval: Long = 600L, onSingleClick: (View) -> Unit) {
     var lastClickTime = 0L
     setOnClickListener { v ->
