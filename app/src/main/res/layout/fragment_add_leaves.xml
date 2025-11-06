@@ -228,6 +228,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_110sdp"
                     android:layout_marginTop="@dimen/_6sdp"
+                    app:layout_constraintBottom_toTopOf="@id/view"
                     android:background="@drawable/bg_rounded_12"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -252,6 +253,14 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:id="@+id/view"
+                    android:layout_height="@dimen/_60sdp"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintTop_toBottomOf="@id/layout_description"/>
 
                 <!-- Guidelines -->
                 <androidx.constraintlayout.widget.Guideline

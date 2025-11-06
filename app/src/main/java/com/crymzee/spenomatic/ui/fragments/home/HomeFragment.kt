@@ -99,6 +99,14 @@ class HomeFragment : BaseFragment() {
                 btnSave.text = "Check In"
             }
 
+            val role = SharedPrefsHelper.getRole()
+            if(role == "office"){
+                containerEarningWeek.hide()
+            }else{
+                containerEarningWeek.visible()
+
+            }
+
             if (!SharedPrefsHelper.getUserCheckedInTime().isNullOrEmpty()) {
                 labelExplore.visible()
                 labelExplore.text = "Attendance at ${SharedPrefsHelper.getUserCheckedInTime()}"
@@ -418,9 +426,9 @@ class HomeFragment : BaseFragment() {
     private fun bindDashBoardData(data: DashboardDataResponse?) {
         binding.apply {
             tvEarnings.text = data?.total_distance.toString()
-            tvIdle.text = data?.idle_time.toString() ?: "--"
+            tvIdle.text = data?.idle_time?.toString() ?: "--"
             tvReviews.text = getTimeAgo(data?.today_attendance?.check_in)
-            tvAverageRating.text = formatToLocalTime(data?.today_attendance?.check_in) ?: "--"
+            tvAverageRating.text = formatToLocalTime(data?.today_attendance?.check_in ) ?: "--"
 
             tvApproved.text = data?.approved_expenses.toString()
             tvPending.text = data?.pending_expenses.toString()
@@ -505,7 +513,7 @@ class HomeFragment : BaseFragment() {
 
 
     fun formatToLocalTime(utcTime: String?): String? {
-        if (utcTime.isNullOrEmpty()) return ""
+        if (utcTime.isNullOrEmpty()) return "--"
 
         return try {
             // Parse UTC timestamp

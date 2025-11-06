@@ -71,7 +71,7 @@ class ForgotPasswordActivity : BaseActivity() {
             }
             etEmail.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    hideKeyboard(etEmail)
+                    hideKeyboard()
                     etEmail.clearFocus()
                     true
                 } else {

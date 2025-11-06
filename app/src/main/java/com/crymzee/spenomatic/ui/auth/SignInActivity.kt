@@ -23,6 +23,7 @@ import com.crymzee.spenomatic.utils.extractFirstErrorMessage
 import com.crymzee.spenomatic.utils.setSingleClickListener
 import com.crymzee.spenomatic.utils.showErrorPopup
 import com.crymzee.spenomatic.viewModel.AuthViewModel
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -77,6 +78,7 @@ class SignInActivity : BaseActivity() {
                 if (selectedRole == null) {
                     showErrorPopup("Validation", "Please select a role before login")
                 } else {
+                    hideKeyboard()
                     checkValidations(selectedRole)
                 }
             }

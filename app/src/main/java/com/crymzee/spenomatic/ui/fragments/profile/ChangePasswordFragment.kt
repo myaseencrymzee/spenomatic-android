@@ -47,6 +47,8 @@ class ChangePasswordFragment : BaseFragment() {
         binding.apply {
             ivBack.setOnClickListener { goBack() }
             btnSave.setOnClickListener {
+                authViewModel.firstName = null
+                authViewModel.email = null
                 checkValidations()
             }
         }

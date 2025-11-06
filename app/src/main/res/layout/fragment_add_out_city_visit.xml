@@ -11,11 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background">
+
+        <TextView
+            android:id="@+id/label_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/mulish_bold"
+            android:text="Add Outstation Sales"
+
+            android:textColor="@color/black_1717"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end_outer"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_outer"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/iv_back"
+            app:layout_constraintBottom_toBottomOf="@id/label_heading"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_outer"
+            app:layout_constraintTop_toTopOf="@id/label_heading" />
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_12sdp"
+
+            app:layout_constraintTop_toBottomOf="@id/iv_back"
             app:layout_constraintBottom_toTopOf="@id/btn_save"
             android:layout_height="0dp">
 
@@ -24,41 +49,20 @@
                 android:layout_height="wrap_content"
                 android:background="@color/background">
 
-                <TextView
-                    android:id="@+id/label_heading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:fontFamily="@font/mulish_bold"
-                    android:text="Add Outstation Sales"
 
-                    android:textColor="@color/black_1717"
-                    android:textSize="@dimen/_16ssp"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/iv_back"
-                    app:layout_constraintBottom_toBottomOf="@id/label_heading"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toTopOf="@id/label_heading" />
 
 
                 <TextView
                     android:id="@+id/label_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
+
                     android:fontFamily="@font/mulish_semi_bold"
                     android:text="Client to visit"
                     android:textColor="@color/black_1717"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/iv_back" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_pending_visits"
@@ -429,6 +433,21 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start_outer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_15sdp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end_outer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_15sdp" />
+
         <ProgressBar
             android:id="@+id/loader"
             android:layout_width="0dp"

@@ -89,6 +89,7 @@ class AddLocalVisitFragment : BaseFragment() {
 //                selectCategory()
 //            }
             btnSave.setOnClickListener {
+                hideKeyboard()
                 // ✅ Always update map for the last selected visit
                 visitData?.id?.let { currentId ->
                     if (transportExpenseList.isNotEmpty() || miscellaneousListExpense.isNotEmpty()) {

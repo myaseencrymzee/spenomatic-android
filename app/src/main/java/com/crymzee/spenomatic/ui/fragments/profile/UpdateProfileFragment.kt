@@ -11,7 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.crymzee.drivetalk.utils.FileUtils.saveImageToFile
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.base.BaseFragment
@@ -85,6 +87,9 @@ class UpdateProfileFragment : BaseFragment() {
                 openGallery(SelectionType.COVER)
             }
             btnSave.setOnClickListener {
+                authViewModel.password = null
+                authViewModel.confirmPassword = null
+                authViewModel.newPassword = null
                 authViewModel.firstName = etName.text.toString()
                 if (authViewModel.firstName.isNullOrEmpty()) {
                     showErrorPopup(requireContext(), description = "Enter the your name")
@@ -137,8 +142,19 @@ class UpdateProfileFragment : BaseFragment() {
                         val data = response.data
 
                         binding.apply {
+
+
+                            val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
+                                strokeWidth = 5f      // thickness of the spinner
+                                centerRadius = 30f    // size of the spinner
+                                setColorSchemeColors(requireContext().getColor(R.color.theme_blue)) // optional color
+                                start()
+                            }
                             Glide.with(requireContext())
                                 .load(data?.profile_picture ?: "")
+                                .placeholder(circularProgressDrawable) // show spinner while loading
+                                .error(R.drawable.dummy_image)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(ivProfile)
 
                         }

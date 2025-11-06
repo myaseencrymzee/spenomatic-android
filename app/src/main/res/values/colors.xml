@@ -3,8 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black_1717">#000000</color>
-    <color name="background">#FAFCFF</color>
     <color name="hint_text">#84878C</color>
+    <color name="background">#FAFCFF</color>
     <color name="theme_blue">#3E53AD</color>
     <color name="red">#FF0101</color>
     <color name="bottom_nav_background">#FFFFFF</color>

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.base.BaseActivity
 import com.crymzee.spenomatic.databinding.ActivityMainBinding
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 

@@ -64,17 +64,19 @@ open class BaseActivity : AppCompatActivity() {
                 R.anim.enter_from_left,
                 R.anim.exit_to_right
             )
-            hideKeyboard(null)
+            hideKeyboard()
         } catch (ignored: java.lang.Exception) {
         }
     }
 
 
 
-    fun hideKeyboard(view: View?) {
-        val imm =
-            applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    internal fun hideKeyboard() {
+        val view = currentFocus
+        if (view != null) {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
 

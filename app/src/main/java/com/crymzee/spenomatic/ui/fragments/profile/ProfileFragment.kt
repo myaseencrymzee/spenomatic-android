@@ -10,7 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.FragmentProfileBinding
@@ -118,8 +120,20 @@ class ProfileFragment : BaseFragment() {
             SharedPrefsHelper.setStatus(data?.status)
             SharedPrefsHelper.setName(data?.fullname)
             SharedPrefsHelper.setUserImage(data?.profile_picture)
-            Glide.with(requireContext()).load(data?.profile_picture ?: "")
-                .into(containerProfileImage)
+
+
+            val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
+                strokeWidth = 5f      // thickness of the spinner
+                centerRadius = 30f    // size of the spinner
+                setColorSchemeColors(requireContext().getColor(R.color.theme_blue)) // optional color
+                start()
+            }
+            Glide.with(requireContext())
+                .load(data?.profile_picture ?: "")
+                .placeholder(circularProgressDrawable) // show spinner while loading
+                .error(R.drawable.dummy_image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.containerProfileImage)
 
             tvName.text = data?.fullname.toString()
 

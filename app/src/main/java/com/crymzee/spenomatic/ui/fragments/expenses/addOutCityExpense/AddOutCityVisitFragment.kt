@@ -131,8 +131,9 @@ class AddOutCityVisitFragment : BaseFragment() {
             ivAddMiscellaneous.setOnClickListener { addMiscellaneousExpenses() }
 
             binding.btnSave.setOnClickListener {
-                // :white_check_mark: :one: Always persist the current visit data before proceeding
+                hideKeyboard()
                 visitData?.id?.let { currentId ->
+                    // ✅ Always persist current visit state first
                     if (
                         transportExpenseList.isNotEmpty() ||
                         miscellaneousListExpense.isNotEmpty() ||
@@ -151,29 +152,38 @@ class AddOutCityVisitFragment : BaseFragment() {
                             visit = currentId
                         )
                     } else {
-                        visitMap.remove(currentId) // remove if empty
+                        visitMap.remove(currentId) // ❌ remove if empty
                     }
                 }
 
-                // :white_check_mark: :two: Check if objective exists
-                if (outCityCustomerVisitListAdapter.itemCount == 0) {
-                    showErrorPopup(requireContext(), "", "No pending client visited yet ")
+                // ✅ Remove visits that have no data at all before continuing
+                val cleanedVisits = visitMap.filterValues { visit ->
+                    visit.transport_expenses.isNotEmpty() ||
+                            visit.bus_train_expenses?.isNotEmpty() == true ||
+                            visit.travel_allowances?.isNotEmpty() == true ||
+                            visit.lodging_boarding_expenses?.isNotEmpty() == true ||
+                            visit.miscellaneous_expenses.isNotEmpty()
+                }
+
+                if (cleanedVisits.isEmpty()) {
+                    showErrorPopup(requireContext(), "", "Please add data for at least one visit before submitting")
                     return@setOnClickListener
                 }
-                // :white_check_mark: :two: Check if objective exists
+
+                // ✅ Validate objective
                 if (objective.isEmpty()) {
                     showErrorPopup(requireContext(), "", "Objective field cannot be empty.")
                     return@setOnClickListener
                 }
 
-                // :white_check_mark: :three: Ensure at least one visit exists
-                if (visitMap.isEmpty()) {
-                    showErrorPopup(requireContext(), "", "Please add at least one visit before submitting")
+                // ✅ Check pending client visits
+                if (outCityCustomerVisitListAdapter.itemCount == 0) {
+                    showErrorPopup(requireContext(), "", "No pending client visited yet")
                     return@setOnClickListener
                 }
 
-                // :white_check_mark: :four: Validate each visit — check if any required list is null or empty
-                val incompleteVisit = visitMap.values.find { visit ->
+                // ✅ Validate completeness of filled visits only
+                val incompleteVisit = cleanedVisits.values.find { visit ->
                     visit.transport_expenses.isEmpty() ||
                             visit.bus_train_expenses.isNullOrEmpty() ||
                             visit.travel_allowances.isNullOrEmpty() ||
@@ -197,22 +207,8 @@ class AddOutCityVisitFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                // :white_check_mark: :five: Double-check all visits complete
-                val allFilled = visitMap.values.all { visit ->
-                    visit.transport_expenses.isNotEmpty() &&
-                            !visit.bus_train_expenses.isNullOrEmpty() &&
-                            !visit.travel_allowances.isNullOrEmpty() &&
-                            !visit.lodging_boarding_expenses.isNullOrEmpty() &&
-                            visit.miscellaneous_expenses.isNotEmpty()
-                }
-
-                if (!allFilled) {
-                    showErrorPopup(requireContext(), "", "Please make sure all visits have complete their expenses detail")
-                    return@setOnClickListener
-                }
-
-                // :white_check_mark: :six: Prepare final list with objective set
-                val validVisits = visitMap.values.map { visit ->
+                // ✅ Prepare final valid visits (with objective added)
+                val validVisits = cleanedVisits.values.map { visit ->
                     visit.copy(objective = objective)
                 }
 
@@ -221,7 +217,7 @@ class AddOutCityVisitFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                // :white_check_mark: :seven: Submit final request
+                // ✅ Submit final request
                 val requestBody = CreateOutsideExpenseRequest(
                     description = "Outstation sales trip to meet clients",
                     type = "outstation_sales",
@@ -231,6 +227,7 @@ class AddOutCityVisitFragment : BaseFragment() {
                 Log.d("DEBUG_EXPENSE", "Submitting ${validVisits.size} visits → $requestBody")
                 addOutStationExpense(requestBody)
             }
+
 
 
 
