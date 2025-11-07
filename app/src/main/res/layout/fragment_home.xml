@@ -220,10 +220,10 @@
                     android:layout_height="@dimen/_48sdp"
                     android:background="@drawable/bg_rounded_12"
                     android:padding="@dimen/_8sdp"
-                    app:layout_constraintBottom_toBottomOf="@id/container_earning_week"
+                    android:layout_marginTop="@dimen/_12sdp"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toEndOf="@id/container_earning_week"
-                    app:layout_constraintTop_toTopOf="@id/container_earning_week">
+                    app:layout_constraintTop_toBottomOf="@id/container_daily">
 
 
                     <ImageView
@@ -278,11 +278,11 @@
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:background="@drawable/bg_rounded_12"
                     android:padding="@dimen/_8sdp"
-                    app:layout_constraintEnd_toEndOf="@id/container_earning_week"
+                    app:layout_constraintEnd_toEndOf="@id/container_completed_week"
 
                     app:layout_constraintEnd_toStartOf="@id/container_idle_time"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/container_earning_week">
+                    app:layout_constraintTop_toBottomOf="@id/container_completed_week">
 
 
                     <ImageView

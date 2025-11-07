@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -102,8 +103,14 @@ class HomeFragment : BaseFragment() {
             val role = SharedPrefsHelper.getRole()
             if(role == "office"){
                 containerEarningWeek.hide()
+                val params = containerCompletedWeek.layoutParams as ConstraintLayout.LayoutParams
+                params.width = 0 // same as 0dp in XML (match_constraint)
+                containerCompletedWeek.layoutParams = params
             }else{
                 containerEarningWeek.visible()
+                val params = containerCompletedWeek.layoutParams as ConstraintLayout.LayoutParams
+                params.width = 0 // same as 0dp in XML (match_constraint)
+                containerCompletedWeek.layoutParams = params
 
             }
 
@@ -482,7 +489,7 @@ class HomeFragment : BaseFragment() {
     }
 
     fun getTimeAgo(utcTime: String?): String {
-        if (utcTime.isNullOrEmpty()) return ""
+        if (utcTime.isNullOrEmpty()) return "--"
 
         return try {
             val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.getDefault())

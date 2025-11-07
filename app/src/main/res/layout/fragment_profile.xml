@@ -139,6 +139,20 @@
 
 
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete"
+            style="@style/CustomMaterialButtonRed"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:letterSpacing="-0.02"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/btn_save"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save"

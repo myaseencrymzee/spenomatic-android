@@ -79,6 +79,24 @@ class ProfileFragment : BaseFragment() {
                 )
 
             }
+
+            btnDelete.setOnClickListener {
+
+                confirmationPopUp(
+                    requireContext(),
+                    heading = "Delete Confirm",
+                    description = "Are you sure you want to delete this account? You will no longer be able to sign in again",
+                    icon = R.drawable.ic_delete_services,
+                    onConfirm = {
+                        SharedPrefsHelper.clearAllData()
+                        val intent = Intent(requireContext(), SignInActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+                        startActivity(intent)
+                    }
+                )
+
+            }
         }
 
     }
