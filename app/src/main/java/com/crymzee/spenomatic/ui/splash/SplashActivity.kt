@@ -69,7 +69,7 @@ class SplashActivity : BaseActivity() {
 
     // ---------------- Auth & Navigation ----------------
     private fun checkLogin() {
-        val refreshToken = SharedPrefsHelper.getUserAuthRefresh() ?: ""
+        val refreshToken = SharedPrefsHelper.getUserAuthRefresh()?.takeIf { it.isNotBlank() } ?: ""
         if (refreshToken.isBlank()) {
             gotoAuthScreen()
             return
@@ -79,22 +79,22 @@ class SplashActivity : BaseActivity() {
             .observe(this) { response ->
                 when (response) {
                     is Resource.Error -> {
-                        val errorMessage = extractFirstErrorMessage(response.throwable)
-                        SpenoMaticLogger.logErrorMsg("Refresh Error", errorMessage.description)
                         gotoAuthScreen()
                     }
-
-                    is Resource.Loading -> {
-                        // Optional: show loading UI
-                    }
-
                     is Resource.Success -> {
-                        SharedPrefsHelper.setUserAuth(response.data?.access)
-                        checkAutoLogin()
+                        val accessToken = response.data?.access
+                        if (accessToken.isNullOrBlank()) {
+                            gotoAuthScreen()
+                        } else {
+                            SharedPrefsHelper.setUserAuth(accessToken)
+                            checkAutoLogin()
+                        }
                     }
+                    else -> Unit
                 }
             }
     }
+
 
     private fun checkAutoLogin() {
         authViewModel.checkLogin.removeObservers(this)

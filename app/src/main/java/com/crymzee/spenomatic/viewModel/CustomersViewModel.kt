@@ -51,8 +51,8 @@ class CustomersViewModel @Inject constructor(private val customersRepository: Cu
 
 
     private var _getAllPendingVisitLiveData =
-        MutableLiveData<Resource<out AllPendingVisitResponse>>()
-    val getAllPendingVisitLiveData: LiveData<Resource<out AllPendingVisitResponse>> =
+        MutableLiveData<Resource<out AllPendingVisitResponse>?>()
+    val getAllPendingVisitLiveData: LiveData<Resource<out AllPendingVisitResponse>?> =
         _getAllPendingVisitLiveData
 
 
@@ -63,7 +63,9 @@ class CustomersViewModel @Inject constructor(private val customersRepository: Cu
             }
         }
     }
-
+    fun clearLiveData() {
+        _getAllPendingVisitLiveData.value = null
+    }
 
     fun getAllCustomersVisit() {
         viewModelScope.launch {

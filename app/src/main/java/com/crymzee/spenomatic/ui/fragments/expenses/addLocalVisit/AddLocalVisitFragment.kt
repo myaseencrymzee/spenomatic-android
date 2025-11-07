@@ -402,9 +402,18 @@ class AddLocalVisitFragment : BaseFragment() {
                         }
                     }
                 }
+
+                null -> {}
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        customersViewModel.clearLiveData()
+
+    }
+
 
 
     fun addTransportExpenses() {

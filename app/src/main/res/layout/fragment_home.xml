@@ -16,7 +16,7 @@
             android:id="@+id/container_profile_image"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             tools:src="@drawable/dummy_image"
             app:cardElevation="0dp"
             app:cardPreventCornerOverlap="true"

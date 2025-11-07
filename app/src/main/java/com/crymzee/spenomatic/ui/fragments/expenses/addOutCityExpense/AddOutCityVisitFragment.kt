@@ -772,6 +772,12 @@ class AddOutCityVisitFragment : BaseFragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        customersViewModel.clearLiveData()
+
+    }
+
 
     private fun fetchPaginatedData() {
         customersViewModel.getAllPendingVisits()
@@ -847,6 +853,8 @@ class AddOutCityVisitFragment : BaseFragment() {
                         }
                     }
                 }
+
+                null -> {}
 
             }
         }
