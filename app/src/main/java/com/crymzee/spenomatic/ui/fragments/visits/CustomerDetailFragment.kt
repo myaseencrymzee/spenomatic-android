@@ -259,7 +259,11 @@ class CustomerDetailFragment : BaseFragment() {
             tvFrequency.text = data.customer.visit_frequency.toCamelCase()
             tvRemark.text = data.remarks
             tvTotalVisit.text = data.customer.number_of_visits.toString()
-            tvLastVisit.text = data.customer.latest_visit_date.toString()
+            tvLastVisit.text = if (data?.customer?.latest_visit_date.isNullOrBlank()) {
+                "--"
+            } else {
+                data.customer.latest_visit_date
+            }
 
             when (data.type) {
                 "sales" -> {

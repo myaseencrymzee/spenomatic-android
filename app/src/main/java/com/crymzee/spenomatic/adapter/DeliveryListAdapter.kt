@@ -72,7 +72,7 @@ class DeliveryListAdapter(val context: Context) :
 
             tvLastVisit.text = data.customer?.contacts?.firstOrNull()?.phone?:""
 
-            tvFrequency.text = data.customer?.address
+            tvFrequency.text = data.address
             tvTotalVisit.text = formatDateToDDMMYYYY(data.expected_date)
 
             btnDetail.setOnClickListener {

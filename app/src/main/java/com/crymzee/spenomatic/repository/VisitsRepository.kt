@@ -26,7 +26,7 @@ class VisitsRepository(private val apiServices: ApiServices) {
 
     fun executeGetAllDelivery(status: String,page: Int, perPage: Int) = networkBoundResource(
         fetch = {
-            apiServices.getAllDelivery(status,"-id", page, perPage)
+            apiServices.getAllDelivery(status,"-created_at", page, perPage)
         }
     )
 
