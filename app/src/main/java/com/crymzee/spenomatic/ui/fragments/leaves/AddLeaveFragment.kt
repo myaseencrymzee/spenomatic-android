@@ -216,29 +216,65 @@ class AddLeaveFragment : BaseFragment() {
 
     private fun checkValidation() {
         val remark = binding.etDescription.text.toString()
+
         val validationResult = leavesViewModel.validateLeaveInput(
             type,
             startDateApi,
             endDateApi,
             remark
         )
+
         if (validationResult.first) {
-            val requestBody = CreateLeaveRequest(
-                endDateApi.toString(), remark, startDateApi.toString(), type ?: "",
-            )
-            addLeave(requestBody)
+            val startDate = apiDateFormat.parse(startDateApi!!)
+            val endDate = apiDateFormat.parse(endDateApi!!)
+
+            if (startDate != null && endDate != null) {
+                val diffInMillis = endDate.time - startDate.time
+                // Add 1 to include both start and end days
+                val diffInDays = (diffInMillis / (1000 * 60 * 60 * 24)) + 1
+
+                // Calculate leave count based on type
+                val leaveCount = when (type) {
+                    "full_day" -> diffInDays.toDouble()
+                    "half_day" -> diffInDays * 0.5
+                    else -> 0.0
+                }
+
+                // Check available leaves
+                if (leaveCount > totalLeaves) {
+                    showErrorPopup(
+                        requireContext(),
+                        "",
+                        "You don’t have enough leave balance. Required: $leaveCount, Available: $totalLeaves"
+                    )
+                    return
+                }
+
+                val remainingLeaves = totalLeaves - leaveCount
+
+                // Create request
+                val requestBody = CreateLeaveRequest(
+                    endDateApi.toString(),
+                    remark,
+                    startDateApi.toString(),
+                    type ?: ""
+                )
+
+                // Attach remaining leaves for UI update after success
+                addLeave(requestBody, remainingLeaves)
+            }
         } else {
             val message = getString(validationResult.second)
             showErrorPopup(requireContext(), "", message)
         }
     }
 
-    private fun addLeave(requestBody: CreateLeaveRequest) {
+
+    private fun addLeave(requestBody: CreateLeaveRequest, remainingLeaves: Double) {
         leavesViewModel.createLeaves(createLeaveRequest = requestBody)
             .observe(viewLifecycleOwner) { response ->
                 binding.loader.isVisible = response is Resource.Loading
                 when (response) {
-
                     is Resource.Error -> {
                         val errorMessage = extractFirstErrorMessage(response.throwable)
                         SpenoMaticLogger.logErrorMsg("Error", errorMessage.description)
@@ -247,39 +283,32 @@ class AddLeaveFragment : BaseFragment() {
                             heading = errorMessage.heading,
                             description = errorMessage.description
                         )
-
-                    }
-
-                    is Resource.Loading -> {
-
                     }
 
                     is Resource.Success -> {
                         response.data?.let {
-                            leaveSubmitted()
+                            leaveSubmitted(remainingLeaves)
                         }
-
                     }
+
+                    else -> {}
                 }
             }
     }
 
-    fun leaveSubmitted() {
+
+    fun leaveSubmitted(remainingLeaves: Double) {
         try {
-            activeDialog?.dismiss()  // Dismiss any existing dialog before showing a new one
+            activeDialog?.dismiss()
 
-            // Inflate layout using ViewBinding
             val dialogueCheckIn = DialogCustomSuccessBinding.inflate(LayoutInflater.from(context))
-
             val alertDialog = AlertDialog.Builder(context).create()
             alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            // Store reference to active dialog
             activeDialog = alertDialog
-            dialogueCheckIn.descriptionLabel.text =
-                "Your leave application has been submitted. You only have $totalLeaves leaves left."
 
-            // OK button with slight delay before invoking the callback
+            dialogueCheckIn.descriptionLabel.text =
+                "Your leave application has been submitted.\nYou have $remainingLeaves leaves left."
+
             dialogueCheckIn.ivCancel.setOnClickListener {
                 alertDialog.dismiss()
                 activeDialog = null
@@ -288,13 +317,11 @@ class AddLeaveFragment : BaseFragment() {
             dialogueCheckIn.btnAdd.setOnClickListener {
                 alertDialog.dismiss()
                 activeDialog = null
-
                 Handler(Looper.getMainLooper()).postDelayed({
                     goBack()
                 }, 300)
             }
 
-            // Set the view and show dialog
             alertDialog.setView(dialogueCheckIn.root)
             alertDialog.setCancelable(false)
             alertDialog.show()
@@ -303,5 +330,6 @@ class AddLeaveFragment : BaseFragment() {
             Log.e("CustomDialog", "Error showing dialog: $e")
         }
     }
+
 
 }

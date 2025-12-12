@@ -72,8 +72,11 @@ class ScheduleListAdapter(val context: Context) :
 
             labelHello.text = data.customer.fullname
             labelExplore.text = data.customer.industry_type
-
-            tvLastVisit.text = formatRelativeDate(data.customer.latest_visit_date)
+            tvLastVisit.text = if (data.customer.latest_visit_date.isNullOrBlank()) {
+                "--"
+            } else {
+                data.customer.latest_visit_date
+            }
 
             tvAvgVisit.text = "${data.customer.avg_visit_time} min"
 

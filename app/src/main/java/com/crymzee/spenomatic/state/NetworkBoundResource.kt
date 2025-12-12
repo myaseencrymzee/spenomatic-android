@@ -57,6 +57,7 @@ fun <T> handleThrowable(throwable: Throwable, data: T?): Resource<T> {
             }
         }
 
+
         is IOException -> Resource.Error(throwable, data, "Network Error: Please check your internet connection.")
         else -> Resource.Error(throwable, data, "Unexpected Error: ${throwable.localizedMessage}")
     }

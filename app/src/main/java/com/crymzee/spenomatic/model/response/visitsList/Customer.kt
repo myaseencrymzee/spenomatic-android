@@ -16,6 +16,6 @@ data class Customer(
     val staff: StaffX,
     val status: String,
     val avg_visit_time: Double,
-    val latest_visit_date: String,
+    val latest_visit_date: String?,
     val visit_frequency: String
 )

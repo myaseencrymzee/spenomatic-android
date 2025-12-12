@@ -100,6 +100,7 @@ class OTPVerifyActivity : BaseActivity() {
 
         val validationResult = authViewModel.validateOTPCredential(otpCode)
         if (validationResult.first) {
+
             verifyOTP(data)
 
         } else {
