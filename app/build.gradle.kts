@@ -9,24 +9,24 @@ plugins {
 
 android {
     namespace = "com.crymzee.spenomatic"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.crymzee.spenomatic"
         minSdk = 25
-        targetSdk = 35
-        versionCode = 2
-        versionName = "1.0.2"
+        targetSdk = 36
+        versionCode = 3
+        versionName = "1.0.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://spenomatic-api.dev.crymzee.com/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.spenomaticapp.com/api/\"")
 
         }
         release {
-            buildConfigField("String", "BASE_URL", "\"https://spenomatic-api.dev.crymzee.com/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.spenomaticapp.com/api/\"")
 
             isMinifyEnabled = false
             proguardFiles(

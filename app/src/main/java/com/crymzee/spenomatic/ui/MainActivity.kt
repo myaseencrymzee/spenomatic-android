@@ -70,7 +70,7 @@ class MainActivity : BaseActivity() {
                         "Expenses"
                     ),
                     CbnMenuItem(
-                        R.drawable.leaves_nav,
+                        R.drawable.ic_leaves_2,
                         R.drawable.leaves_avd,
                         R.id.leaveFragment,
                         "Leave"
@@ -109,7 +109,7 @@ class MainActivity : BaseActivity() {
                         "Expenses"
                     ),
                     CbnMenuItem(
-                        R.drawable.leaves_nav,
+                        R.drawable.ic_leaves_2,
                         R.drawable.leaves_avd,
                         R.id.leaveFragment,
                         "Leave"
@@ -142,7 +142,7 @@ class MainActivity : BaseActivity() {
                         "Expenses"
                     ),
                     CbnMenuItem(
-                        R.drawable.leaves_nav,
+                        R.drawable.ic_leaves_2,
                         R.drawable.leaves_avd,
                         R.id.leaveFragment,
                         "Leave"

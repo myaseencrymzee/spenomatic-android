@@ -111,7 +111,7 @@ class AddLeaveFragment : BaseFragment() {
                     val endCal = Calendar.getInstance().apply {
                         time = apiDateFormat.parse(endDateApi!!)
                     }
-                    if (endCal.before(calendar) || endCal == calendar) {
+                    if (endCal.before(calendar)) {
                         endDateApi = null
                         endDateDisplay = null
                         binding.etFrom.text = getString(R.string.empty_string)
@@ -156,7 +156,7 @@ class AddLeaveFragment : BaseFragment() {
         )
 
         // End date must be after start date
-        datePicker.datePicker.minDate = startCal.timeInMillis + (24 * 60 * 60 * 1000)
+        datePicker.datePicker.minDate = startCal.timeInMillis
         datePicker.show()
     }
 

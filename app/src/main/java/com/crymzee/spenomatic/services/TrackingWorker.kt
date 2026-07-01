@@ -136,7 +136,7 @@ class TrackingWorker @AssistedInject constructor(
             val body = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
             val request = Request.Builder()
-                .url("https://spenomatic-api.dev.crymzee.com/api/users/tracking")
+                .url("https://api.spenomaticapp.com/api/users/tracking")
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer $token")
