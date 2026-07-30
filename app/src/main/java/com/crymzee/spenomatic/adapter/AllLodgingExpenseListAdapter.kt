@@ -28,8 +28,9 @@ class AllLodgingExpenseListAdapter(
         holder.binding.apply {
             labelLeaveType.text = formatRangeDate(item.from_date, item.to_date)
             labelNights.text = "${item.nights_stayed}"
-            tvAmountPerDay.text = "Amount/day: \$${item.per_night_amount}"
-            tvTotal.text = "Total: \$${item.total_amount}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            tvAmountPerDay.text = "Amount/day: $currencySymbol${item.per_night_amount}"
+            tvTotal.text = "Total: $currencySymbol${item.total_amount}"
             ivDelete.setOnClickListener {
                 item.nights_stayed.let { name -> visitId?.invoke(name) }
 

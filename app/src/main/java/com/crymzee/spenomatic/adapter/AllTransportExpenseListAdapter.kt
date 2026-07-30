@@ -29,7 +29,8 @@ class AllTransportExpenseListAdapter(
         holder.binding.apply {
             labelLeaveType.text = item.from_location.toCamelCase()
             labelLeaveDate.text = item.to_location.toCamelCase()
-            tvAmount.text = "\$${item.amount}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            tvAmount.text = "$currencySymbol${item.amount}"
             ivDelete.setOnClickListener {
                 item.from_location?.let { name -> visitId?.invoke(name) }
 

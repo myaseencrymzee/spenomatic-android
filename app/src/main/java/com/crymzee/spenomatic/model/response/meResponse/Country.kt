@@ -7,5 +7,7 @@ import androidx.annotation.Keep
 data class Country(
     val code: String,
     val id: Int,
-    val name: String
+    val name: String,
+    val currency: String? = null,
+    val currency_symbol: String? = null
 )

@@ -119,7 +119,8 @@ class ExpensesAdapter(val context: Context) :
     class FuelViewHolder(private val binding: ItemFuelVoucherBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Data) {
-            binding.tvLastVisit.text = "\$${item.amount}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            binding.tvLastVisit.text = "$currencySymbol${item.amount}"
             binding.tvFrequency.text = item.fuel_voucher_details?.fuel_type
             binding.tvTotalVisit.text = item.fuel_voucher_details?.till_number
             binding.tvAvgVisit.text = "${item.fuel_voucher_details?.km_travelled.toString()} KM"
@@ -157,7 +158,8 @@ class ExpensesAdapter(val context: Context) :
         }
 
         fun bind(item: Data) {
-            binding.tvVisitSubtitle.text = "\$${item.amount}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            binding.tvVisitSubtitle.text = "$currencySymbol${item.amount}"
 
             when (item.status.lowercase()) {
                 "pending" -> binding.ivVisitStatus.setImageResource(R.drawable.ic_pending)
@@ -187,7 +189,8 @@ class ExpensesAdapter(val context: Context) :
         }
 
         fun bind(item: Data) = with(binding) {
-            tvPrice.text = "\$${item.amount ?: 0}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            tvPrice.text = "$currencySymbol${item.amount ?: 0}"
 
             // ✅ Safe status handling
             val statusIcon = when (item.status.lowercase(Locale.getDefault())) {
@@ -208,7 +211,8 @@ class ExpensesAdapter(val context: Context) :
     class OtherViewHolder(private val binding: ItemOtherLunchExpensesBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Data) {
-            binding.tvPrice.text = "\$${item.amount}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            binding.tvPrice.text = "$currencySymbol${item.amount}"
 
             when (item.status) {
                 "pending" -> binding.ivNotifications.setImageResource(R.drawable.ic_pending)

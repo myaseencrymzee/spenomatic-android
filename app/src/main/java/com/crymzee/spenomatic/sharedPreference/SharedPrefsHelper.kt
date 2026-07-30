@@ -249,6 +249,17 @@ object SharedPrefsHelper {
         return sharedPreferences.contains(key)
     }
 
+    fun getCurrency(): String = get<String?>(Constants.CURRENCY, null) ?: "KES"
+
+    fun getCurrencySymbol(): String = get<String?>(Constants.CURRENCY_SYMBOL, null) ?: "KSh"
+
+    fun setCurrency(currency: String?) {
+        save(Constants.CURRENCY, currency)
+    }
+
+    fun setCurrencySymbol(symbol: String?) {
+        save(Constants.CURRENCY_SYMBOL, symbol)
+    }
 
     /*Todo New Implementation*/
 

@@ -27,6 +27,7 @@ import com.crymzee.spenomatic.model.request.createLocalExpense.MiscellaneousExpe
 import com.crymzee.spenomatic.model.request.createLocalExpense.TransportExpense
 import com.crymzee.spenomatic.model.request.createLocalExpense.Visit
 import com.crymzee.spenomatic.model.request.pendingVisits.Data
+import com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.confirmationPopUp
@@ -57,6 +58,7 @@ class AddLocalVisitFragment : BaseFragment() {
     private val layoutManager by lazy { getLinearLayoutManager() }
     var currentPage = 1
     var perPage = 10
+    var currencySymbol = ""
 
     // Replace this in your fragment
     private var visitData: Data? = null
@@ -81,10 +83,13 @@ class AddLocalVisitFragment : BaseFragment() {
     }
 
     private fun viewInit() {
+        currencySymbol = SharedPrefsHelper.getCurrencySymbol()
+
         setupAdapters()
         toggleEmptyState()
         toggleEmptyState1()
         binding.apply {
+
 //            layoutSelectLocation.setOnClickListener {
 //                selectCategory()
 //            }
@@ -431,6 +436,7 @@ class AddLocalVisitFragment : BaseFragment() {
             // Store reference to active dialog
             activeDialog = alertDialog
 
+            dialogueTrans.etEmail.hint = "$currencySymbol 100"
             // Cancel button
             dialogueTrans.ivCancel.setOnClickListener {
                 alertDialog.dismiss()
@@ -499,6 +505,7 @@ class AddLocalVisitFragment : BaseFragment() {
             // Store reference to active dialog
             activeDialog = alertDialog
 
+            dialogueMis.etEmail.hint = "$currencySymbol 100"
 
             // OK button with slight delay before invoking the callback
             dialogueMis.ivCancel.setOnClickListener {

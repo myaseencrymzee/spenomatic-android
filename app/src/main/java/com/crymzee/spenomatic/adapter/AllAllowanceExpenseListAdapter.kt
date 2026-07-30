@@ -26,7 +26,8 @@ class AllAllowanceExpenseListAdapter(
         holder.binding.apply {
             labelLeaveType.text = item.allowance_type.toCamelCase()
             labelLeaveDate.text = item.description
-            tvAmount.text = "Total: \$${item.amount}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            tvAmount.text = "Total: $currencySymbol${item.amount}"
             ivDelete.setOnClickListener {
                 item.allowance_type.let { name -> visitId?.invoke(name) }
 

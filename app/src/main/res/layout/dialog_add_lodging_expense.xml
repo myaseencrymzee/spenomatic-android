@@ -243,7 +243,6 @@
                         android:background="@null"
                         android:focusable="true"
                         android:fontFamily="@font/mulish_medium"
-                        android:hint="$50"
                         android:inputType="numberDecimal"
                         android:maxLength="50"
                         android:maxLines="1"

@@ -11,6 +11,7 @@ import com.crymzee.spenomatic.R
 import com.crymzee.spenomatic.base.BaseFragment
 import com.crymzee.spenomatic.databinding.FragmentAddOthersBinding
 import com.crymzee.spenomatic.model.request.OtherExpensesRequest
+import com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
@@ -43,7 +44,11 @@ class AddOthersFragment : BaseFragment() {
     }
 
     private fun viewInit() {
+        val currencySymbol = SharedPrefsHelper.getCurrencySymbol()
+
         binding.apply {
+            etAmount.hint = "$currencySymbol 10"
+
             ivBack.setOnClickListener { goBack() }
             btnSave.setOnClickListener {
                 val description = etDescription.text.toString()

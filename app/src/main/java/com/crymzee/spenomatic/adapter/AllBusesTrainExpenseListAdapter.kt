@@ -47,7 +47,8 @@ class AllBusesTrainExpenseListAdapter(
             // Final string -> "Oct 1, 06:00 PM"
             labelLeaveType.text = "$formattedDate, $formattedTime"
 
-            tvAmount.text = "Total: \$${item.amount}"
+            val currencySymbol = com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper.getCurrencySymbol()
+            tvAmount.text = "Total: $currencySymbol${item.amount}"
 
             ivDelete.setOnClickListener {
                 item.date.let { name -> visitId?.invoke(name) }
