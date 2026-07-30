@@ -25,6 +25,7 @@ import com.crymzee.spenomatic.model.DropDownClientType
 import com.crymzee.spenomatic.model.request.createFuelExpense.CreateFuelExpenseRequest
 import com.crymzee.spenomatic.model.request.createFuelExpense.FuelPumpLocation
 import com.crymzee.spenomatic.model.request.createFuelExpense.FuelVoucherDetails
+import com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.extractFirstErrorMessage
@@ -64,8 +65,10 @@ class AddFuelFragment : BaseFragment() {
     }
 
     private fun viewInit() {
-        binding.apply {
+        val currencySymbol = SharedPrefsHelper.getCurrencySymbol()
 
+        binding.apply {
+            etAmount.hint = "$currencySymbol 25"
             val adapter =
                 PlaceAutoSuggestAdapter(requireContext(), R.layout.simple_layout_places_suggession)
             ivBack.setOnClickListener { goBack() }

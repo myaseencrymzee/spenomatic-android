@@ -420,6 +420,8 @@ class HomeFragment : BaseFragment() {
             SharedPrefsHelper.setName(data?.fullname)
             SharedPrefsHelper.setUserRole(data?.role)
             SharedPrefsHelper.setUserImage(data?.profile_picture)
+            SharedPrefsHelper.setCurrency(data?.office?.country?.currency)
+            SharedPrefsHelper.setCurrencySymbol(data?.office?.country?.currency_symbol)
             Glide.with(requireContext()).load(data?.profile_picture ?: "")
                 .into(containerProfileImage)
 
@@ -432,14 +434,15 @@ class HomeFragment : BaseFragment() {
 
     private fun bindDashBoardData(data: DashboardDataResponse?) {
         binding.apply {
+            val currencySymbol = SharedPrefsHelper.getCurrencySymbol()
             tvEarnings.text = data?.total_distance.toString()
             tvIdle.text = data?.idle_time?.toString() ?: "--"
             tvReviews.text = getTimeAgo(data?.today_attendance?.check_in)
             tvAverageRating.text = formatToLocalTime(data?.today_attendance?.check_in ) ?: "--"
 
-            tvApproved.text = data?.approved_expenses.toString()
-            tvPending.text = data?.pending_expenses.toString()
-            tvRejected.text = data?.rejected_expenses.toString()
+            tvApproved.text = if (data?.approved_expenses != null) "$currencySymbol ${data.approved_expenses}" else "--"
+            tvPending.text = if (data?.pending_expenses != null) "$currencySymbol ${data.pending_expenses}" else "--"
+            tvRejected.text = if (data?.rejected_expenses != null) "$currencySymbol ${data.rejected_expenses}" else "--"
 
             containerInfo.tvPresent.text = data?.total_present.toString()
             containerInfo.tvAbsent.text = data?.total_absent.toString()

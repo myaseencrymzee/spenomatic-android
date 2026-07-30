@@ -46,6 +46,7 @@ import com.crymzee.spenomatic.model.request.createOutsideExpense.LodgingBoarding
 import com.crymzee.spenomatic.model.request.createOutsideExpense.TravelAllowance
 import com.crymzee.spenomatic.model.request.createOutsideExpense.Visit
 import com.crymzee.spenomatic.model.request.pendingVisits.Data
+import com.crymzee.spenomatic.sharedPreference.SharedPrefsHelper
 import com.crymzee.spenomatic.state.Resource
 import com.crymzee.spenomatic.utils.SpenoMaticLogger
 import com.crymzee.spenomatic.utils.confirmationPopUp
@@ -88,6 +89,8 @@ class AddOutCityVisitFragment : BaseFragment() {
 
 
     private var objective = ""
+    var currencySymbol = ""
+
     private var visitData: Data? = null
     private val visitMap = mutableMapOf<Int, Visit>()
     private var isLastPage: Boolean = false
@@ -115,6 +118,8 @@ class AddOutCityVisitFragment : BaseFragment() {
     }
 
     private fun viewInit() {
+        currencySymbol = SharedPrefsHelper.getCurrencySymbol()
+
         setupAdapters()
         toggleEmptyStateMiscellaneous()
         toggleEmptyTransportState()
@@ -602,6 +607,7 @@ class AddOutCityVisitFragment : BaseFragment() {
             // Store reference to active dialog
             activeDialog = alertDialog
 
+            dialogueTrans.etEmail.hint = "$currencySymbol 100"
 
             // OK button with slight delay before invoking the callback
             dialogueTrans.ivCancel.setOnClickListener {
@@ -670,6 +676,7 @@ class AddOutCityVisitFragment : BaseFragment() {
             // Store reference to active dialog
             activeDialog = alertDialog
 
+            dialogueAllowance.etEmail.hint = "$currencySymbol 100"
 
             // OK button with slight delay before invoking the callback
             dialogueAllowance.ivCancel.setOnClickListener {
@@ -874,6 +881,8 @@ class AddOutCityVisitFragment : BaseFragment() {
             // Store reference to active dialog
             activeDialog = alertDialog
 
+            dialogueTrains.etEmail.hint = "$currencySymbol 100"
+
             // Cancel button
             dialogueTrains.ivCancel.setOnClickListener {
                 alertDialog.dismiss()
@@ -1046,6 +1055,8 @@ class AddOutCityVisitFragment : BaseFragment() {
 
                 datePicker.show()
             }
+            dialogueLodge.etFilledFuel.hint = "$currencySymbol 50"
+            dialogueLodge.etAmount.hint = "$currencySymbol 100"
 
             // Cancel Button
             dialogueLodge.ivCancel.setOnClickListener {
@@ -1114,6 +1125,7 @@ class AddOutCityVisitFragment : BaseFragment() {
 
             // Store reference to active dialog
             activeDialog = alertDialog
+            dialogueMis.etEmail.hint = "$currencySymbol 100"
 
 
             // OK button with slight delay before invoking the callback

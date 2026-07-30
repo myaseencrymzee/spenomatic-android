@@ -138,6 +138,8 @@ class ProfileFragment : BaseFragment() {
             SharedPrefsHelper.setStatus(data?.status)
             SharedPrefsHelper.setName(data?.fullname)
             SharedPrefsHelper.setUserImage(data?.profile_picture)
+            SharedPrefsHelper.setCurrency(data?.office?.country?.currency)
+            SharedPrefsHelper.setCurrencySymbol(data?.office?.country?.currency_symbol)
 
 
             val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {

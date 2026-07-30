@@ -130,6 +130,8 @@ class SplashActivity : BaseActivity() {
             SharedPrefsHelper.setUserEmail(it.email)
             SharedPrefsHelper.setName(it.fullname)
             SharedPrefsHelper.setUserRole(it.role)
+            SharedPrefsHelper.setCurrency(it.office.country.currency)
+            SharedPrefsHelper.setCurrencySymbol(it.office.country.currency_symbol)
 
             val intent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

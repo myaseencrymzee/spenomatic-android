@@ -30,6 +30,9 @@ open class Constants {
         val NAME = "name"
         val USER_EMAIL = "user_email"
 
+        val CURRENCY = "currency"
+        val CURRENCY_SYMBOL = "currency_symbol"
+
         val CHECKED_IN_USER = "checked_in_user"
         val CHECKED_IN_TIME = "checked_in_time"
         val LAST_CHECKIN_DATE = "last_checkin_date"

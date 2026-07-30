@@ -161,6 +161,8 @@ class UpdateProfileFragment : BaseFragment() {
                         SharedPrefsHelper.setUserImage(data?.profile_picture ?: "")
                         SharedPrefsHelper.setName(data?.fullname ?: "")
                         SharedPrefsHelper.setUserEmail(data?.email ?: "")
+                        SharedPrefsHelper.setCurrency(data?.office?.country?.currency)
+                        SharedPrefsHelper.setCurrencySymbol(data?.office?.country?.currency_symbol)
 
                         showSuccessPopup(
                             requireContext(),
